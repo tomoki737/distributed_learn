@@ -5,18 +5,24 @@
         <v-row>
           <v-col cols="12">
             <v-text-field
-              v-model="email"
+              v-model="LoginForm.email"
               label="メールアドレス"
               required
             ></v-text-field>
+            <span v-if="errors.email">
+              {{ errors.email[0] }}
+            </span>
           </v-col>
 
           <v-col cols="12">
             <v-text-field
-              v-model="password"
+              v-model="LoginForm.password"
               label="パスワード"
               required
             ></v-text-field>
+            <span v-if="errors.password">
+              {{ errors.password[0] }}
+            </span>
           </v-col>
           <v-card-actions>
             <v-btn class="info" dark @click="login">ログイン</v-btn>
@@ -33,20 +39,20 @@
 export default {
   data() {
     return {
-      email: "",
-      password: "",
+      LoginForm: {
+        email: "",
+        password: "",
+      },
+      errors: [],
     };
   },
   methods: {
     login() {
       axios
         .get("/sanctum/csrf-cookie")
-        .then((res) => {
+        .then(res => {
           axios
-            .post("login", {
-              email: this.email,
-              password: this.password,
-            })
+            .post("login", this.LoginForm)
             .then((res) => {
               if (res.status == 200) {
                 this.$router.push("/");
@@ -54,13 +60,12 @@ export default {
 
               this.getUserMessage = "ログインに失敗しました。";
             })
-            .catch((err) => {
-              console.log(err);
-              this.getUserMessage = "ログインに失敗しました。";
+            .catch((error) => {
+              this.errors = error.response.data.errors;
             });
         })
-        .catch((err) => {
-          //
+        .catch((error) => {
+          console.error(error);
         });
     },
     logout() {

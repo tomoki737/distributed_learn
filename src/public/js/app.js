@@ -2212,11 +2212,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      email: "",
-      password: ""
+      LoginForm: {
+        email: "",
+        password: ""
+      },
+      errors: []
     };
   },
   methods: {
@@ -2224,20 +2233,17 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get("/sanctum/csrf-cookie").then(function (res) {
-        axios.post("login", {
-          email: _this.email,
-          password: _this.password
-        }).then(function (res) {
+        axios.post("login", _this.LoginForm).then(function (res) {
           if (res.status == 200) {
             _this.$router.push("/");
           }
 
           _this.getUserMessage = "ログインに失敗しました。";
-        })["catch"](function (err) {
-          console.log(err);
-          _this.getUserMessage = "ログインに失敗しました。";
+        })["catch"](function (error) {
+          _this.errors = error.response.data.errors;
         });
-      })["catch"](function (err) {//
+      })["catch"](function (error) {
+        console.error(error);
       });
     },
     logout: function logout() {
@@ -2317,25 +2323,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       registerForm: {
         name: "",
         email: "",
-        password: "",
-        password_confirmation: ""
-      }
+        password: ""
+      },
+      errors: []
     };
   },
   methods: {
     register: function register() {
+      var _this = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/sanctum/csrf-cookie').then(function (response) {});
+                axios.get("/sanctum/csrf-cookie").then(function (res) {
+                  axios.post("/register", _this.registerForm).then(function (res) {
+                    _this.$router.push("/");
+                  })["catch"](function (error) {
+                    _this.errors = error.response.data.errors;
+                  });
+                });
 
               case 1:
               case "end":
@@ -21673,13 +21689,23 @@ var render = function () {
                       _c("v-text-field", {
                         attrs: { label: "メールアドレス", required: "" },
                         model: {
-                          value: _vm.email,
+                          value: _vm.LoginForm.email,
                           callback: function ($$v) {
-                            _vm.email = $$v
+                            _vm.$set(_vm.LoginForm, "email", $$v)
                           },
-                          expression: "email",
+                          expression: "LoginForm.email",
                         },
                       }),
+                      _vm._v(" "),
+                      _vm.errors.email
+                        ? _c("span", [
+                            _vm._v(
+                              "\n            " +
+                                _vm._s(_vm.errors.email[0]) +
+                                "\n          "
+                            ),
+                          ])
+                        : _vm._e(),
                     ],
                     1
                   ),
@@ -21691,13 +21717,23 @@ var render = function () {
                       _c("v-text-field", {
                         attrs: { label: "パスワード", required: "" },
                         model: {
-                          value: _vm.password,
+                          value: _vm.LoginForm.password,
                           callback: function ($$v) {
-                            _vm.password = $$v
+                            _vm.$set(_vm.LoginForm, "password", $$v)
                           },
-                          expression: "password",
+                          expression: "LoginForm.password",
                         },
                       }),
+                      _vm._v(" "),
+                      _vm.errors.password
+                        ? _c("span", [
+                            _vm._v(
+                              "\n            " +
+                                _vm._s(_vm.errors.password[0]) +
+                                "\n          "
+                            ),
+                          ])
+                        : _vm._e(),
                     ],
                     1
                   ),
@@ -21796,6 +21832,16 @@ var render = function () {
                           expression: "registerForm.name",
                         },
                       }),
+                      _vm._v(" "),
+                      _vm.errors.email
+                        ? _c("span", [
+                            _vm._v(
+                              "\n            " +
+                                _vm._s(_vm.errors.name[0]) +
+                                "\n          "
+                            ),
+                          ])
+                        : _vm._e(),
                     ],
                     1
                   ),
@@ -21814,6 +21860,16 @@ var render = function () {
                           expression: "registerForm.email",
                         },
                       }),
+                      _vm._v(" "),
+                      _vm.errors.email
+                        ? _c("span", [
+                            _vm._v(
+                              "\n            " +
+                                _vm._s(_vm.errors.email[0]) +
+                                "\n          "
+                            ),
+                          ])
+                        : _vm._e(),
                     ],
                     1
                   ),
@@ -21832,28 +21888,16 @@ var render = function () {
                           expression: "registerForm.password",
                         },
                       }),
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "12" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: { label: "パスワード", required: "" },
-                        model: {
-                          value: _vm.registerForm.password_confirmation,
-                          callback: function ($$v) {
-                            _vm.$set(
-                              _vm.registerForm,
-                              "password_confirmation",
-                              $$v
-                            )
-                          },
-                          expression: "registerForm.password_confirmation",
-                        },
-                      }),
+                      _vm._v(" "),
+                      _vm.errors.password
+                        ? _c("span", [
+                            _vm._v(
+                              "\n            " +
+                                _vm._s(_vm.errors.password[0]) +
+                                "\n          "
+                            ),
+                          ])
+                        : _vm._e(),
                     ],
                     1
                   ),

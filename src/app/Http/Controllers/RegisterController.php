@@ -3,14 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\UserCreateRequest;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
-use \Symfony\Component\HttpFoundation\Response;
 use Illuminate\Http\JsonResponse;
 
 class RegisterController extends Controller
@@ -20,7 +15,7 @@ class RegisterController extends Controller
         $credentials = $request->validate([
             'name' => 'required',
             'email' => ['required', 'email'],
-            'password' => 'required',
+            'password' =>  ['required', 'min:8'],
         ]);
 
         User::create([

@@ -9,6 +9,9 @@
               label="名前"
               required
             ></v-text-field>
+            <span v-if="errors.email">
+              {{ errors.name[0] }}
+            </span>
           </v-col>
           <v-col cols="12">
             <v-text-field
@@ -16,6 +19,9 @@
               label="メールアドレス"
               required
             ></v-text-field>
+            <span v-if="errors.email">
+              {{ errors.email[0] }}
+            </span>
           </v-col>
           <v-col cols="12">
             <v-text-field
@@ -23,13 +29,9 @@
               label="パスワード"
               required
             ></v-text-field>
-          </v-col>
-          <v-col cols="12">
-            <v-text-field
-              v-model="registerForm.password_confirmation"
-              label="パスワード"
-              required
-            ></v-text-field>
+            <span v-if="errors.password">
+              {{ errors.password[0] }}
+            </span>
           </v-col>
           <v-card-actions>
             <v-btn class="info" dark @click="register">登録</v-btn>
@@ -48,15 +50,22 @@ export default {
         name: "",
         email: "",
         password: "",
-        password_confirmation: "",
       },
+      errors: [],
     };
   },
   methods: {
     async register() {
-        axios.get('/sanctum/csrf-cookie').then(response => {
-            
-        })
+      axios.get("/sanctum/csrf-cookie").then((res) => {
+        axios
+          .post("/register", this.registerForm)
+          .then((res) => {
+            this.$router.push("/");
+          })
+          .catch((error) => {
+            this.errors = error.response.data.errors;
+          });
+      });
     },
   },
 };

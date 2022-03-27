@@ -2209,6 +2209,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2220,22 +2223,32 @@ __webpack_require__.r(__webpack_exports__);
     login: function login() {
       var _this = this;
 
-      axios.get('/sanctum/csrf-cookie').then(function (res) {
-        axios.post("/api/login", {
+      axios.get("/sanctum/csrf-cookie").then(function (res) {
+        axios.post("login", {
           email: _this.email,
           password: _this.password
         }).then(function (res) {
-          if (res.data.status_code == 200) {
+          if (res.status == 200) {
             _this.$router.push("/");
           }
 
-          console.log("err");
           _this.getUserMessage = "ログインに失敗しました。";
         })["catch"](function (err) {
           console.log(err);
           _this.getUserMessage = "ログインに失敗しました。";
         });
       })["catch"](function (err) {//
+      });
+    },
+    logout: function logout() {
+      var _this2 = this;
+
+      axios.get("/sanctum/csrf-cookie").then(function (res) {
+        axios.post("logout").then(function (res) {
+          _this2.$router.push("/");
+        })["catch"](function (error) {
+          console.error(error);
+        });
       });
     }
   }
@@ -21700,6 +21713,22 @@ var render = function () {
                           on: { click: _vm.login },
                         },
                         [_vm._v("ログイン")]
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "info",
+                          attrs: { dark: "" },
+                          on: { click: _vm.logout },
+                        },
+                        [_vm._v("ログアウト")]
                       ),
                     ],
                     1

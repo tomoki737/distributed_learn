@@ -21,6 +21,9 @@
           <v-card-actions>
             <v-btn class="info" dark @click="login">ログイン</v-btn>
           </v-card-actions>
+          <v-card-actions>
+            <v-btn class="info" dark @click="logout">ログアウト</v-btn>
+          </v-card-actions>
         </v-row>
       </v-container>
     </v-form>
@@ -37,18 +40,18 @@ export default {
   methods: {
     login() {
       axios
-        .get('/sanctum/csrf-cookie')
+        .get("/sanctum/csrf-cookie")
         .then((res) => {
           axios
-            .post("/api/login", {
+            .post("login", {
               email: this.email,
               password: this.password,
             })
             .then((res) => {
-              if (res.data.status_code == 200) {
+              if (res.status == 200) {
                 this.$router.push("/");
               }
-              console.log("err");
+
               this.getUserMessage = "ログインに失敗しました。";
             })
             .catch((err) => {
@@ -59,6 +62,18 @@ export default {
         .catch((err) => {
           //
         });
+    },
+    logout() {
+      axios.get("/sanctum/csrf-cookie").then((res) => {
+        axios
+          .post("logout")
+          .then((res) => {
+            this.$router.push("/");
+          })
+          .catch((error) => {
+            console.error(error);
+          });
+      });
     },
   },
 };

@@ -2316,6 +2316,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2324,7 +2326,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         email: "",
         password: ""
       },
-      errors: []
+      errors: [],
+      showPassword: false
     };
   },
   methods: {
@@ -22128,110 +22131,99 @@ var render = function () {
       _c(
         "v-form",
         [
+          _c("v-card-title", [_c("h2", [_vm._v("登録")])]),
+          _vm._v(" "),
           _c(
-            "v-container",
+            "v-card-text",
             [
+              _c("v-text-field", {
+                attrs: {
+                  label: "名前",
+                  required: "",
+                  "prepend-icon": "mdi-account-circle",
+                },
+                model: {
+                  value: _vm.registerForm.name,
+                  callback: function ($$v) {
+                    _vm.$set(_vm.registerForm, "name", $$v)
+                  },
+                  expression: "registerForm.name",
+                },
+              }),
+              _vm._v(" "),
+              _vm.errors.email
+                ? _c("span", [
+                    _vm._v(
+                      "\n        " + _vm._s(_vm.errors.name[0]) + "\n      "
+                    ),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("v-text-field", {
+                attrs: {
+                  label: "メールアドレス",
+                  required: "",
+                  type: "email",
+                  "prepend-icon": "mdi-email",
+                },
+                model: {
+                  value: _vm.registerForm.email,
+                  callback: function ($$v) {
+                    _vm.$set(_vm.registerForm, "email", $$v)
+                  },
+                  expression: "registerForm.email",
+                },
+              }),
+              _vm._v(" "),
+              _vm.errors.email
+                ? _c("span", [
+                    _vm._v(
+                      "\n        " + _vm._s(_vm.errors.email[0]) + "\n      "
+                    ),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _c("v-text-field", {
+                attrs: {
+                  label: "パスワード",
+                  required: "",
+                  type: _vm.showPassword ? "test" : "password",
+                  "prepend-icon": "mdi-lock",
+                  "append-icon": _vm.showPassword ? "mdi-eye" : "mdi-eye-off",
+                },
+                on: {
+                  "click:append": function ($event) {
+                    _vm.showPassword = !_vm.showPassword
+                  },
+                },
+                model: {
+                  value: _vm.registerForm.password,
+                  callback: function ($$v) {
+                    _vm.$set(_vm.registerForm, "password", $$v)
+                  },
+                  expression: "registerForm.password",
+                },
+              }),
+              _vm._v(" "),
+              _vm.errors.password
+                ? _c("span", [
+                    _vm._v(
+                      "\n        " + _vm._s(_vm.errors.password[0]) + "\n      "
+                    ),
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
               _c(
-                "v-row",
+                "v-card-actions",
                 [
                   _c(
-                    "v-col",
-                    { attrs: { cols: "12" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: { label: "名前", required: "" },
-                        model: {
-                          value: _vm.registerForm.name,
-                          callback: function ($$v) {
-                            _vm.$set(_vm.registerForm, "name", $$v)
-                          },
-                          expression: "registerForm.name",
-                        },
-                      }),
-                      _vm._v(" "),
-                      _vm.errors.email
-                        ? _c("span", [
-                            _vm._v(
-                              "\n            " +
-                                _vm._s(_vm.errors.name[0]) +
-                                "\n          "
-                            ),
-                          ])
-                        : _vm._e(),
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "12" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: { label: "メールアドレス", required: "" },
-                        model: {
-                          value: _vm.registerForm.email,
-                          callback: function ($$v) {
-                            _vm.$set(_vm.registerForm, "email", $$v)
-                          },
-                          expression: "registerForm.email",
-                        },
-                      }),
-                      _vm._v(" "),
-                      _vm.errors.email
-                        ? _c("span", [
-                            _vm._v(
-                              "\n            " +
-                                _vm._s(_vm.errors.email[0]) +
-                                "\n          "
-                            ),
-                          ])
-                        : _vm._e(),
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-col",
-                    { attrs: { cols: "12" } },
-                    [
-                      _c("v-text-field", {
-                        attrs: { label: "パスワード", required: "" },
-                        model: {
-                          value: _vm.registerForm.password,
-                          callback: function ($$v) {
-                            _vm.$set(_vm.registerForm, "password", $$v)
-                          },
-                          expression: "registerForm.password",
-                        },
-                      }),
-                      _vm._v(" "),
-                      _vm.errors.password
-                        ? _c("span", [
-                            _vm._v(
-                              "\n            " +
-                                _vm._s(_vm.errors.password[0]) +
-                                "\n          "
-                            ),
-                          ])
-                        : _vm._e(),
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-card-actions",
-                    [
-                      _c(
-                        "v-btn",
-                        {
-                          staticClass: "info",
-                          attrs: { dark: "" },
-                          on: { click: _vm.register },
-                        },
-                        [_vm._v("登録")]
-                      ),
-                    ],
-                    1
+                    "v-btn",
+                    {
+                      staticClass: "info",
+                      attrs: { dark: "" },
+                      on: { click: _vm.register },
+                    },
+                    [_vm._v("登録")]
                   ),
                 ],
                 1

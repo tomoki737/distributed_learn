@@ -29,7 +29,7 @@ final class LoginController extends Controller
     public function login(Request $request): JsonResponse
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email', 'unique:users', 'max:255', 'string'],
+            'email' => ['required', 'email', 'max:255', 'string'],
             'password' =>  ['required', 'min:8', 'string'],
         ]);
 

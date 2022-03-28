@@ -25,7 +25,6 @@ export default {
           .post("logout")
           .then((res) => {
             this.$store.commit("auth/setUser", null);
-            this.$router.push("/");
           })
           .catch((error) => {
             console.error(error);

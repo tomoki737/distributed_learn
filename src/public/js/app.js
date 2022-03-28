@@ -2398,8 +2398,6 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/sanctum/csrf-cookie").then(function (res) {
         axios.post("logout").then(function (res) {
           _this.$store.commit("auth/setUser", null);
-
-          _this.$router.push("/");
         })["catch"](function (error) {
           console.error(error);
         });

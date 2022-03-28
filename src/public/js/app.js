@@ -2341,8 +2341,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 axios.get("/sanctum/csrf-cookie").then(function (res) {
                   axios.post("/register", _this.registerForm).then(function (res) {
-                    _this.$router.push("/");
+                    _this.$router.push("/about");
                   })["catch"](function (error) {
+                    console.log("a");
                     _this.errors = error.response.data.errors;
                   });
                 });
@@ -22151,7 +22152,7 @@ var render = function () {
                 },
               }),
               _vm._v(" "),
-              _vm.errors.email
+              _vm.errors.name
                 ? _c("span", [
                     _vm._v(
                       "\n        " + _vm._s(_vm.errors.name[0]) + "\n      "

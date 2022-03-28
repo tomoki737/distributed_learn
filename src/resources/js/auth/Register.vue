@@ -11,7 +11,7 @@
           required
           prepend-icon= "mdi-account-circle"
         ></v-text-field>
-        <span v-if="errors.email">
+        <span v-if="errors.name">
           {{ errors.name[0] }}
         </span>
         <v-text-field
@@ -63,9 +63,10 @@ export default {
         axios
           .post("/register", this.registerForm)
           .then((res) => {
-            this.$router.push("/");
+            this.$router.push("/about");
           })
           .catch((error) => {
+              console.log("a")
             this.errors = error.response.data.errors;
           });
       });

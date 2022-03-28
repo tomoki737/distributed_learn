@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace App\Http\Controllers;
 
@@ -27,8 +29,8 @@ final class LoginController extends Controller
     public function login(Request $request): JsonResponse
     {
         $credentials = $request->validate([
-            'email' => ['required', 'email'],
-            'password' => 'required',
+            'email' => ['required', 'email', 'unique:users', 'max:255', 'string'],
+            'password' =>  ['required', 'min:8', 'string'],
         ]);
 
         if ($this->getGuard()->attempt($credentials)) {

@@ -1,9 +1,9 @@
 <template>
   <v-card elevation="2" class="mt-10 mx-auto" width="600px">
     <v-form>
-        <v-card-title>
-            <h2>ログイン</h2>
-        </v-card-title>
+      <v-card-title>
+        <h2>ログイン</h2>
+      </v-card-title>
       <v-card-text>
         <v-text-field
           v-model="LoginForm.email"
@@ -20,7 +20,7 @@
           v-model="LoginForm.password"
           label="パスワード"
           required
-          :type= "showPassword ? 'test' : 'password'"
+          :type="showPassword ? 'test' : 'password'"
           prepend-icon="mdi-lock"
           @click:append="showPassword = !showPassword"
           :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -56,6 +56,7 @@ export default {
             .post("login", this.LoginForm)
             .then((res) => {
               if (res.status == 200) {
+                this.$store.commit("auth/setUser", res.data);
                 this.$router.push("/about");
               }
 

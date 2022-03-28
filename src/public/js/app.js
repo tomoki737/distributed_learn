@@ -2237,6 +2237,8 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/sanctum/csrf-cookie").then(function (res) {
         axios.post("login", _this.LoginForm).then(function (res) {
           if (res.status == 200) {
+            _this.$store.commit("auth/setUser", res.data);
+
             _this.$router.push("/about");
           }
 
@@ -2341,6 +2343,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 0:
                 axios.get("/sanctum/csrf-cookie").then(function (res) {
                   axios.post("/register", _this.registerForm).then(function (res) {
+                    _this.$store.commit("auth/setUser", res.data);
+
                     _this.$router.push("/about");
                   })["catch"](function (error) {
                     console.log("a");

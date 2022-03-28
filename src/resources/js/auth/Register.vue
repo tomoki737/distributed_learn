@@ -9,7 +9,7 @@
           v-model="registerForm.name"
           label="名前"
           required
-          prepend-icon= "mdi-account-circle"
+          prepend-icon="mdi-account-circle"
         ></v-text-field>
         <span v-if="errors.name">
           {{ errors.name[0] }}
@@ -63,10 +63,11 @@ export default {
         axios
           .post("/register", this.registerForm)
           .then((res) => {
+            this.$store.commit("auth/setUser", res.data);
             this.$router.push("/about");
           })
           .catch((error) => {
-              console.log("a")
+            console.log("a");
             this.errors = error.response.data.errors;
           });
       });

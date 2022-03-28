@@ -21,7 +21,6 @@ final class CookieAuthenticationControllerTest extends TestCase
             'email' => 'test@example.com',
             'password' => 'password',
         ]);
-
         $response->assertStatus(200);
         $response->assertJson(['message' => 'ログインしました']);
     }

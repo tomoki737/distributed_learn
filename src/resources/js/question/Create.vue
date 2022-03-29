@@ -32,5 +32,10 @@ export default {
       },
     };
   },
+  methods: {
+    async create() {
+        const response =  axios.post()
+    },
+  },
 };
 </script>

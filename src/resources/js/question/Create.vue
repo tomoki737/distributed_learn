@@ -12,7 +12,13 @@
         <v-text-field v-model="questionForm.answer" label="回答"></v-text-field>
       </v-card-text>
     </v-card>
-        <v-btn color="primary" dark large class="mt-2">作成する</v-btn>
+    <v-row justify="center">
+      <v-col cols="12">
+        <div class="text-end">
+          <v-btn color="primary" dark x-large class="mt-4">作成する</v-btn>
+        </div>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 

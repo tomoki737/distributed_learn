@@ -2462,8 +2462,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -22595,19 +22593,12 @@ var render = function () {
       ),
       _vm._v(" "),
       _c(
-        "v-col",
-        { attrs: { cols: "12" } },
-        [
-          _c(
-            "v-btn",
-            {
-              staticClass: "mt-2",
-              attrs: { color: "primary", dark: "", large: "" },
-            },
-            [_vm._v("作成する")]
-          ),
-        ],
-        1
+        "v-btn",
+        {
+          staticClass: "mt-2",
+          attrs: { color: "primary", dark: "", large: "" },
+        },
+        [_vm._v("作成する")]
       ),
     ],
     1

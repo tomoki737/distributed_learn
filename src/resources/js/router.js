@@ -4,7 +4,8 @@ import Home from "./Home.vue";
 import Login from "./auth/Login.vue";
 import Register from "./auth/Register.vue";
 import About from "./auth/About.vue";
-import Create from "./question/Create.vue";
+import QuestionCreate from "./question/QuestionCreate.vue";
+import QuestionEdit from "./question/QuestionEdit.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -31,7 +32,12 @@ const routes = [
     {
         path: "/question/create",
         name: "question.create",
-        component: Create,
+        component: QuestionCreate,
+    },
+    {
+        path: "/question/edit",
+        name: "question.edit",
+        component: QuestionEdit,
     },
 ];
 const router = new VueRouter({

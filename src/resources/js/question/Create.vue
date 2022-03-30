@@ -15,7 +15,7 @@
     <v-row justify="center">
       <v-col cols="12">
         <div class="text-end">
-          <v-btn color="primary" dark x-large class="mt-4">作成する</v-btn>
+          <v-btn color="primary" dark x-large class="mt-4" @click="store">作成する</v-btn>
         </div>
       </v-col>
     </v-row>
@@ -30,11 +30,18 @@ export default {
         question: "",
         answer: "",
       },
+      errors: {},
     };
   },
   methods: {
-    async create() {
-        const response =  axios.post()
+    async store() {
+      const response = await axios
+        .post("/api/question/store", this.questionForm)
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
+        console.log("create")
+        this.$router.push("/")
     },
   },
 };

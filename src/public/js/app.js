@@ -2259,7 +2259,7 @@ __webpack_require__.r(__webpack_exports__);
 
           _this.getUserMessage = "ログインに失敗しました。";
         })["catch"](function (error) {
-          _this.errors = error.response.data.errors;
+          _this.errors = error.response.errors;
         });
       })["catch"](function (error) {
         console.error(error);
@@ -2482,20 +2482,32 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       questionForm: {
         question: "",
         answer: ""
-      }
+      },
+      errors: {}
     };
   },
   methods: {
-    create: function create() {
+    store: function store() {
+      var _this = this;
+
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                response = axios.post();
+                _context.next = 2;
+                return axios.post("/api/question/store", _this.questionForm)["catch"](function (error) {
+                  _this.errors = error.response.data.errors;
+                });
 
-              case 1:
+              case 2:
+                response = _context.sent;
+                console.log("create");
+
+                _this.$router.push("/");
+
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -22639,6 +22651,7 @@ var render = function () {
                   {
                     staticClass: "mt-4",
                     attrs: { color: "primary", dark: "", "x-large": "" },
+                    on: { click: _vm.store },
                   },
                   [_vm._v("作成する")]
                 ),

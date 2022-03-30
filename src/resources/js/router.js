@@ -4,6 +4,7 @@ import Home from "./Home.vue";
 import Login from "./auth/Login.vue";
 import Register from "./auth/Register.vue";
 import About from "./auth/About.vue";
+import Create from "./question/Create.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -26,6 +27,11 @@ const routes = [
         path: "/about",
         name: "about",
         component: About,
+    },
+    {
+        path: "/question/create",
+        name: "question.create",
+        component: Create,
     },
 ];
 const router = new VueRouter({

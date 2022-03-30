@@ -7,15 +7,23 @@
           v-model="questionForm.question"
           label="問題"
         ></v-text-field>
+        <span v-if="errors.question">
+          {{ errors.question[0] }}
+        </span>
       </v-card-text>
       <v-card-text>
         <v-text-field v-model="questionForm.answer" label="回答"></v-text-field>
+        <span v-if="errors.answer">
+          {{ errors.answer[0] }}
+        </span>
       </v-card-text>
     </v-card>
     <v-row justify="center">
       <v-col cols="12">
         <div class="text-end">
-          <v-btn color="primary" dark x-large class="mt-4" @click="store">作成する</v-btn>
+          <v-btn color="primary" dark x-large class="mt-4" @click="store"
+            >作成する</v-btn
+          >
         </div>
       </v-col>
     </v-row>
@@ -34,14 +42,16 @@ export default {
     };
   },
   methods: {
-    async store() {
-      const response = await axios
+    store() {
+      axios
         .post("/api/question/store", this.questionForm)
+        .then((response) => {
+          console.log("create");
+          this.$router.push("/");
+        })
         .catch((error) => {
           this.errors = error.response.data.errors;
         });
-        console.log("create")
-        this.$router.push("/")
     },
   },
 };

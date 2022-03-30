@@ -26,6 +26,5 @@ class QuestionControllerTest extends TestCase
             'answer' => 'testtest',
         ]);
         $response->assertStatus(200);
-        $question = Question::first();
     }
 }

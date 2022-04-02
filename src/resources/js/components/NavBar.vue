@@ -10,6 +10,7 @@
         <v-btn outlined router-link :to="{ name: 'login' }">ログイン</v-btn>
       </div>
       <div v-else>
+        <v-btn outlined router-link :to="{ name: 'question.index' }">一覧</v-btn>
         <v-btn outlined router-link :to="{ name: 'question.create' }">作成</v-btn>
         <v-btn outlined dark @click="logout">ログアウト</v-btn>
       </div>

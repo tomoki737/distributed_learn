@@ -17,14 +17,21 @@ class QuestionControllerTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
+        $this->question = Question::factory()->make();
     }
 
     public function test_question_store()
     {
-        $response = $this->actingAs($this->user)->postJson('/api/question/store', [
+        $response = $this->actingAs($this->user)->postJson('/api/question', [
             'question' => 'testtest',
             'answer' => 'testtest',
         ]);
+        $response->assertStatus(200);
+    }
+
+    public function test_question_edit()
+    {
+        $response = $this->actingAs($this->user)->post( route('question.edit', ['question' => $this->question]));
         $response->assertStatus(200);
     }
 }

@@ -9,4 +9,4 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/me', [MeController::class, 'me']);
 });
 
-Route::post('/question/store', [QuestionController::class, 'store']);
+Route::resource('/question', QuestionController::class);

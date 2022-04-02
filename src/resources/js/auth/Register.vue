@@ -63,11 +63,11 @@ export default {
         axios
           .post("/register", this.registerForm)
           .then((res) => {
-            this.$store.commit("auth/setUser", res.data);
+            this.$store.commit("auth/setUser", res.data.user);
+            console.log(res.data)
             this.$router.push("/about");
           })
           .catch((error) => {
-            console.log("a");
             this.errors = error.response.data.errors;
           });
       });

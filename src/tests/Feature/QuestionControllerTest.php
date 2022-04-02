@@ -28,10 +28,4 @@ class QuestionControllerTest extends TestCase
         ]);
         $response->assertStatus(200);
     }
-
-    public function test_question_edit()
-    {
-        $response = $this->actingAs($this->user)->post( route('question.edit', ['question' => $this->question]));
-        $response->assertStatus(200);
-    }
 }

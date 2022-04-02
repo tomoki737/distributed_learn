@@ -14,8 +14,8 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->user()->id;
-       $questions = Question::where("user_id", $user_id)->get();
-       return ['questions' => $questions];
+        $questions = Question::where("user_id", $user_id)->get();
+        return ['questions' => $questions];
     }
 
     public function edit(Question $question)

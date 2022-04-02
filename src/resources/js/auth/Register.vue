@@ -64,7 +64,6 @@ export default {
           .post("/register", this.registerForm)
           .then((res) => {
             this.$store.commit("auth/setUser", res.data.user);
-            console.log(res.data)
             this.$router.push("/about");
           })
           .catch((error) => {

@@ -24,7 +24,7 @@ export default {
     logout() {
       axios.get("/sanctum/csrf-cookie").then((res) => {
         axios
-          .post("logout")
+          .post("/logout")
           .then((res) => {
             this.$store.commit("auth/setUser", null);
           })

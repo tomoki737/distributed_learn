@@ -11,9 +11,10 @@ class QuestionController extends Controller
 {
     use RefreshDatabase;
 
-    public function index()
+    public function index(Request $request)
     {
-       $questions = Question::all();
+        $user_id = $request->user()->id;
+       $questions = Question::where("user_id", $user_id)->get();
        return ['questions' => $questions];
     }
 

@@ -55,7 +55,7 @@ export default {
       this.getQuestions();
     },
     getQuestions() {
-      axios.get("/api/question").then((response) => {
+      axios.get("/api/question" ).then((response) => {
         this.questions = response.data.questions;
       });
     },

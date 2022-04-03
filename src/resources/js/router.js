@@ -7,6 +7,8 @@ import About from "./auth/About.vue";
 import QuestionCreate from "./question/QuestionCreate.vue";
 import QuestionEdit from "./question/QuestionEdit.vue";
 import QuestionIndex from "./question/QuestionIndex.vue";
+import QuestionAnswer from "./question/QuestionAnswer.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -51,6 +53,12 @@ const routes = [
         path: "/question/index",
         name: "question.index",
         component: QuestionIndex,
+    },
+
+    {
+        path: "/question/answer",
+        name: "question.answer",
+        component: QuestionAnswer,
     },
 
 ];

@@ -17,11 +17,12 @@ class QuestionControllerTest extends TestCase
     {
         parent::setUp();
         $this->user = User::factory()->create();
+        $this->question = Question::factory()->make();
     }
 
     public function test_question_store()
     {
-        $response = $this->actingAs($this->user)->postJson('/api/question/store', [
+        $response = $this->actingAs($this->user)->postJson('/api/question', [
             'question' => 'testtest',
             'answer' => 'testtest',
         ]);

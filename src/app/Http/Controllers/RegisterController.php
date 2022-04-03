@@ -18,12 +18,12 @@ class RegisterController extends Controller
             'password' =>  ['required', 'min:8', 'string'],
         ]);
 
-        User::create([
+       $user =  User::create([
             'name' => $credentials['name'],
             'email' => $credentials['email'],
             'password' => Hash::make($credentials['password'])
         ]);
-
-        return new JsonResponse(['message' => '登録に成功しました']);
+        
+        return new JsonResponse(['user' => $user ,'message' => '登録に成功しました']);
     }
 }

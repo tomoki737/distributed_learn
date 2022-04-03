@@ -3,16 +3,13 @@
     <h1>問題の作成</h1>
     <v-card class="mt-10">
       <v-card-text>
-        <v-text-field
-          v-model="questionForm.question"
-          label="問題"
-        ></v-text-field>
+        <v-text-field v-model="question" label="問題"></v-text-field>
         <span v-if="errors.question">
           {{ errors.question[0] }}
         </span>
       </v-card-text>
       <v-card-text>
-        <v-text-field v-model="questionForm.answer" label="回答"></v-text-field>
+        <v-text-field v-model="answer" label="回答"></v-text-field>
         <span v-if="errors.answer">
           {{ errors.answer[0] }}
         </span>
@@ -32,27 +29,18 @@
 
 <script>
 export default {
-  data() {
-    return {
-      questionForm: {
-        question: "",
-        answer: "",
-      },
-      errors: {},
-    };
-  },
-  methods: {
-    store() {
-      axios
-        .post("/api/question/store", this.questionForm)
-        .then((response) => {
-          console.log("create");
-          this.$router.push("/");
-        })
-        .catch((error) => {
-          this.errors = error.response.data.errors;
-        });
+  props: {
+    question: {
+      type: String,
+    },
+    answer: {
+      type: String,
+    },
+    errors: {
+      type: Array,
     },
   },
+
+
 };
 </script>

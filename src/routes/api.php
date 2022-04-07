@@ -10,3 +10,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 });
 
 Route::resource('/question', QuestionController::class);
+Route::put('/question/{question}/answer', [QuestionController::class, 'answer']);
+Route::get('/answer', [QuestionController::class, 'answerIndex']);

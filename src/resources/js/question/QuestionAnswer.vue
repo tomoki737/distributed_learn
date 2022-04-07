@@ -20,10 +20,8 @@
       <v-btn color="primary" @click="answer_change"> 答えを見る </v-btn>
     </div>
     <div class="text-center mt-7" v-else>
-      <v-btn @click="next">わかった</v-btn>
-      <v-btn @click="next">難しい</v-btn>
-      <v-btn @click="next">普通</v-btn>
-      <v-btn @click="next">余裕</v-btn>
+      <v-btn @click="next(questions[number], true)">わかった</v-btn>
+      <v-btn @click="next(questions[number], false)">わからない</v-btn>
     </div>
   </v-container>
 </template>
@@ -36,12 +34,14 @@ export default {
       show_question: true,
       show_answer: false,
       questions: [],
+      loading: true,
     };
   },
   methods: {
     getQuestions() {
-      axios.get("/api/question").then((response) => {
+      axios.get("/api/answer").then((response) => {
         this.questions = response.data.questions;
+        this.loading = false;
       });
     },
 
@@ -54,7 +54,8 @@ export default {
       this.question_change(false);
     },
 
-    next() {
+    next(question, bool) {
+      this.answer(question, bool);
       if (this.questions.length === this.number + 1) {
         return this.$router.push("/");
       }
@@ -62,6 +63,12 @@ export default {
       this.number += 1;
       this.show_answer = false;
       this.show_question = true;
+    },
+
+    answer(question, bool) {
+      axios.put("/api/question/" + question.id + "/answer", {
+        correct_answer: bool,
+      });
     },
   },
 

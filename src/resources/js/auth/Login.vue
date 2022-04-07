@@ -12,9 +12,6 @@
           type="email"
           prepend-icon="mdi-account-circle"
         ></v-text-field>
-        <span v-if="errors.email">
-          {{ errors.email[0] }}
-        </span>
 
         <v-text-field
           v-model="LoginForm.password"

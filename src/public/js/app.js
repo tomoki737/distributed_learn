@@ -2236,9 +2236,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2512,23 +2509,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       number: 0,
       show_question: true,
       show_answer: false,
-      questions: []
+      questions: [],
+      loading: true
     };
   },
   methods: {
     getQuestions: function getQuestions() {
       var _this = this;
 
-      axios.get("/api/question").then(function (response) {
+      axios.get("/api/answer").then(function (response) {
         _this.questions = response.data.questions;
+        _this.loading = false;
       });
     },
     question_change: function question_change(bool) {
@@ -2538,7 +2535,9 @@ __webpack_require__.r(__webpack_exports__);
       this.show_answer = true;
       this.question_change(false);
     },
-    next: function next() {
+    next: function next(question, bool) {
+      this.answer(question, bool);
+
       if (this.questions.length === this.number + 1) {
         return this.$router.push("/");
       }
@@ -2546,6 +2545,11 @@ __webpack_require__.r(__webpack_exports__);
       this.number += 1;
       this.show_answer = false;
       this.show_question = true;
+    },
+    answer: function answer(question, bool) {
+      axios.put("/api/question/" + question.id + "/answer", {
+        correct_answer: bool
+      });
     }
   },
   mounted: function mounted() {
@@ -2799,7 +2803,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   data: function data() {
     return {
       questions: [],
-      loading: true
+      loading: true,
+      isSelect: 1
     };
   },
   methods: {
@@ -2837,6 +2842,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this2.loading = false;
         _this2.questions = response.data.questions;
       });
+    },
+    select: function select(val) {
+      this.isSelect = val;
     }
   },
   mounted: function mounted() {
@@ -22913,14 +22921,6 @@ var render = function () {
                 },
               }),
               _vm._v(" "),
-              _vm.errors.email
-                ? _c("span", [
-                    _vm._v(
-                      "\n        " + _vm._s(_vm.errors.email[0]) + "\n      "
-                    ),
-                  ])
-                : _vm._e(),
-              _vm._v(" "),
               _c("v-text-field", {
                 attrs: {
                   label: "パスワード",
@@ -23406,13 +23406,29 @@ var render = function () {
             "div",
             { staticClass: "text-center mt-7" },
             [
-              _c("v-btn", { on: { click: _vm.next } }, [_vm._v("わかった")]),
+              _c(
+                "v-btn",
+                {
+                  on: {
+                    click: function ($event) {
+                      return _vm.next(_vm.questions[_vm.number], true)
+                    },
+                  },
+                },
+                [_vm._v("わかった")]
+              ),
               _vm._v(" "),
-              _c("v-btn", { on: { click: _vm.next } }, [_vm._v("難しい")]),
-              _vm._v(" "),
-              _c("v-btn", { on: { click: _vm.next } }, [_vm._v("普通")]),
-              _vm._v(" "),
-              _c("v-btn", { on: { click: _vm.next } }, [_vm._v("余裕")]),
+              _c(
+                "v-btn",
+                {
+                  on: {
+                    click: function ($event) {
+                      return _vm.next(_vm.questions[_vm.number], false)
+                    },
+                  },
+                },
+                [_vm._v("わからない")]
+              ),
             ],
             1
           ),
@@ -23706,20 +23722,62 @@ var render = function () {
                     "v-tabs",
                     { attrs: { "fixed-tabs": "" } },
                     [
-                      _c("v-tab", [_vm._v("質問")]),
+                      _c(
+                        "v-tab",
+                        {
+                          on: {
+                            click: function ($event) {
+                              return _vm.select(1)
+                            },
+                          },
+                        },
+                        [_vm._v("質問")]
+                      ),
                       _vm._v(" "),
-                      _c("v-tab", [_vm._v("解答")]),
+                      _c(
+                        "v-tab",
+                        {
+                          on: {
+                            click: function ($event) {
+                              return _vm.select(2)
+                            },
+                          },
+                        },
+                        [_vm._v("解答")]
+                      ),
                     ],
                     1
                   ),
                   _vm._v(" "),
                   _c("v-card-text", [
-                    _vm._v(
-                      "\n          " +
-                        _vm._s(question.question) +
-                        "\n          " +
-                        _vm._s(question.answer) +
-                        "\n        "
+                    _c(
+                      "p",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.isSelect === 1,
+                            expression: "isSelect === 1",
+                          },
+                        ],
+                      },
+                      [_vm._v(_vm._s(question.question))]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "p",
+                      {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: _vm.isSelect === 2,
+                            expression: "isSelect === 2",
+                          },
+                        ],
+                      },
+                      [_vm._v(_vm._s(question.answer))]
                     ),
                   ]),
                   _vm._v(" "),

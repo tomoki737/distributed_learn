@@ -15,7 +15,7 @@ export default {
     VueLoading,
   },
   props: {
-    loading: true
+    loading: true,
   },
 };
 </script>

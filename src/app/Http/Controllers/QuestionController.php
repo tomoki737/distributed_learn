@@ -20,6 +20,15 @@ class QuestionController extends Controller
         return ['questions' => $questions];
     }
 
+    public function homeIndex(Request $request)
+    {
+        $user_id = $request->user()->id;
+        $new_questions = Question::where("user_id", $user_id)->where("answer_times", 0)->get();
+        $dateNow = new Carbon();
+        $review_questions = Question::where("user_id", $user_id)->where("answer_times", ">" , 0)->where("next_study_date", "<" , $dateNow)->get();
+        return ['new_questions' => $new_questions, "review_questions" => $review_questions];
+    }
+
     public function answerIndex(Request $request)
     {
         $user_id = $request->user()->id;

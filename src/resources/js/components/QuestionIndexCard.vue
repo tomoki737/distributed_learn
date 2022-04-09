@@ -52,7 +52,7 @@ export default {
         .catch((error) => {
           return console.error(error);
         });
-      this.getQuestions();
+      this.$emit('get');
     },
 
     select(val) {

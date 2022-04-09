@@ -3,7 +3,7 @@
     <loading :loading="loading"></loading>
     <v-container v-show="!loading">
       <div v-for="question in questions" :key="question.id">
-          <question-index-card :question="question"></question-index-card>
+        <question-index-card :question="question" @get ="getQuestions"></question-index-card>
       </div>
     </v-container>
   </div>
@@ -27,15 +27,13 @@ export default {
   methods: {
     getQuestions() {
       axios.get("/api/question").then((response) => {
-        this.loading = false;
         this.questions = response.data.questions;
+        this.loading = false;
       });
     },
-
   },
 
   mounted() {
-    this.loading = true;
     this.getQuestions();
   },
 };

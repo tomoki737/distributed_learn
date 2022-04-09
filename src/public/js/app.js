@@ -2103,6 +2103,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_Loading_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Loading.vue */ "./resources/js/components/Loading.vue");
 //
 //
 //
@@ -2130,8 +2131,37 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  components: {}
+  components: {
+    Loading: _components_Loading_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      review_questions: "0",
+      loading: true,
+      new_questions: "0"
+    };
+  },
+  methods: {
+    getQuestions: function getQuestions() {
+      var _this = this;
+
+      axios.get("/api/home").then(function (response) {
+        _this.review_questions = response.data.review_questions.length;
+        _this.new_questions = response.data.new_questions.length;
+        _this.loading = false;
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.getQuestions();
+  }
 });
 
 /***/ }),
@@ -2551,7 +2581,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 2:
                 response = _context.sent;
 
-                _this.getQuestions();
+                _this.$emit('get');
 
               case 4:
               case "end":
@@ -2580,6 +2610,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _components_Loading_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Loading.vue */ "./resources/js/components/Loading.vue");
 //
 //
 //
@@ -2608,7 +2639,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    Loading: _components_Loading_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
   data: function data() {
     return {
       number: 0,
@@ -2872,13 +2910,12 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get("/api/question").then(function (response) {
-        _this.loading = false;
         _this.questions = response.data.questions;
+        _this.loading = false;
       });
     }
   },
   mounted: function mounted() {
-    this.loading = true;
     this.getQuestions();
   }
 });
@@ -22859,59 +22896,98 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-card",
-    { staticClass: "mt-10 mx-auto", attrs: { elevation: "2", width: "600px" } },
+    "div",
     [
+      _c("loading", { attrs: { loading: _vm.loading } }),
+      _vm._v(" "),
       _c(
-        "v-row",
+        "v-card",
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.loading,
+              expression: "!loading",
+            },
+          ],
+          staticClass: "mt-10 mx-auto",
+          attrs: { elevation: "2", width: "600px" },
+        },
         [
           _c(
-            "v-col",
-            { attrs: { cols: "6" } },
+            "v-row",
             [
-              _c("v-card-text", [
-                _c("div", { staticClass: "red text-center" }, [
-                  _c("p", [_vm._v("新しく覚える")]),
-                  _vm._v(" "),
-                  _c("h3", [_vm._v("0")]),
-                ]),
-              ]),
+              _c(
+                "v-col",
+                { attrs: { cols: "6" } },
+                [
+                  _c("v-card-text", [
+                    _c("div", { staticClass: "pink lighten-4 text-center" }, [
+                      _c("p", [_vm._v("新しく覚える")]),
+                      _vm._v(" "),
+                      _c("h3", [_vm._v(_vm._s(_vm.new_questions))]),
+                    ]),
+                  ]),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-col",
+                { attrs: { cols: "6" } },
+                [
+                  _c("v-card-text", [
+                    _c(
+                      "div",
+                      { staticClass: "light-blue lighten-4 text-center" },
+                      [
+                        _c("p", [_vm._v("復習")]),
+                        _vm._v(" "),
+                        _c("h3", [_vm._v(_vm._s(_vm.review_questions))]),
+                      ]
+                    ),
+                  ]),
+                ],
+                1
+              ),
             ],
             1
           ),
           _vm._v(" "),
-          _c(
-            "v-col",
-            { attrs: { cols: "6" } },
-            [
-              _c("v-card-text", [
-                _c("div", { staticClass: "blue text-center" }, [
-                  _c("p", [_vm._v("復習")]),
-                  _vm._v(" "),
-                  _c("h3", [_vm._v("0")]),
-                ]),
-              ]),
-            ],
-            1
-          ),
+          _c("v-card-actions", [
+            _c(
+              "div",
+              { staticClass: "mx-auto" },
+              [
+                _c(
+                  "v-btn",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value:
+                          _vm.new_questions != "0" ||
+                          _vm.review_questions != "0",
+                        expression:
+                          "new_questions != '0' || review_questions != '0'",
+                      },
+                    ],
+                    attrs: {
+                      "router-link": "",
+                      to: { name: "question.answer" },
+                    },
+                  },
+                  [_vm._v("\n          学習する\n        ")]
+                ),
+              ],
+              1
+            ),
+          ]),
         ],
         1
       ),
-      _vm._v(" "),
-      _c("v-card-actions", [
-        _c(
-          "div",
-          { staticClass: "mx-auto" },
-          [
-            _c(
-              "v-btn",
-              { attrs: { "router-link": "", to: { name: "question.answer" } } },
-              [_vm._v(" 学習する ")]
-            ),
-          ],
-          1
-        ),
-      ]),
     ],
     1
   )
@@ -23575,134 +23651,152 @@ var render = function () {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c(
-    "v-container",
+    "div",
     [
+      _c("loading", { attrs: { loading: _vm.loading } }),
+      _vm._v(" "),
       _c(
-        "v-card",
+        "v-container",
         {
-          staticClass: "mt-10 mx-auto",
-          attrs: { elevation: "2", width: "600px", height: "500px" },
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.loading,
+              expression: "!loading",
+            },
+          ],
         },
         [
           _c(
-            "v-toolbar",
+            "v-card",
             {
-              staticClass: "white--text",
-              attrs: { color: "blue lighten-3", flat: "" },
+              staticClass: "mt-10 mx-auto",
+              attrs: { elevation: "2", width: "600px", height: "500px" },
             },
             [
               _c(
-                "v-btn",
+                "v-toolbar",
                 {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.show_answer,
-                      expression: "show_answer",
-                    },
-                  ],
-                  attrs: { icon: "", color: "white" },
-                  on: {
-                    click: function ($event) {
-                      return _vm.question_change(
-                        _vm.show_question ? false : true
-                      )
-                    },
-                  },
+                  staticClass: "white--text",
+                  attrs: { color: "blue lighten-3", flat: "" },
                 },
-                [_c("v-icon", [_vm._v("mdi-sync")])],
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      directives: [
+                        {
+                          name: "show",
+                          rawName: "v-show",
+                          value: _vm.show_answer,
+                          expression: "show_answer",
+                        },
+                      ],
+                      attrs: { icon: "", color: "white" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.question_change(
+                            _vm.show_question ? false : true
+                          )
+                        },
+                      },
+                    },
+                    [_c("v-icon", [_vm._v("mdi-sync")])],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("h3", { staticClass: "mx-auto" }, [
+                    _vm._v(_vm._s(_vm.show_question ? "問題" : "解答")),
+                  ]),
+                ],
                 1
               ),
               _vm._v(" "),
-              _c("h3", { staticClass: "mx-auto" }, [
-                _vm._v(_vm._s(_vm.show_question ? "問題" : "解答")),
+              _c("v-card-text", { staticClass: "text-center mt-3" }, [
+                _c(
+                  "h3",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: _vm.show_question,
+                        expression: "show_question",
+                      },
+                    ],
+                  },
+                  [_vm._v(_vm._s(_vm.questions[_vm.number].question))]
+                ),
+                _vm._v(" "),
+                _c(
+                  "h3",
+                  {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value: !_vm.show_question,
+                        expression: "!show_question",
+                      },
+                    ],
+                  },
+                  [_vm._v(_vm._s(_vm.questions[_vm.number].answer))]
+                ),
               ]),
             ],
             1
           ),
           _vm._v(" "),
-          _c("v-card-text", { staticClass: "text-center mt-3" }, [
-            _c(
-              "h3",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.show_question,
-                    expression: "show_question",
-                  },
+          !_vm.show_answer
+            ? _c(
+                "div",
+                { staticClass: "text-center mt-7" },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary" },
+                      on: { click: _vm.answer_change },
+                    },
+                    [_vm._v(" 答えを見る ")]
+                  ),
                 ],
-              },
-              [_vm._v(_vm._s(_vm.questions[_vm.number].question))]
-            ),
-            _vm._v(" "),
-            _c(
-              "h3",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: !_vm.show_question,
-                    expression: "!show_question",
-                  },
+                1
+              )
+            : _c(
+                "div",
+                { staticClass: "text-center mt-7" },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      on: {
+                        click: function ($event) {
+                          return _vm.next(_vm.questions[_vm.number], true)
+                        },
+                      },
+                    },
+                    [_vm._v("わかった")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      on: {
+                        click: function ($event) {
+                          return _vm.next(_vm.questions[_vm.number], false)
+                        },
+                      },
+                    },
+                    [_vm._v("わからない")]
+                  ),
                 ],
-              },
-              [_vm._v(_vm._s(_vm.questions[_vm.number].answer))]
-            ),
-          ]),
+                1
+              ),
         ],
         1
       ),
-      _vm._v(" "),
-      !_vm.show_answer
-        ? _c(
-            "div",
-            { staticClass: "text-center mt-7" },
-            [
-              _c(
-                "v-btn",
-                {
-                  attrs: { color: "primary" },
-                  on: { click: _vm.answer_change },
-                },
-                [_vm._v(" 答えを見る ")]
-              ),
-            ],
-            1
-          )
-        : _c(
-            "div",
-            { staticClass: "text-center mt-7" },
-            [
-              _c(
-                "v-btn",
-                {
-                  on: {
-                    click: function ($event) {
-                      return _vm.next(_vm.questions[_vm.number], true)
-                    },
-                  },
-                },
-                [_vm._v("わかった")]
-              ),
-              _vm._v(" "),
-              _c(
-                "v-btn",
-                {
-                  on: {
-                    click: function ($event) {
-                      return _vm.next(_vm.questions[_vm.number], false)
-                    },
-                  },
-                },
-                [_vm._v("わからない")]
-              ),
-            ],
-            1
-          ),
     ],
     1
   )
@@ -23981,7 +24075,12 @@ var render = function () {
           return _c(
             "div",
             { key: question.id },
-            [_c("question-index-card", { attrs: { question: question } })],
+            [
+              _c("question-index-card", {
+                attrs: { question: question },
+                on: { get: _vm.getQuestions },
+              }),
+            ],
             1
           )
         }),

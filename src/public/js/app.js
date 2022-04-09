@@ -2143,16 +2143,18 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      review: "0",
-      loading: true
+      review_questions: "0",
+      loading: true,
+      new_questions: "0"
     };
   },
   methods: {
     getQuestions: function getQuestions() {
       var _this = this;
 
-      axios.get("/api/answer").then(function (response) {
-        _this.review = response.data.questions.length;
+      axios.get("/api/home").then(function (response) {
+        _this.review_questions = response.data.review_questions.length;
+        _this.new_questions = response.data.new_questions.length;
         _this.loading = false;
       });
     }
@@ -2579,7 +2581,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 2:
                 response = _context.sent;
 
-                _this.getQuestions();
+                _this.$emit('get');
 
               case 4:
               case "end":
@@ -22921,10 +22923,10 @@ var render = function () {
                 { attrs: { cols: "6" } },
                 [
                   _c("v-card-text", [
-                    _c("div", { staticClass: "red text-center" }, [
+                    _c("div", { staticClass: "pink lighten-4 text-center" }, [
                       _c("p", [_vm._v("新しく覚える")]),
                       _vm._v(" "),
-                      _c("h3", [_vm._v("0")]),
+                      _c("h3", [_vm._v(_vm._s(_vm.new_questions))]),
                     ]),
                   ]),
                 ],
@@ -22936,11 +22938,15 @@ var render = function () {
                 { attrs: { cols: "6" } },
                 [
                   _c("v-card-text", [
-                    _c("div", { staticClass: "blue text-center" }, [
-                      _c("p", [_vm._v("復習")]),
-                      _vm._v(" "),
-                      _c("h3", [_vm._v(_vm._s(_vm.review))]),
-                    ]),
+                    _c(
+                      "div",
+                      { staticClass: "light-blue lighten-4 text-center" },
+                      [
+                        _c("p", [_vm._v("復習")]),
+                        _vm._v(" "),
+                        _c("h3", [_vm._v(_vm._s(_vm.review_questions))]),
+                      ]
+                    ),
                   ]),
                 ],
                 1
@@ -22957,6 +22963,17 @@ var render = function () {
                 _c(
                   "v-btn",
                   {
+                    directives: [
+                      {
+                        name: "show",
+                        rawName: "v-show",
+                        value:
+                          _vm.new_questions != "0" ||
+                          _vm.review_questions != "0",
+                        expression:
+                          "new_questions != '0' || review_questions != '0'",
+                      },
+                    ],
                     attrs: {
                       "router-link": "",
                       to: { name: "question.answer" },
@@ -24058,7 +24075,12 @@ var render = function () {
           return _c(
             "div",
             { key: question.id },
-            [_c("question-index-card", { attrs: { question: question } })],
+            [
+              _c("question-index-card", {
+                attrs: { question: question },
+                on: { get: _vm.getQuestions },
+              }),
+            ],
             1
           )
         }),

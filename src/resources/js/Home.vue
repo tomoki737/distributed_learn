@@ -5,24 +5,24 @@
       <v-row>
         <v-col cols="6">
           <v-card-text>
-            <div class="red text-center">
+            <div class="pink lighten-4 text-center">
               <p>新しく覚える</p>
-              <h3>0</h3>
+              <h3>{{ new_questions }}</h3>
             </div>
           </v-card-text>
         </v-col>
         <v-col cols="6">
           <v-card-text>
-            <div class="blue text-center">
+            <div class="light-blue lighten-4 text-center">
               <p>復習</p>
-              <h3>{{ review }}</h3>
+              <h3>{{ review_questions }}</h3>
             </div>
           </v-card-text>
         </v-col>
       </v-row>
       <v-card-actions>
         <div class="mx-auto">
-          <v-btn router-link :to="{ name: 'question.answer' }">
+          <v-btn router-link :to="{ name: 'question.answer' }" v-show="new_questions != '0' || review_questions != '0'">
             学習する
           </v-btn>
         </div>
@@ -36,14 +36,16 @@ export default {
   components: { Loading },
   data() {
     return {
-      review: "0",
+      review_questions: "0",
       loading: true,
+      new_questions: "0",
     };
   },
   methods: {
     getQuestions() {
-      axios.get("/api/answer").then((response) => {
-        this.review = response.data.questions.length;
+      axios.get("/api/home").then((response) => {
+        this.review_questions = response.data.review_questions.length;
+        this.new_questions = response.data.new_questions.length;
         this.loading = false;
       });
     },

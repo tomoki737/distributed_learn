@@ -3,7 +3,7 @@
     <loading :loading="loading"></loading>
     <v-container v-show="!loading">
       <div v-for="question in questions" :key="question.id">
-        <question-index-card :question="question"></question-index-card>
+        <question-index-card :question="question" @get ="getQuestions"></question-index-card>
       </div>
     </v-container>
   </div>

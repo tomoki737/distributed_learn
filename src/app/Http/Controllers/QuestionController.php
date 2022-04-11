@@ -21,6 +21,15 @@ class QuestionController extends Controller
         return ['questions' => $questions];
     }
 
+    public function create()
+    {
+        $allTagNames =  Tag::all()->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+
+        return ['allTagNames' => $allTagNames];
+    }
+
     public function homeIndex(Request $request)
     {
         $user_id = $request->user()->id;
@@ -43,7 +52,12 @@ class QuestionController extends Controller
         $tagNames = $question->tags->map(function ($tag) {
             return ['text' => $tag->name];
         });
-        return ['question' => $question, 'tagNames' => $tagNames];
+
+        $allTagNames =  Tag::all()->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+
+        return ['question' => $question, 'tagNames' => $tagNames, 'allTagNames' => $allTagNames];
     }
 
     public function store(QuestionRequest $request, Question $question)

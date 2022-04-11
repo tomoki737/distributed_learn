@@ -6,6 +6,7 @@
         <quesiton-tags-input
           @tagsJson="tagsChange"
           :initialTags="tagNames"
+          :autocompleteItems="allTagNames"
         ></quesiton-tags-input>
         <span v-if="errors.tags">
           {{ errors.tags[0] }}
@@ -51,6 +52,7 @@ export default {
 
       tagNames: [],
       errors: {},
+      allTagNames: [],
     };
   },
   methods: {
@@ -64,10 +66,17 @@ export default {
           this.errors = error.response.data.errors;
         });
     },
-   tagsChange(tags) {
+    tagsChange(tags) {
       this.questionForm.tags = JSON.stringify(tags);
-
     },
+    async getQuestion() {
+      const response = await axios.get("/api/question/create");
+      this.allTagNames = response.data.allTagNames;
+      console.log(this.allTagNames);
+    },
+  },
+  mounted() {
+    this.getQuestion();
   },
 };
 </script>

@@ -6,6 +6,7 @@
         <quesiton-tags-input
           :initialTags="tagNames"
           @tagsJson="tagsChange"
+          :autocompleteItems="allTagNames"
         ></quesiton-tags-input>
         <span v-if="errors.tags">
           {{ errors.tags[0] }}
@@ -43,6 +44,7 @@ export default {
       question: { question: "", answer: "", tags: "" },
       errors: {},
       tagNames: [],
+      allTagNames: [],
     };
   },
   props: {
@@ -65,6 +67,7 @@ export default {
       );
       this.question = response.data.question;
       this.tagNames = response.data.tagNames;
+      this.allTagNames = response.data.allTagNames;
     },
     tagsChange(tags) {
       this.question.tags = JSON.stringify(tags);

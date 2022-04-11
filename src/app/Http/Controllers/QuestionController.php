@@ -7,6 +7,7 @@ use App\Models\Question;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Http\Requests\QuestionRequest;
 use Carbon\Carbon;
+use App\Models\Tag;
 use Illuminate\Support\Facades\Date;
 
 class QuestionController extends Controller
@@ -16,7 +17,7 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->user()->id;
-        $questions = Question::where("user_id", $user_id)->get();
+        $questions = Question::where("user_id", $user_id)->with("tags")->get();
         return ['questions' => $questions];
     }
 
@@ -25,7 +26,7 @@ class QuestionController extends Controller
         $user_id = $request->user()->id;
         $new_questions = Question::where("user_id", $user_id)->where("answer_times", 0)->get();
         $dateNow = new Carbon();
-        $review_questions = Question::where("user_id", $user_id)->where("answer_times", ">" , 0)->where("next_study_date", "<" , $dateNow)->get();
+        $review_questions = Question::where("user_id", $user_id)->where("answer_times", ">", 0)->where("next_study_date", "<", $dateNow)->get();
         return ['new_questions' => $new_questions, "review_questions" => $review_questions];
     }
 
@@ -33,13 +34,16 @@ class QuestionController extends Controller
     {
         $user_id = $request->user()->id;
         $dateNow = new Carbon();
-        $questions = Question::where("user_id", $user_id)->where("next_study_date", "<" , $dateNow)->get();
+        $questions = Question::where("user_id", $user_id)->where("next_study_date", "<", $dateNow)->get();
         return ['questions' => $questions];
     }
 
     public function edit(Question $question)
     {
-        return ['question' => $question];
+        $tagNames = $question->tags->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+        return ['question' => $question, 'tagNames' => $tagNames];
     }
 
     public function store(QuestionRequest $request, Question $question)
@@ -48,11 +52,20 @@ class QuestionController extends Controller
         $question->user_id = $request->user()->id;
         $question->next_study_date = new Carbon();
         $question->save();
+        $request->tags->each(function ($tagName) use ($question) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $question->tags()->attach($tag);
+        });
     }
 
-    public function update(Questionfequest $request, Question $question)
+    public function update(QuestionRequest $request, Question $question)
     {
         $question->fill($request->all())->save();
+        $question->tags()->detach();
+        $request->tags->each(function ($tagName) use ($question) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $question->tags()->attach($tag);
+        });
     }
 
     public function destroy(Question $question)
@@ -69,9 +82,11 @@ class QuestionController extends Controller
         $question->save();
     }
 
-    public function show() {
+    public function show()
+    {
         return "show";
     }
+
     private function next_date($answer_times)
     {
         $date = "0";

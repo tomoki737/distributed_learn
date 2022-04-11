@@ -3,6 +3,13 @@
     <h1>問題の作成</h1>
     <v-card class="mt-10">
       <v-card-text>
+        <quesiton-tags-input
+          @tagsJson="tagsChange"
+          :initialTags="tagNames"
+        ></quesiton-tags-input>
+        <span v-if="errors.tags">
+          {{ errors.tags[0] }}
+        </span>
         <v-text-field
           v-model="questionForm.question"
           label="問題"
@@ -31,13 +38,18 @@
 </template>
 
 <script>
+import QuesitonTagsInput from "../components/QuestionTagsInput.vue";
 export default {
+  components: { QuesitonTagsInput },
   data() {
     return {
       questionForm: {
         question: "",
         answer: "",
+        tags: "",
       },
+
+      tagNames: [],
       errors: {},
     };
   },
@@ -51,6 +63,10 @@ export default {
         .catch((error) => {
           this.errors = error.response.data.errors;
         });
+    },
+   tagsChange(tags) {
+      this.questionForm.tags = JSON.stringify(tags);
+
     },
   },
 };

@@ -25,7 +25,8 @@ class QuestionRequest extends FormRequest
     {
         return [
             'question' => 'required|max:500',
-            'answer' => 'required|max:500'
+            'answer' => 'required|max:500',
+            'tags' => 'json|regex:/^(?!.*\s).+$/u|regex:/^(?!.*\/).*$/u',
         ];
     }
 
@@ -34,7 +35,15 @@ class QuestionRequest extends FormRequest
         return [
             'question' => '問題',
             'answer' => '回答',
+            'tags' => 'タグ',
         ];
     }
-
+    public function passedValidation()
+    {
+        $this->tags = collect(json_decode($this->tags))
+            ->slice(0, 5)
+            ->map(function ($requestTag) {
+                return $requestTag->text;
+            });
+    }
 }

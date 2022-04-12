@@ -10,7 +10,11 @@
     </v-card-text>
     <v-card-actions>
       <div v-for="(tag, index) in question.tags" :key="index">
-        <v-chip link>{{ tag.name }}</v-chip>
+        <v-chip
+          router-link
+          :to="{ name: 'tags.show', params: { name: tag.name } }"
+          >{{ tag.name }}</v-chip
+        >
       </div>
       <v-spacer></v-spacer>
       <v-menu offset-y>

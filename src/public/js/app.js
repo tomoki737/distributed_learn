@@ -3106,6 +3106,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3121,6 +3126,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       questions: [],
+      questions_length: 0,
       loading: true
     };
   },
@@ -3130,6 +3136,7 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("/api/tags/" + this.name).then(function (response) {
         _this.questions = response.data.tag.questions;
+        _this.questions_length = response.data.tag.questions.length;
         _this.loading = false;
       });
     }
@@ -24761,20 +24768,37 @@ var render = function () {
             },
           ],
         },
-        _vm._l(_vm.questions, function (question) {
-          return _c(
-            "div",
-            { key: question.id },
+        [
+          _c(
+            "v-card",
+            { staticClass: "mt-10 mx-auto", attrs: { width: "600px" } },
             [
-              _c("question-index-card", {
-                attrs: { question: question },
-                on: { get: _vm.getQuestions },
-              }),
+              _c("v-card-title", [
+                _c("h2", { staticClass: "ml-6" }, [_vm._v(_vm._s(_vm.name))]),
+                _vm._v(" "),
+                _c("span", { staticClass: "ml-2" }, [
+                  _vm._v("(" + _vm._s(_vm.questions_length) + ")"),
+                ]),
+              ]),
             ],
             1
-          )
-        }),
-        0
+          ),
+          _vm._v(" "),
+          _vm._l(_vm.questions, function (question) {
+            return _c(
+              "div",
+              { key: question.id },
+              [
+                _c("question-index-card", {
+                  attrs: { question: question },
+                  on: { get: _vm.getQuestions },
+                }),
+              ],
+              1
+            )
+          }),
+        ],
+        2
       ),
     ],
     1

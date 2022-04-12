@@ -7,6 +7,7 @@
       :autocomplete-items="filteredItems"
       @tags-changed="(newTags) => (tags = newTags)"
       placeholder="タグを5個まで追加できます"
+       :add-on-key="[13, 32]"
     />
   </div>
 </template>

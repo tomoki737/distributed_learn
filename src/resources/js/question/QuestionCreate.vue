@@ -3,6 +3,14 @@
     <h1>問題の作成</h1>
     <v-card class="mt-10">
       <v-card-text>
+        <quesiton-tags-input
+          @tagsJson="tagsChange"
+          :initialTags="tagNames"
+          :autocompleteItems="allTagNames"
+        ></quesiton-tags-input>
+        <span v-if="errors.tags">
+          {{ errors.tags[0] }}
+        </span>
         <v-text-field
           v-model="questionForm.question"
           label="問題"
@@ -31,14 +39,20 @@
 </template>
 
 <script>
+import QuesitonTagsInput from "../components/QuestionTagsInput.vue";
 export default {
+  components: { QuesitonTagsInput },
   data() {
     return {
       questionForm: {
         question: "",
         answer: "",
+        tags: "",
       },
+
+      tagNames: [],
       errors: {},
+      allTagNames: [],
     };
   },
   methods: {
@@ -52,6 +66,17 @@ export default {
           this.errors = error.response.data.errors;
         });
     },
+    tagsChange(tags) {
+      this.questionForm.tags = JSON.stringify(tags);
+      console.log(this.questionForm.tags)
+    },
+    async getQuestion() {
+      const response = await axios.get("/api/question/create");
+      this.allTagNames = response.data.allTagNames;
+    },
+  },
+  mounted() {
+    this.getQuestion();
   },
 };
 </script>

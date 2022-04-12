@@ -3,16 +3,21 @@
     <h1>問題の編集</h1>
     <v-card class="mt-10">
       <v-card-text>
+        <quesiton-tags-input
+          :initialTags="tagNames"
+          @tagsJson="tagsChange"
+          :autocompleteItems="allTagNames"
+        ></quesiton-tags-input>
+        <span v-if="errors.tags">
+          {{ errors.tags[0] }}
+        </span>
         <v-text-field v-model="question.question" label="問題"></v-text-field>
         <span v-if="errors.question">
           {{ errors.question[0] }}
         </span>
       </v-card-text>
       <v-card-text>
-        <v-text-field
-          v-model="question.answer"
-          label="回答"
-        ></v-text-field>
+        <v-text-field v-model="question.answer" label="回答"></v-text-field>
         <span v-if="errors.answer">
           {{ errors.answer[0] }}
         </span>
@@ -31,15 +36,19 @@
 </template>
 
 <script>
+import QuesitonTagsInput from "../components/QuestionTagsInput.vue";
 export default {
+  components: { QuesitonTagsInput },
   data() {
     return {
-      question: {},
+      question: { question: "", answer: "", tags: "" },
       errors: {},
+      tagNames: [],
+      allTagNames: [],
     };
   },
   props: {
-    question_id: { type: String },
+    question_id: {},
   },
   methods: {
     edit() {
@@ -57,6 +66,11 @@ export default {
         "/api/question/" + this.question_id + "/edit"
       );
       this.question = response.data.question;
+      this.tagNames = response.data.tagNames;
+      this.allTagNames = response.data.allTagNames;
+    },
+    tagsChange(tags) {
+      this.question.tags = JSON.stringify(tags);
     },
   },
   mounted() {

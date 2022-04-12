@@ -9,6 +9,13 @@
       <p v-show="isSelect === 2">{{ question.answer }}</p>
     </v-card-text>
     <v-card-actions>
+      <div v-for="(tag, index) in question.tags" :key="index">
+        <v-chip
+          router-link
+          :to="{ name: 'tags.show', params: { name: tag.name } }"
+          >{{ tag.name }}</v-chip
+        >
+      </div>
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
@@ -52,7 +59,7 @@ export default {
         .catch((error) => {
           return console.error(error);
         });
-      this.$emit('get');
+      this.$emit("get");
     },
 
     select(val) {

@@ -6,17 +6,15 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Question extends Model
+class Tag extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'question',
-        'answer',
+        'name',
     ];
 
-    public function tags(): BelongsToMany
-    {
-        return $this->belongsToMany('App\Models\Tag')->withTimestamps();
+    public function questions(): BelongsToMany {
+        return $this->belongsToMany('App\Models\Question')->withTimestamps();
     }
 }

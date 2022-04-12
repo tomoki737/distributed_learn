@@ -8,6 +8,7 @@ import QuestionCreate from "./question/QuestionCreate.vue";
 import QuestionEdit from "./question/QuestionEdit.vue";
 import QuestionIndex from "./question/QuestionIndex.vue";
 import QuestionAnswer from "./question/QuestionAnswer.vue";
+import TagsShow from "./tag/TagsShow.vue";
 
 Vue.use(VueRouter);
 
@@ -59,6 +60,13 @@ const routes = [
         path: "/question/answer",
         name: "question.answer",
         component: QuestionAnswer,
+    },
+
+    {
+        path: "/tags/:name",
+        name: "tags.show",
+        component: TagsShow,
+        props: true
     },
 
 ];

@@ -59,19 +59,21 @@ export default {
 
     async answer(question) {
       const check_answer = this.checkAnswer(question.answer);
-      console.log(check_answer);
-      const response = await axios.post(
-        "/api/question/" + question.id + "/answer",
+      const response = await axios.put(
+        "/api/question/" + this.current_question.id + "/answer",
         {
-          correct_answer: false,
+          correct_answer: check_answer,
         }
       );
       this.next();
     },
 
     checkAnswer(answer) {
-        console.log(answer, this.current_question.answer)
-      return this.current_question.answer === answer ? true : false;
+      if (this.current_question.answer === answer) {
+        return true;
+      } else {
+        return false;
+      }
     },
 
     createSelectQuestion(current_question) {

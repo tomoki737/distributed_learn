@@ -2272,18 +2272,17 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 check_answer = _this2.checkAnswer(question.answer);
-                console.log(check_answer);
-                _context.next = 4;
-                return axios.post("/api/question/" + question.id + "/answer", {
-                  correct_answer: false
+                _context.next = 3;
+                return axios.put("/api/question/" + _this2.current_question.id + "/answer", {
+                  correct_answer: check_answer
                 });
 
-              case 4:
+              case 3:
                 response = _context.sent;
 
                 _this2.next();
 
-              case 6:
+              case 5:
               case "end":
                 return _context.stop();
             }
@@ -2292,8 +2291,11 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }))();
     },
     checkAnswer: function checkAnswer(answer) {
-      console.log(answer, this.current_question.answer);
-      return this.current_question.answer === answer ? true : false;
+      if (this.current_question.answer === answer) {
+        return true;
+      } else {
+        return false;
+      }
     },
     createSelectQuestion: function createSelectQuestion(current_question) {
       this.current_question = current_question;
@@ -2430,7 +2432,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.post("/api/question/" + question.id + "/answer", {
+                return axios.put("/api/question/" + question.id + "/answer", {
                   correct_answer: bool
                 });
 

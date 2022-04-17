@@ -71,7 +71,7 @@ export default {
     },
 
     async answer(question, bool) {
-      const response = await axios.post(
+      const response = await axios.put(
         "/api/question/" + question.id + "/answer",
         {
           correct_answer: bool,

@@ -70,10 +70,13 @@ export default {
       this.show_question = true;
     },
 
-    answer(question, bool) {
-      axios.put("/api/question/" + question.id + "/answer", {
-        correct_answer: bool,
-      });
+    async answer(question, bool) {
+      const response = await axios.post(
+        "/api/question/" + question.id + "/answer",
+        {
+          correct_answer: bool,
+        }
+      );
     },
   },
 

@@ -39,14 +39,6 @@ class QuestionController extends Controller
         return ['new_questions' => $new_questions, "review_questions" => $review_questions];
     }
 
-    public function answerIndex(Request $request)
-    {
-        $user_id = $request->user()->id;
-        $dateNow = new Carbon();
-        $questions = Question::where("user_id", $user_id)->where("next_study_date", "<", $dateNow)->get();
-        return ['questions' => $questions];
-    }
-
     public function edit(Question $question)
     {
         $tagNames = $question->tags->map(function ($tag) {
@@ -96,9 +88,21 @@ class QuestionController extends Controller
         $question->save();
     }
 
-    public function show()
+    public function answerIndex(Request $request)
     {
-        return "show";
+        $user_id = $request->user()->id;
+        $dateNow = new Carbon();
+        $questions = Question::where("user_id", $user_id)->where("next_study_date", "<", $dateNow)->get();
+        return ['questions' => $questions];
+    }
+
+    public function selectAnswerIndex(Request $request)
+    {
+        $user_id = $request->user()->id;
+        $dateNow = new Carbon();
+        $questions = Question::where("user_id", $user_id)->where("next_study_date", "<", $dateNow)->get();
+        $all_questions = Question::where("user_id", $user_id)->get();
+        return ['questions' => $questions, 'all_questions' => $all_questions];
     }
 
     private function next_date($answer_times)

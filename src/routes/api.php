@@ -11,8 +11,9 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 });
 
 Route::resource('/question', QuestionController::class);
-Route::put('/question/{question}/answer', [QuestionController::class, 'answer']);
+Route::post('/question/{question}/answer', [QuestionController::class, 'answer']);
 Route::get('/answer', [QuestionController::class, 'answerIndex']);
+Route::get('/answer/select', [QuestionController::class, 'selectAnswerIndex']);
 Route::get('/home', [QuestionController::class, 'homeIndex']);
 
 Route::get('/tags/{name}', [TagController::class, 'show']);

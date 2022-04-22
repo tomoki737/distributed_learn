@@ -2,13 +2,13 @@
   <div class="text-center mt-7">
     <v-dialog v-model="dialog" width="500" persistent no-click-animation>
       <template v-slot:activator="{ on, attrs }">
-        <div v-for="(select_question, index) in select_questions" :key="index">
+        <div v-for="(select_answer, index) in select_answers" :key="index">
           <v-btn
-            @click="answer(select_question)"
+            @click="answer(select_answer)"
             style="text-transform: none"
             v-bind="attrs"
             v-on="on"
-            >{{ select_question.answer }}
+            >{{ select_answer }}
           </v-btn>
         </div>
       </template>
@@ -27,7 +27,7 @@
             {{ current_question.answer }}
           </h3></v-card-text
         >
-        <div v-if="!check_answer">
+        <div v-if="!is_answer">
           <v-card-text>
             <p style="margin: 0; padding: 0">あなたの回答:</p>
             <h3 style="margin: 0; padding: 0">
@@ -49,11 +49,11 @@
 <script>
 export default {
   props: {
-    select_questions: {},
+    select_answers: {},
     current_question: {},
     your_answer: {},
-    check_answer: "",
-    dialog: false,
+    is_answer: "",
+    dialog: "",
   },
   data() {
     return {
@@ -62,18 +62,17 @@ export default {
   },
   computed: {
     showCheckAnswer() {
-      return this.check_answer ? "正解" : "不正解";
+      return this.is_answer ? "正解" : "不正解";
     },
     showAnswerColor() {
-      return this.check_answer
+      return this.is_answer
         ? "color: green lighten-1"
         : "color: deep-orange lighten-3";
     },
   },
   methods: {
-    answer(select_question) {
-        console.log(select_question)
-      this.$emit("answer", select_question);
+    answer(select_answer) {
+      this.$emit("answer", select_answer);
     },
   },
 };

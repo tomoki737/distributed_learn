@@ -2238,9 +2238,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       number: 0,
       questions: [],
       all_questions: [],
-      select_questions: [],
+      select_answers: [],
       current_question: {},
-      check_answer: "",
+      is_answer: "",
       your_answer: "",
       tags: [],
       dialog: false,
@@ -2253,9 +2253,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       axios.get("/api/answer/select").then(function (response) {
         _this.questions = response.data.questions;
+
+        if (!_this.questions) {
+          _this.$router.push("/");
+        }
+
         _this.all_questions = response.data.all_questions;
 
-        _this.createSelectQuestion(_this.questions[0]);
+        _this.createSelectAnswer(_this.questions[0]);
 
         _this.loading = false;
       });
@@ -2267,10 +2272,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
 
       this.number += 1;
-      this.createSelectQuestion(this.questions[this.number]);
+      this.createSelectAnswer(this.questions[this.number]);
       this.dialog = false;
     },
-    answer: function answer(question) {
+    answer: function answer(_answer) {
       var _this2 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
@@ -2279,23 +2284,27 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _this2.check_answer = _this2.checkAnswer(question.answer);
-                _this2.your_answer = question.answer;
-                _context.next = 4;
-                return axios.put("/api/question/" + _this2.current_question.id + "/answer", {
-                  correct_answer: _this2.check_answer
-                });
+                console.log("start");
+                _this2.is_answer = _this2.checkAnswer(_answer);
+                _this2.your_answer = _answer;
 
-              case 4:
-                response = _context.sent;
-
-                if (_this2.check_answer) {
+                if (_this2.is_answer) {
                   setTimeout(function () {
                     _this2.next();
-                  }, 500);
+
+                    console.log("stop");
+                  }, 1000);
                 }
 
+                _context.next = 6;
+                return axios.put("/api/question/" + _this2.current_question.id + "/answer", {
+                  correct_answer: _this2.is_answer
+                });
+
               case 6:
+                response = _context.sent;
+
+              case 7:
               case "end":
                 return _context.stop();
             }
@@ -2306,13 +2315,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     checkAnswer: function checkAnswer(answer) {
       return this.current_question.answer === answer ? true : false;
     },
-    createSelectQuestion: function createSelectQuestion(current_question) {
+    createSelectAnswer: function createSelectAnswer(current_question) {
       this.current_question = current_question;
       var removed_question = this.removeQuestion(this.all_questions, current_question);
       var shuffle_question = this.shuffle(removed_question);
-      var slice_questions = shuffle_question.slice(0, 3);
-      this.addQuestion(slice_questions, current_question);
-      this.select_questions = this.shuffle(slice_questions);
+      var answers = this.createAnswer(shuffle_question);
+      var set_answers = new Set(answers);
+      var array_answers = Array.from(set_answers);
+      var slice_answers = array_answers.slice(0, 3);
+      this.addAnswer(slice_answers, current_question.answer);
+      this.select_answers = slice_answers;
     },
     shuffle: function shuffle(questions) {
       questions.map(function () {
@@ -2325,8 +2337,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
       return questions;
     },
-    addQuestion: function addQuestion(questions, add_question) {
-      return questions.push(add_question);
+    createAnswer: function createAnswer(quesitons) {
+      var answer = [];
+      quesitons.forEach(function (question) {
+        answer.push(question.answer);
+      });
+      return answer;
+    },
+    addAnswer: function addAnswer(answers, add_answer) {
+      console.log(answers);
+      return answers.push(add_answer);
     },
     removeQuestion: function removeQuestion(allQuestions, exceptQuestion) {
       return allQuestions.filter(function (question) {
@@ -2770,11 +2790,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
-    select_questions: {},
+    select_answers: {},
     current_question: {},
     your_answer: {},
-    check_answer: "",
-    dialog: false
+    is_answer: "",
+    dialog: ""
   },
   data: function data() {
     return {
@@ -2783,16 +2803,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     showCheckAnswer: function showCheckAnswer() {
-      return this.check_answer ? "正解" : "不正解";
+      return this.is_answer ? "正解" : "不正解";
     },
     showAnswerColor: function showAnswerColor() {
-      return this.check_answer ? "color: green lighten-1" : "color: deep-orange lighten-3";
+      return this.is_answer ? "color: green lighten-1" : "color: deep-orange lighten-3";
     }
   },
   methods: {
-    answer: function answer(select_question) {
-      console.log(select_question);
-      this.$emit("answer", select_question);
+    answer: function answer(select_answer) {
+      this.$emit("answer", select_answer);
     }
   }
 });
@@ -24021,9 +24040,9 @@ var render = function () {
           _vm._v(" "),
           _c("answer-select-button", {
             attrs: {
-              select_questions: _vm.select_questions,
+              select_answers: _vm.select_answers,
               current_question: _vm.current_question,
-              check_answer: _vm.check_answer,
+              is_answer: _vm.is_answer,
               your_answer: _vm.your_answer,
               dialog: _vm.dialog,
             },
@@ -24550,8 +24569,8 @@ var render = function () {
                 var on = ref.on
                 var attrs = ref.attrs
                 return _vm._l(
-                  _vm.select_questions,
-                  function (select_question, index) {
+                  _vm.select_answers,
+                  function (select_answer, index) {
                     return _c(
                       "div",
                       { key: index },
@@ -24564,7 +24583,7 @@ var render = function () {
                                 staticStyle: { "text-transform": "none" },
                                 on: {
                                   click: function ($event) {
-                                    return _vm.answer(select_question)
+                                    return _vm.answer(select_answer)
                                   },
                                 },
                               },
@@ -24574,11 +24593,7 @@ var render = function () {
                             ),
                             on
                           ),
-                          [
-                            _vm._v(
-                              _vm._s(select_question.answer) + "\n        "
-                            ),
-                          ]
+                          [_vm._v(_vm._s(select_answer) + "\n        ")]
                         ),
                       ],
                       1
@@ -24631,7 +24646,7 @@ var render = function () {
                 ]),
               ]),
               _vm._v(" "),
-              !_vm.check_answer
+              !_vm.is_answer
                 ? _c(
                     "div",
                     [

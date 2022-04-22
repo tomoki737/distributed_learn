@@ -11,9 +11,9 @@
         </v-card-text>
       </v-card>
       <answer-select-button
-        :select_questions="select_questions"
+        :select_answers="select_answers"
         :current_question="current_question"
-        :check_answer="check_answer"
+        :is_answer="is_answer"
         :your_answer="your_answer"
         :dialog="dialog"
         @answer="answer"
@@ -33,9 +33,9 @@ export default {
       number: 0,
       questions: [],
       all_questions: [],
-      select_questions: [],
+      select_answers: [],
       current_question: {},
-      check_answer: "",
+      is_answer: "",
       your_answer: "",
       tags: [],
       dialog: false,
@@ -46,8 +46,11 @@ export default {
     getQuestions() {
       axios.get("/api/answer/select").then((response) => {
         this.questions = response.data.questions;
+        if (!this.questions) {
+          this.$router.push("/");
+        }
         this.all_questions = response.data.all_questions;
-        this.createSelectQuestion(this.questions[0]);
+        this.createSelectAnswer(this.questions[0]);
         this.loading = false;
       });
     },
@@ -57,41 +60,49 @@ export default {
         this.dialog = false;
         return this.$router.push("/");
       }
+
       this.number += 1;
-      this.createSelectQuestion(this.questions[this.number]);
+      this.createSelectAnswer(this.questions[this.number]);
       this.dialog = false;
     },
 
-    async answer(question) {
-      this.check_answer = this.checkAnswer(question.answer);
-      this.your_answer = question.answer;
+    async answer(answer) {
+      console.log("start");
+      this.is_answer = this.checkAnswer(answer);
+      this.your_answer = answer;
+      if (this.is_answer) {
+        setTimeout(() => {
+          this.next();
+          console.log("stop");
+        }, 1000);
+      }
       const response = await axios.put(
         "/api/question/" + this.current_question.id + "/answer",
         {
-          correct_answer: this.check_answer,
+          correct_answer: this.is_answer,
         }
       );
-      if (this.check_answer) {
-        setTimeout(() => {
-          this.next();
-        }, 500);
-      }
     },
 
     checkAnswer(answer) {
       return this.current_question.answer === answer ? true : false;
     },
 
-    createSelectQuestion(current_question) {
+    createSelectAnswer(current_question) {
       this.current_question = current_question;
       const removed_question = this.removeQuestion(
         this.all_questions,
         current_question
       );
-      const shuffle_question = this.shuffle(removed_question);
-      const slice_questions = shuffle_question.slice(0, 3);
-      this.addQuestion(slice_questions, current_question);
-      this.select_questions = this.shuffle(slice_questions);
+
+      let shuffle_question = this.shuffle(removed_question);
+      let answers = this.createAnswer(shuffle_question);
+      let set_answers = new Set(answers);
+
+      let array_answers = Array.from(set_answers);
+      let slice_answers = array_answers.slice(0, 3);
+      this.addAnswer(slice_answers, current_question.answer);
+      this.select_answers = slice_answers;
     },
 
     shuffle(questions) {
@@ -104,8 +115,17 @@ export default {
       return questions;
     },
 
-    addQuestion(questions, add_question) {
-      return questions.push(add_question);
+    createAnswer(quesitons) {
+      let answer = [];
+      quesitons.forEach((question) => {
+        answer.push(question.answer);
+      });
+      return answer;
+    },
+
+    addAnswer(answers, add_answer) {
+      console.log(answers);
+      return answers.push(add_answer);
     },
 
     removeQuestion(allQuestions, exceptQuestion) {

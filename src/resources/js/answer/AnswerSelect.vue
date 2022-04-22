@@ -67,13 +67,11 @@ export default {
     },
 
     async answer(answer) {
-      console.log("start");
       this.is_answer = this.checkAnswer(answer);
       this.your_answer = answer;
       if (this.is_answer) {
         setTimeout(() => {
           this.next();
-          console.log("stop");
         }, 1000);
       }
       const response = await axios.put(
@@ -124,7 +122,6 @@ export default {
     },
 
     addAnswer(answers, add_answer) {
-      console.log(answers);
       return answers.push(add_answer);
     },
 

@@ -2284,27 +2284,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                console.log("start");
                 _this2.is_answer = _this2.checkAnswer(_answer);
                 _this2.your_answer = _answer;
 
                 if (_this2.is_answer) {
                   setTimeout(function () {
                     _this2.next();
-
-                    console.log("stop");
                   }, 1000);
                 }
 
-                _context.next = 6;
+                _context.next = 5;
                 return axios.put("/api/question/" + _this2.current_question.id + "/answer", {
                   correct_answer: _this2.is_answer
                 });
 
-              case 6:
+              case 5:
                 response = _context.sent;
 
-              case 7:
+              case 6:
               case "end":
                 return _context.stop();
             }
@@ -2345,7 +2342,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       return answer;
     },
     addAnswer: function addAnswer(answers, add_answer) {
-      console.log(answers);
       return answers.push(add_answer);
     },
     removeQuestion: function removeQuestion(allQuestions, exceptQuestion) {
@@ -2813,6 +2809,9 @@ __webpack_require__.r(__webpack_exports__);
     answer: function answer(select_answer) {
       this.$emit("answer", select_answer);
     }
+  },
+  mounted: function mounted() {
+    console.log(this.select_answers);
   }
 });
 

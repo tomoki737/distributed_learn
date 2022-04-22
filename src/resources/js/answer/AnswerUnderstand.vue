@@ -19,7 +19,7 @@
         </v-card-text>
       </v-card>
       <div class="text-center mt-7" v-if="!show_answer">
-        <v-btn color="primary" @click="answer_change"> 答えを見る </v-btn>
+        <v-btn color="primary" @click.once="answer_change"> 答えを見る </v-btn>
       </div>
       <div class="text-center mt-7" v-else>
         <v-btn @click="next(questions[number], true)">わかった</v-btn>

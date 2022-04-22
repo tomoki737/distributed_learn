@@ -10,23 +10,24 @@
           <h3>{{ questions[number].question }}</h3>
         </v-card-text>
       </v-card>
-      <div class="text-center mt-7">
-        <div v-for="(select_question, index) in select_questions" :key="index">
-          <v-btn
-            @click="answer(select_question)"
-            style="text-transform: none"
-            >{{ select_question.answer }}</v-btn
-          >
-        </div>
-      </div>
+      <answer-select-button
+        :select_questions="select_questions"
+        :current_question="current_question"
+        :check_answer="check_answer"
+        :your_answer="your_answer"
+        :dialog="dialog"
+        @answer="answer"
+        @next="next"
+      ></answer-select-button>
     </v-container>
   </div>
 </template>
 
 <script>
 import Loading from "../components/Loading.vue";
+import AnswerSelectButton from "../components/AnswerSelectButton.vue";
 export default {
-  components: { Loading },
+  components: { Loading, AnswerSelectButton },
   data() {
     return {
       number: 0,
@@ -34,7 +35,10 @@ export default {
       all_questions: [],
       select_questions: [],
       current_question: {},
+      check_answer: "",
+      your_answer: "",
       tags: [],
+      dialog: false,
       loading: true,
     };
   },
@@ -50,30 +54,32 @@ export default {
 
     next() {
       if (this.questions.length === this.number + 1) {
+        this.dialog = false;
         return this.$router.push("/");
       }
-
       this.number += 1;
       this.createSelectQuestion(this.questions[this.number]);
+      this.dialog = false;
     },
 
     async answer(question) {
-      const check_answer = this.checkAnswer(question.answer);
+      this.check_answer = this.checkAnswer(question.answer);
+      this.your_answer = question.answer;
       const response = await axios.put(
         "/api/question/" + this.current_question.id + "/answer",
         {
-          correct_answer: check_answer,
+          correct_answer: this.check_answer,
         }
       );
-      this.next();
+      if (this.check_answer) {
+        setTimeout(() => {
+          this.next();
+        }, 500);
+      }
     },
 
     checkAnswer(answer) {
-      if (this.current_question.answer === answer) {
-        return true;
-      } else {
-        return false;
-      }
+      return this.current_question.answer === answer ? true : false;
     },
 
     createSelectQuestion(current_question) {

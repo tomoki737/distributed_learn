@@ -93,8 +93,8 @@ export default {
         current_question
       );
 
-      let shuffle_question = this.shuffle(removed_question);
-      let answers = this.createAnswer(shuffle_question);
+      let shuffled_question = this.shuffleQuestion(removed_question);
+      let answers = this.createAnswer(shuffled_question);
       let set_answers = new Set(answers);
 
       let array_answers = Array.from(set_answers);
@@ -103,7 +103,7 @@ export default {
       this.select_answers = slice_answers;
     },
 
-    shuffle(questions) {
+    shuffleQuestion(questions) {
       questions.map(function () {
         for (let i = questions.length - 1; i >= 0; i--) {
           const j = Math.floor(Math.random() * (i + 1));

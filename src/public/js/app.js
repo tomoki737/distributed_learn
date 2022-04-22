@@ -2315,15 +2315,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     createSelectAnswer: function createSelectAnswer(current_question) {
       this.current_question = current_question;
       var removed_question = this.removeQuestion(this.all_questions, current_question);
-      var shuffle_question = this.shuffle(removed_question);
-      var answers = this.createAnswer(shuffle_question);
+      var shuffled_question = this.shuffleQuestion(removed_question);
+      var answers = this.createAnswer(shuffled_question);
       var set_answers = new Set(answers);
       var array_answers = Array.from(set_answers);
       var slice_answers = array_answers.slice(0, 3);
       this.addAnswer(slice_answers, current_question.answer);
       this.select_answers = slice_answers;
     },
-    shuffle: function shuffle(questions) {
+    shuffleQuestion: function shuffleQuestion(questions) {
       questions.map(function () {
         for (var i = questions.length - 1; i >= 0; i--) {
           var j = Math.floor(Math.random() * (i + 1));

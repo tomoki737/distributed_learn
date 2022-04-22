@@ -22,8 +22,11 @@
       </v-row>
       <v-card-actions>
         <div class="mx-auto">
-          <v-btn router-link :to="{ name: 'question.answer' }" v-show="new_questions != '0' || review_questions != '0'">
+          <v-btn router-link :to="{ name: 'answer.understand' }" v-show="new_questions != '0' || review_questions != '0'">
             学習する
+          </v-btn>
+          <v-btn router-link :to="{ name: 'answer.select' }" v-show="new_questions != '0' || review_questions != '0'">
+            選択肢で学習する
           </v-btn>
         </div>
       </v-card-actions>

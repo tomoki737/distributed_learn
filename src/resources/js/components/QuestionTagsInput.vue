@@ -43,7 +43,6 @@ export default {
     tagsJson() {
       const json = JSON.stringify(this.tags);
       this.$emit("tagsJson", this.tags);
-      console.log("タグ", this.initialTags);
       return json;
     },
   },

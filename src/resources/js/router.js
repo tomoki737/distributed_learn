@@ -7,7 +7,8 @@ import About from "./auth/About.vue";
 import QuestionCreate from "./question/QuestionCreate.vue";
 import QuestionEdit from "./question/QuestionEdit.vue";
 import QuestionIndex from "./question/QuestionIndex.vue";
-import QuestionAnswer from "./question/QuestionAnswer.vue";
+import AnswerSelect from "./answer/AnswerSelect.vue";
+import AnswerUnderstand from "./answer/AnswerUnderstand.vue";
 import TagsShow from "./tag/TagsShow.vue";
 
 Vue.use(VueRouter);
@@ -57,9 +58,14 @@ const routes = [
     },
 
     {
-        path: "/question/answer",
-        name: "question.answer",
-        component: QuestionAnswer,
+        path: "/answer/understand",
+        name: "answer.understand",
+        component: AnswerUnderstand,
+    },
+    {
+        path: "/answer/select",
+        name: "answer.select",
+        component: AnswerSelect,
     },
 
     {

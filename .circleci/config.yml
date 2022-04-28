@@ -47,7 +47,6 @@ jobs:
       - run:
           name: npm run dev
           command: |
-            echo $ENV | base64 --decode > .env
             cd src/
             npm run dev
       - run:

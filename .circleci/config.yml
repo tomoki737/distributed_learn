@@ -60,7 +60,6 @@ jobs:
           name: php test
           command: |
             cd src/
-            ls
             vendor/bin/phpunit
   deploy:
     docker:

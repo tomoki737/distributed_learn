@@ -19,6 +19,7 @@ jobs:
     steps:
       - checkout
       - run: sudo composer self-update --1
+      - run: pwd
       - restore_cache:
           key: composer-v1-{{ checksum "./src/composer.lock" }}
       - run: composer install -n --prefer-dist

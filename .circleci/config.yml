@@ -44,7 +44,11 @@ jobs:
           key: npm-v1-{{ checksum "./src/package-lock.json" }}
           paths:
             - node_modules
-      - run: npm run dev
+      - run:
+          name: npm run dev
+          command: |
+            cd src/
+            npm run dev
       - run:
           name: get ready for postgres
           command: |

@@ -37,6 +37,7 @@ jobs:
           name: npm ci
           command: |
             if [ ! -d node_modules ]; then
+              cd src/
               npm ci
             fi
       - save_cache:

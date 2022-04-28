@@ -60,6 +60,7 @@ jobs:
           name: php test
           command: |
             cd src/
+            pwd
             php artisan test
   deploy:
     docker:

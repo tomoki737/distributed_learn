@@ -60,7 +60,7 @@ jobs:
           name: php test
           command: |
             cd src/
-            vendor/bin/phpunit
+            php artisan test
   deploy:
     docker:
       - image: circleci/php:8-node-browsers

@@ -58,7 +58,9 @@ jobs:
             dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:
           name: php test
-          command: vendor/bin/phpunit
+          command: |
+            cd src/
+            vendor/bin/phpunit
   deploy:
     docker:
       - image: circleci/php:8-node-browsers

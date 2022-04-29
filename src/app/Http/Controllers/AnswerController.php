@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Question;
+
 class AnswerController extends Controller
 {
     public function answer(Request $request, Question $question)
@@ -12,10 +13,10 @@ class AnswerController extends Controller
         $question->answer_times += 1;
         $next_date = $this->next_date($question->answer_times);
         $question->next_study_date = $next_date;
-        $question->fill($request->all())->save();
-        if($question->answer_times === null) {
+        if($question->next_study_date === null) {
             $question->learning = false;
         }
+        $question->fill($request->all())->save();
         return $question;
     }
 

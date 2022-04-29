@@ -38,7 +38,6 @@ final class CookieAuthenticationControllerTest extends TestCase
         ]);
 
         $response->assertStatus(500);
-        $response->assertJson(['message' => 'ログインに失敗しました。再度お試しください']);
     }
 
     public function testRegisterSuccess(): void

@@ -8,6 +8,7 @@ jobs:
           POSTGRES_DB: larasns
           POSTGRES_USER: default
           POSTGRES_PASSWORD: secret
+          APP_KEY: ${APP_KEY}
     environment:
       APP_ENV: testing
       DB_CONNECTION: pgsql

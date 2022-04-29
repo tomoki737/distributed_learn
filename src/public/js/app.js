@@ -2580,12 +2580,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       LoginForm: {
         email: "",
-        password: ""
+        password: "",
+        getUserMessage: ""
       },
       errors: [],
       showPassword: false
@@ -2602,10 +2608,9 @@ __webpack_require__.r(__webpack_exports__);
 
             _this.$router.push("/about");
           }
-
-          _this.getUserMessage = "ログインに失敗しました。";
         })["catch"](function (error) {
-          _this.errors = error.response.errors;
+          _this.getUserMessage = "ログインに失敗しました。";
+          _this.errors = error.response.data.errors;
         });
       })["catch"](function (error) {
         console.error(error);
@@ -24322,6 +24327,10 @@ var render = function () {
           _c(
             "v-card-text",
             [
+              _c("span", [
+                _vm._v("\n        " + _vm._s(_vm.getUserMessage) + "\n      "),
+              ]),
+              _vm._v(" "),
               _c("v-text-field", {
                 attrs: {
                   label: "メールアドレス",
@@ -24337,6 +24346,14 @@ var render = function () {
                   expression: "LoginForm.email",
                 },
               }),
+              _vm._v(" "),
+              _vm.errors.email
+                ? _c("span", [
+                    _vm._v(
+                      "\n        " + _vm._s(_vm.errors.email[0]) + "\n      "
+                    ),
+                  ])
+                : _vm._e(),
               _vm._v(" "),
               _c("v-text-field", {
                 attrs: {

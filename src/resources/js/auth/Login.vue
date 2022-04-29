@@ -5,6 +5,9 @@
         <h2>ログイン</h2>
       </v-card-title>
       <v-card-text>
+        <span>
+          {{ getUserMessage }}
+        </span>
         <v-text-field
           v-model="LoginForm.email"
           label="メールアドレス"
@@ -12,7 +15,9 @@
           type="email"
           prepend-icon="mdi-account-circle"
         ></v-text-field>
-
+        <span v-if="errors.email">
+          {{ errors.email[0] }}
+        </span>
         <v-text-field
           v-model="LoginForm.password"
           label="パスワード"
@@ -39,6 +44,7 @@ export default {
       LoginForm: {
         email: "",
         password: "",
+        getUserMessage: "",
       },
       errors: [],
       showPassword: false,
@@ -56,11 +62,10 @@ export default {
                 this.$store.commit("auth/setUser", res.data);
                 this.$router.push("/about");
               }
-
-              this.getUserMessage = "ログインに失敗しました。";
             })
             .catch((error) => {
-              this.errors = error.response.errors;
+              this.getUserMessage = "ログインに失敗しました。";
+              this.errors = error.response.data.errors;
             });
         })
         .catch((error) => {

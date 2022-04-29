@@ -2590,11 +2590,11 @@ __webpack_require__.r(__webpack_exports__);
     return {
       LoginForm: {
         email: "",
-        password: "",
-        getUserMessage: ""
+        password: ""
       },
       errors: [],
-      showPassword: false
+      showPassword: false,
+      getUserMessage: ""
     };
   },
   methods: {
@@ -2608,6 +2608,8 @@ __webpack_require__.r(__webpack_exports__);
 
             _this.$router.push("/about");
           }
+
+          console.log("#");
         })["catch"](function (error) {
           _this.getUserMessage = "ログインに失敗しました。";
           _this.errors = error.response.data.errors;

@@ -13,6 +13,9 @@ class AnswerController extends Controller
         $next_date = $this->next_date($question->answer_times);
         $question->next_study_date = $next_date;
         $question->fill($request->all())->save();
+        if($question->answer_times === null) {
+            $question->learning = false;
+        }
         return $question;
     }
 
@@ -35,7 +38,6 @@ class AnswerController extends Controller
 
     private function next_date($answer_times)
     {
-        $date = "0";
         if ($answer_times === 1) {
             $date = "1";
         } else if ($answer_times === 2) {
@@ -44,6 +46,8 @@ class AnswerController extends Controller
             $date = "14";
         } else if ($answer_times === 4) {
             $date = "30";
+        } else {
+            return null;
         }
         return new Carbon("+" . $date . " day");
     }

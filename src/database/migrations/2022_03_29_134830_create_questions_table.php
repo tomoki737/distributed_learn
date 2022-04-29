@@ -20,6 +20,7 @@ class CreateQuestionsTable extends Migration
             $table->text('next_study_date')->nullable();
             $table->string('answer_times')->default(0);
             $table->boolean('correct_answer')->nullable();
+            $table->boolean('learning')->default(true);
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

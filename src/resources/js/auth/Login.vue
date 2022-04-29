@@ -44,10 +44,10 @@ export default {
       LoginForm: {
         email: "",
         password: "",
-        getUserMessage: "",
       },
       errors: [],
       showPassword: false,
+      getUserMessage: "",
     };
   },
   methods: {
@@ -62,6 +62,7 @@ export default {
                 this.$store.commit("auth/setUser", res.data);
                 this.$router.push("/about");
               }
+              console.log("#")
             })
             .catch((error) => {
               this.getUserMessage = "ログインに失敗しました。";

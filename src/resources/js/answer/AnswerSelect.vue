@@ -1,8 +1,8 @@
 <template>
   <div>
     <loading :loading="loading"></loading>
-    <v-container v-show="!loading">
-      <v-card elevation="2" class="mt-10 mx-auto" width="600px" height="500px">
+    <v-container v-show="!loading" style="max-width: 800px">
+      <v-card elevation="2" class="mt-10" height="400px">
         <v-toolbar color="blue lighten-3" class="white--text" flat>
           <h3 class="mx-auto">問題</h3>
         </v-toolbar>

@@ -2791,6 +2791,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     select_answers: {},
@@ -24019,13 +24024,14 @@ var render = function () {
               expression: "!loading",
             },
           ],
+          staticStyle: { "max-width": "800px" },
         },
         [
           _c(
             "v-card",
             {
-              staticClass: "mt-10 mx-auto",
-              attrs: { elevation: "2", width: "600px", height: "500px" },
+              staticClass: "mt-10",
+              attrs: { elevation: "2", height: "400px" },
             },
             [
               _c(
@@ -24574,7 +24580,7 @@ var render = function () {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "text-center mt-7" },
+    { staticClass: "mt-7" },
     [
       _c(
         "v-dialog",
@@ -24598,7 +24604,13 @@ var render = function () {
                           _vm._g(
                             _vm._b(
                               {
+                                staticClass: "mb-2",
                                 staticStyle: { "text-transform": "none" },
+                                attrs: {
+                                  block: "",
+                                  outlined: "",
+                                  "x-large": "",
+                                },
                                 on: {
                                   click: function ($event) {
                                     return _vm.answer(select_answer)
@@ -24611,7 +24623,13 @@ var render = function () {
                             ),
                             on
                           ),
-                          [_vm._v(_vm._s(select_answer) + "\n        ")]
+                          [
+                            _vm._v(
+                              "\n          " +
+                                _vm._s(select_answer) +
+                                "\n        "
+                            ),
+                          ]
                         ),
                       ],
                       1

@@ -11,7 +11,7 @@
             v-bind="attrs"
             v-on="on"
             class="mb-2"
-            style="text-transform: none;"
+            style="text-transform: none"
           >
             {{ select_answer }}
           </v-btn>

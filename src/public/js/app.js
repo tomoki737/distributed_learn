@@ -3171,7 +3171,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       var _this = this;
 
       axios.post("/api/question", this.questionForm).then(function (response) {
-        _this.$router.push("/");
+        _this.questionForm.question = "";
+        _this.questionForm.answer = "";
       })["catch"](function (error) {
         _this.errors = error.response.data.errors;
       });
@@ -25222,7 +25223,7 @@ var render = function () {
                   ])
                 : _vm._e(),
               _vm._v(" "),
-              _c("v-text-field", {
+              _c("v-textarea", {
                 attrs: { label: "問題" },
                 model: {
                   value: _vm.questionForm.question,
@@ -25247,8 +25248,8 @@ var render = function () {
           _c(
             "v-card-text",
             [
-              _c("v-text-field", {
-                attrs: { label: "回答" },
+              _c("v-textarea", {
+                attrs: { label: "解答" },
                 model: {
                   value: _vm.questionForm.answer,
                   callback: function ($$v) {

@@ -11,16 +11,16 @@
         <span v-if="errors.tags">
           {{ errors.tags[0] }}
         </span>
-        <v-text-field
+        <v-textarea
           v-model="questionForm.question"
           label="問題"
-        ></v-text-field>
+        ></v-textarea>
         <span v-if="errors.question">
           {{ errors.question[0] }}
         </span>
       </v-card-text>
       <v-card-text>
-        <v-text-field v-model="questionForm.answer" label="回答"></v-text-field>
+        <v-textarea v-model="questionForm.answer" label="解答"></v-textarea>
         <span v-if="errors.answer">
           {{ errors.answer[0] }}
         </span>
@@ -60,7 +60,8 @@ export default {
       axios
         .post("/api/question", this.questionForm)
         .then((response) => {
-          this.$router.push("/");
+          this.questionForm.question = "";
+          this.questionForm.answer = "";
         })
         .catch((error) => {
           this.errors = error.response.data.errors;
@@ -68,7 +69,7 @@ export default {
     },
     tagsChange(tags) {
       this.questionForm.tags = JSON.stringify(tags);
-      console.log(this.questionForm.tags)
+      console.log(this.questionForm.tags);
     },
     async getQuestion() {
       const response = await axios.get("/api/question/create");

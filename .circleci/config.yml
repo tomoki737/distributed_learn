@@ -73,6 +73,7 @@ jobs:
           command: |
             ssh -o StrictHostKeyChecking=no -t webapp@${HOST_NAME} "cd distributed_learn && \
               git pull origin main && \
+              cd src/ && \
               composer install -n --no-dev --prefer-dist && \
               npm ci && \
               npm run prod && \

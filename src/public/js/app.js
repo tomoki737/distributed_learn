@@ -2930,6 +2930,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -24869,6 +24872,25 @@ var render = function () {
           },
         },
         [
+          _c(
+            "v-list-item",
+            [
+              _c(
+                "v-btn",
+                {
+                  attrs: { block: "", outlined: "" },
+                  on: {
+                    click: function ($event) {
+                      _vm.drawer = !_vm.drawer
+                    },
+                  },
+                },
+                [_vm._v("閉じる")]
+              ),
+            ],
+            1
+          ),
+          _vm._v(" "),
           !_vm.isLogin
             ? _c(
                 "div",
@@ -24971,7 +24993,8 @@ var render = function () {
                 ],
                 1
               ),
-        ]
+        ],
+        1
       ),
       _vm._v(" "),
       _c(

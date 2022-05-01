@@ -1,6 +1,9 @@
 <template>
   <div class="mb-12">
     <v-navigation-drawer app clipped v-model="drawer">
+         <v-list-item>
+          <v-btn block outlined @click="drawer = !drawer">閉じる</v-btn>
+         </v-list-item>
       <div v-if="!isLogin">
         <v-list-item>
           <v-btn block outlined router-link :to="{ name: 'register' }"

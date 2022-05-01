@@ -80,9 +80,6 @@ export default {
       this.$emit("answer", select_answer);
     },
   },
-  mounted() {
-    console.log(this.select_answers);
-  },
 };
 </script>
 

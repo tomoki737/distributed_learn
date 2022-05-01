@@ -2933,6 +2933,35 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -24907,6 +24936,11 @@ var render = function () {
                             "router-link": "",
                             to: { name: "register" },
                           },
+                          on: {
+                            click: function ($event) {
+                              _vm.drawer = !_vm.drawer
+                            },
+                          },
                         },
                         [_vm._v("新規登録")]
                       ),
@@ -24925,6 +24959,11 @@ var render = function () {
                             outlined: "",
                             "router-link": "",
                             to: { name: "login" },
+                          },
+                          on: {
+                            click: function ($event) {
+                              _vm.drawer = !_vm.drawer
+                            },
                           },
                         },
                         [_vm._v("ログイン\n        ")]
@@ -24950,6 +24989,11 @@ var render = function () {
                             "router-link": "",
                             to: { name: "question.index" },
                           },
+                          on: {
+                            click: function ($event) {
+                              _vm.drawer = !_vm.drawer
+                            },
+                          },
                         },
                         [_vm._v("一覧")]
                       ),
@@ -24969,8 +25013,13 @@ var render = function () {
                             "router-link": "",
                             to: { name: "question.create" },
                           },
+                          on: {
+                            click: function ($event) {
+                              _vm.drawer = !_vm.drawer
+                            },
+                          },
                         },
-                        [_vm._v("作成")]
+                        [_vm._v("作成\n        ")]
                       ),
                     ],
                     1
@@ -24982,10 +25031,15 @@ var render = function () {
                       _c(
                         "v-btn",
                         {
-                          attrs: { block: "", outlined: "", dark: "" },
-                          on: { click: _vm.logout },
+                          attrs: { block: "", outlined: "", "router-link": "" },
+                          on: {
+                            click: function ($event) {
+                              _vm.logout()
+                              _vm.drawer = !_vm.drawer
+                            },
+                          },
                         },
-                        [_vm._v("ログアウト")]
+                        [_vm._v("ログアウト\n        ")]
                       ),
                     ],
                     1
@@ -25080,15 +25134,6 @@ var render = function () {
                         },
                       },
                       [_vm._v("作成")]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-btn",
-                      {
-                        attrs: { outlined: "", dark: "" },
-                        on: { click: _vm.logout },
-                      },
-                      [_vm._v("ログアウト")]
                     ),
                   ],
                   1

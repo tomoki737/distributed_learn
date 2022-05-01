@@ -1,35 +1,65 @@
 <template>
   <div class="mb-12">
     <v-navigation-drawer app clipped v-model="drawer">
-         <v-list-item>
-          <v-btn block outlined @click="drawer = !drawer">閉じる</v-btn>
-         </v-list-item>
+      <v-list-item>
+        <v-btn block outlined @click="drawer = !drawer">閉じる</v-btn>
+      </v-list-item>
       <div v-if="!isLogin">
         <v-list-item>
-          <v-btn block outlined router-link :to="{ name: 'register' }"
+          <v-btn
+            block
+            @click="drawer = !drawer"
+            outlined
+            router-link
+            :to="{ name: 'register' }"
             >新規登録</v-btn
           >
         </v-list-item>
         <v-list-item>
-          <v-btn block outlined router-link :to="{ name: 'login' }"
+          <v-btn
+            block
+            @click="drawer = !drawer"
+            outlined
+            router-link
+            :to="{ name: 'login' }"
             >ログイン
           </v-btn>
         </v-list-item>
       </div>
       <div v-else>
         <v-list-item>
-          <v-btn block outlined router-link :to="{ name: 'question.index' }"
+          <v-btn
+            block
+            @click="drawer = !drawer"
+            outlined
+            router-link
+            :to="{ name: 'question.index' }"
             >一覧</v-btn
           >
         </v-list-item>
         <v-list-item>
-          <v-btn block outlined router-link :to="{ name: 'question.create' }"
-            >作成</v-btn
-          >
+          <v-btn
+            block
+            @click="drawer = !drawer"
+            outlined
+            router-link
+            :to="{ name: 'question.create' }"
+            >作成
+          </v-btn>
         </v-list-item>
         <v-list-item>
-          <v-btn block outlined dark @click="logout">ログアウト</v-btn>
+          <v-btn
+            block
+            outlined
+            router-link
+            @click="
+              logout();
+              drawer = !drawer;
+            "
+            >ログアウト
+          </v-btn>
         </v-list-item>
+
       </div>
     </v-navigation-drawer>
     <v-app-bar color="primary" dark app clipped-left>
@@ -52,7 +82,6 @@
           <v-btn outlined router-link :to="{ name: 'question.create' }"
             >作成</v-btn
           >
-          <v-btn outlined dark @click="logout">ログアウト</v-btn>
         </div>
       </div>
     </v-app-bar>

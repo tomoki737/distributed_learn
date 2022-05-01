@@ -2821,9 +2821,6 @@ __webpack_require__.r(__webpack_exports__);
     answer: function answer(select_answer) {
       this.$emit("answer", select_answer);
     }
-  },
-  mounted: function mounted() {
-    console.log(this.select_answers);
   }
 });
 
@@ -2895,7 +2892,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      drawer: false
+    };
+  },
   methods: {
     logout: function logout() {
       var _this = this;
@@ -24817,9 +24855,135 @@ var render = function () {
     { staticClass: "mb-12" },
     [
       _c(
-        "v-app-bar",
-        { attrs: { color: "primary", dark: "", app: "" } },
+        "v-navigation-drawer",
+        {
+          attrs: { app: "", clipped: "" },
+          model: {
+            value: _vm.drawer,
+            callback: function ($$v) {
+              _vm.drawer = $$v
+            },
+            expression: "drawer",
+          },
+        },
         [
+          !_vm.isLogin
+            ? _c(
+                "div",
+                [
+                  _c(
+                    "v-list-item",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            block: "",
+                            outlined: "",
+                            "router-link": "",
+                            to: { name: "register" },
+                          },
+                        },
+                        [_vm._v("新規登録")]
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            block: "",
+                            outlined: "",
+                            "router-link": "",
+                            to: { name: "login" },
+                          },
+                        },
+                        [_vm._v("ログイン")]
+                      ),
+                    ],
+                    1
+                  ),
+                ],
+                1
+              )
+            : _c(
+                "div",
+                [
+                  _c(
+                    "v-list-item",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            block: "",
+                            outlined: "",
+                            "router-link": "",
+                            to: { name: "question.index" },
+                          },
+                        },
+                        [_vm._v("一覧")]
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            block: "",
+                            outlined: "",
+                            "router-link": "",
+                            to: { name: "question.create" },
+                          },
+                        },
+                        [_vm._v("作成")]
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-list-item",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: { block: "", outlined: "", dark: "" },
+                          on: { click: _vm.logout },
+                        },
+                        [_vm._v("ログアウト")]
+                      ),
+                    ],
+                    1
+                  ),
+                ],
+                1
+              ),
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "v-app-bar",
+        { attrs: { color: "primary", dark: "", app: "", "clipped-left": "" } },
+        [
+          _c("v-app-bar-nav-icon", {
+            on: {
+              click: function ($event) {
+                _vm.drawer = !_vm.drawer
+              },
+            },
+          }),
+          _vm._v(" "),
           _c(
             "v-toolbar-title",
             {
@@ -24835,74 +24999,76 @@ var render = function () {
           _vm._v(" "),
           _c("v-spacer"),
           _vm._v(" "),
-          !_vm.isLogin
-            ? _c(
-                "div",
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        outlined: "",
-                        "router-link": "",
-                        to: { name: "register" },
+          _c("div", { staticClass: "hidden-md-and-down" }, [
+            !_vm.isLogin
+              ? _c(
+                  "div",
+                  [
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: {
+                          outlined: "",
+                          "router-link": "",
+                          to: { name: "register" },
+                        },
                       },
-                    },
-                    [_vm._v("新規登録")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        outlined: "",
-                        "router-link": "",
-                        to: { name: "login" },
+                      [_vm._v("新規登録")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: {
+                          outlined: "",
+                          "router-link": "",
+                          to: { name: "login" },
+                        },
                       },
-                    },
-                    [_vm._v("ログイン")]
-                  ),
-                ],
-                1
-              )
-            : _c(
-                "div",
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        outlined: "",
-                        "router-link": "",
-                        to: { name: "question.index" },
+                      [_vm._v("ログイン")]
+                    ),
+                  ],
+                  1
+                )
+              : _c(
+                  "div",
+                  [
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: {
+                          outlined: "",
+                          "router-link": "",
+                          to: { name: "question.index" },
+                        },
                       },
-                    },
-                    [_vm._v("一覧")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: {
-                        outlined: "",
-                        "router-link": "",
-                        to: { name: "question.create" },
+                      [_vm._v("一覧")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: {
+                          outlined: "",
+                          "router-link": "",
+                          to: { name: "question.create" },
+                        },
                       },
-                    },
-                    [_vm._v("作成")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { outlined: "", dark: "" },
-                      on: { click: _vm.logout },
-                    },
-                    [_vm._v("ログアウト")]
-                  ),
-                ],
-                1
-              ),
+                      [_vm._v("作成")]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "v-btn",
+                      {
+                        attrs: { outlined: "", dark: "" },
+                        on: { click: _vm.logout },
+                      },
+                      [_vm._v("ログアウト")]
+                    ),
+                  ],
+                  1
+                ),
+          ]),
         ],
         1
       ),

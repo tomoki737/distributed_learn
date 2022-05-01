@@ -1,14 +1,19 @@
 <template>
-  <div class="text-center mt-7">
+  <div class="mt-7">
     <v-dialog v-model="dialog" width="500" persistent no-click-animation>
       <template v-slot:activator="{ on, attrs }">
         <div v-for="(select_answer, index) in select_answers" :key="index">
           <v-btn
+            block
+            outlined
+            x-large
             @click="answer(select_answer)"
-            style="text-transform: none"
             v-bind="attrs"
             v-on="on"
-            >{{ select_answer }}
+            class="mb-2"
+            style="text-transform: none;"
+          >
+            {{ select_answer }}
           </v-btn>
         </div>
       </template>
@@ -76,7 +81,8 @@ export default {
     },
   },
   mounted() {
-      console.log(this.select_answers);
-  }
+    console.log(this.select_answers);
+  },
 };
 </script>
+

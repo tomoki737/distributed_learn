@@ -62,7 +62,7 @@ export default {
                 this.$store.commit("auth/setUser", res.data);
                 this.$router.push("/about");
               }
-              console.log("#")
+              console.log("#");
             })
             .catch((error) => {
               this.getUserMessage = "ログインに失敗しました。";

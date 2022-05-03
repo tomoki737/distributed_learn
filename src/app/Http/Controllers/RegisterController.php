@@ -15,7 +15,8 @@ class RegisterController extends Controller
 {
     public function __construct(
         private Auth $auth,
-    ){}
+    ) {
+    }
 
     public function register(Request $request)
     {
@@ -35,7 +36,7 @@ class RegisterController extends Controller
             $request->session()->regenerate();
         }
 
-        return new JsonResponse(['user' => $user, 'token_type' => 'Bearer']);
+        return new JsonResponse(['user' => $user, 'message' => '登録に成功しました']);
     }
 
     private function getGuard(): StatefulGuard

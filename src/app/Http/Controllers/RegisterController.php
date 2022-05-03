@@ -30,13 +30,12 @@ class RegisterController extends Controller
             'email' => $credentials['email'],
             'password' => Hash::make($credentials['password'])
         ]);
-        $token = $user->createToken('auth_token')->plainTextToken;
 
         if ($this->getGuard()->attempt($credentials)) {
             $request->session()->regenerate();
         }
 
-        return new JsonResponse(['access_token' => $token, 'token_type' => 'Bearer']);
+        return new JsonResponse(['user' => $user, 'token_type' => 'Bearer']);
     }
 
     private function getGuard(): StatefulGuard

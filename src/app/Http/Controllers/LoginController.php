@@ -18,8 +18,7 @@ final class LoginController extends Controller
      */
     public function __construct(
         private Auth $auth,
-    ) {
-    }
+    ){}
 
     /**
      * @param Request $request
@@ -61,5 +60,10 @@ final class LoginController extends Controller
     private function getGuard(): StatefulGuard
     {
         return $this->auth->guard(config('auth.defaults.guard'));
+    }
+
+    public function redirectToProvider(string $provider)
+    {
+        return Socialite::driver($provider);
     }
 }

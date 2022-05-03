@@ -7,9 +7,16 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\Auth\StatefulGuard;
+use Illuminate\Contracts\Auth\Factory as Auth;
+use App\Http\Controllers\LoginController;
 
 class RegisterController extends Controller
 {
+    public function __construct(
+        private Auth $auth,
+    ){}
+
     public function register(Request $request)
     {
         $credentials = $request->validate([
@@ -18,12 +25,22 @@ class RegisterController extends Controller
             'password' =>  ['required', 'min:8', 'string'],
         ]);
 
-       $user =  User::create([
+        $user =  User::create([
             'name' => $credentials['name'],
             'email' => $credentials['email'],
             'password' => Hash::make($credentials['password'])
         ]);
-        
-        return new JsonResponse(['user' => $user ,'message' => '登録に成功しました']);
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        if ($this->getGuard()->attempt($credentials)) {
+            $request->session()->regenerate();
+        }
+
+        return new JsonResponse(['access_token' => $token, 'token_type' => 'Bearer']);
+    }
+
+    private function getGuard(): StatefulGuard
+    {
+        return $this->auth->guard(config('auth.defaults.guard'));
     }
 }

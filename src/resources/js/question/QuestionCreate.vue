@@ -47,7 +47,7 @@ export default {
         question: "",
         answer: "",
         tags: "",
-        share: "",
+        share: false,
       },
 
       tagNames: [],

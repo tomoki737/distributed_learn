@@ -1,9 +1,64 @@
 <template>
   <div>
     <loading :loading="loading"></loading>
-    <v-container v-show="!loading">
+    <v-container v-show="!loading" style="max-width:800px" class="mt-2">
+     <template>
+  <div class="text-end">
+    <v-dialog
+      v-model="dialog"
+      width="500"
+    >
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          color="blue"
+          dark
+          v-bind="attrs"
+          v-on="on"
+          outlined
+        >
+          <v-icon>mdi-magnify</v-icon>
+        </v-btn>
+      </template>
+
+      <v-card>
+        <v-card-title class="text-h5 blue lighten-3">
+          検索条件
+        </v-card-title>
+        <v-divider></v-divider>
+
+      <v-card-text>
+        <v-text-field label="キーワード"></v-text-field>
+        <question-tags-input></question-tags-input>
+        <v-text-field label="タグ"></v-text-field>
+      </v-card-text>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+
+          <v-btn
+            color="primary"
+            text
+            @click="dialog = false"
+          >
+            キャンセル
+          </v-btn>
+          <v-btn
+            color="primary"
+            text
+            @click="dialog = false"
+          >
+            検索
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
+</template>
       <div v-for="question in questions" :key="question.id">
-        <question-index-card :question="question" @get ="getQuestions"></question-index-card>
+        <question-index-card
+          :question="question"
+          @get="getQuestions"
+        ></question-index-card>
       </div>
     </v-container>
   </div>
@@ -11,16 +66,23 @@
 <script>
 import Loading from "../components/Loading.vue";
 import QuestionIndexCard from "../components/QuestionIndexCard.vue";
+import QuestionTagsInput from "../components/QuestionTagsInput.vue"
 export default {
   components: {
     Loading,
     QuestionIndexCard,
+    QuestionTagsInput,
   },
 
   data() {
     return {
       questions: [],
       loading: true,
+      dialog:false,
+      searchForm: {
+          tag:[],
+          keyword: "",
+      }
     };
   },
 

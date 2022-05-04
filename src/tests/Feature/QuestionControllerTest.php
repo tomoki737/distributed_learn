@@ -25,6 +25,12 @@ class QuestionControllerTest extends TestCase
         $response = $this->actingAs($this->user)->postJson('/api/question', [
             'question' => 'testtest',
             'answer' => 'testtest',
+            'share' => false,
+        ]);
+        $this->assertDatabaseHas('questions', [
+            'question' => 'testtest',
+            'answer' => 'testtest',
+            'share' => false
         ]);
         $response->assertStatus(200);
     }

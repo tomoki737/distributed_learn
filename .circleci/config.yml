@@ -72,6 +72,7 @@ jobs:
           name: deploy
           command: |
             ssh -o StrictHostKeyChecking=no -t webapp@${HOST_NAME} "cd distributed_learn && \
+              git stash && \
               git pull origin main && \
               cd src/ && \
               composer install -n --no-dev --prefer-dist && \

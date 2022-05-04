@@ -8,7 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Http\Requests\QuestionRequest;
 use Carbon\Carbon;
 use App\Models\Tag;
-use Illuminate\Support\Facades\Date;
 
 class QuestionController extends Controller
 {

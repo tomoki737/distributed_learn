@@ -11,30 +11,29 @@
         <span v-if="errors.tags">
           {{ errors.tags[0] }}
         </span>
-        <v-textarea
+        <v-text-field
           v-model="questionForm.question"
           label="問題"
-        ></v-textarea>
+        ></v-text-field>
         <span v-if="errors.question">
           {{ errors.question[0] }}
         </span>
       </v-card-text>
       <v-card-text>
-        <v-textarea v-model="questionForm.answer" label="解答"></v-textarea>
+        <v-text-field v-model="questionForm.answer" label="解答"></v-text-field>
         <span v-if="errors.answer">
           {{ errors.answer[0] }}
         </span>
       </v-card-text>
+      <v-card-text>
+        <v-switch v-model="questionForm.share" label="Share" class="d-flex justify-content-end"></v-switch>
+      </v-card-text>
     </v-card>
-    <v-row justify="center">
-      <v-col cols="12">
-        <div class="text-end">
-          <v-btn color="primary" dark x-large class="mt-4" @click="store"
-            >作成する</v-btn
-          >
-        </div>
-      </v-col>
-    </v-row>
+    <div class="text-end">
+      <v-btn color="primary" dark x-large class="mt-4" @click="store"
+        >作成する</v-btn
+      >
+    </div>
   </v-container>
 </template>
 
@@ -48,6 +47,7 @@ export default {
         question: "",
         answer: "",
         tags: "",
+        share: "",
       },
 
       tagNames: [],
@@ -67,7 +67,7 @@ export default {
           this.errors = error.response.data.errors;
         });
     },
-    
+
     tagsChange(tags) {
       this.questionForm.tags = JSON.stringify(tags);
     },

@@ -11,16 +11,16 @@
         <span v-if="errors.tags">
           {{ errors.tags[0] }}
         </span>
-        <v-textarea
+        <v-text-field
           v-model="questionForm.question"
           label="問題"
-        ></v-textarea>
+        ></v-text-field>
         <span v-if="errors.question">
           {{ errors.question[0] }}
         </span>
       </v-card-text>
       <v-card-text>
-        <v-textarea v-model="questionForm.answer" label="解答"></v-textarea>
+        <v-text-field v-model="questionForm.answer" label="解答"></v-text-field>
         <span v-if="errors.answer">
           {{ errors.answer[0] }}
         </span>
@@ -67,7 +67,7 @@ export default {
           this.errors = error.response.data.errors;
         });
     },
-    
+
     tagsChange(tags) {
       this.questionForm.tags = JSON.stringify(tags);
     },

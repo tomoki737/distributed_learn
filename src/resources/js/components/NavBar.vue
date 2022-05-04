@@ -2,13 +2,13 @@
   <div class="mb-12">
     <v-navigation-drawer app clipped v-model="drawer">
       <v-list-item>
-        <v-btn block outlined @click="drawer = !drawer">閉じる</v-btn>
+        <v-btn block outlined @click="drawerClose">閉じる</v-btn>
       </v-list-item>
       <div v-if="!isLogin">
         <v-list-item>
           <v-btn
             block
-            @click="drawer = !drawer"
+            @click="drawerClose()"
             outlined
             router-link
             :to="{ name: 'register' }"
@@ -18,7 +18,7 @@
         <v-list-item>
           <v-btn
             block
-            @click="drawer = !drawer"
+            @click="drawerClose()"
             outlined
             router-link
             :to="{ name: 'login' }"
@@ -30,20 +30,29 @@
         <v-list-item>
           <v-btn
             block
-            @click="drawer = !drawer"
+            @click="
+              drawerClose();
+              $router.push('/');
+            "
+            style="cursor: pointer"
             outlined
-            router-link
-            :to="{ name: 'question.index' }"
+            >ホーム</v-btn
+          >
+        </v-list-item>
+        <v-list-item>
+          <v-btn
+            block
+            @click="drawerClose(); $router.push('/question/index');"
+            outlined
             >一覧</v-btn
           >
         </v-list-item>
         <v-list-item>
           <v-btn
             block
-            @click="drawer = !drawer"
+            @click="drawerClose(); $router.push('/question/create');"
             outlined
             router-link
-            :to="{ name: 'question.create' }"
             >作成
           </v-btn>
         </v-list-item>
@@ -51,19 +60,17 @@
           <v-btn
             block
             outlined
-            router-link
             @click="
               logout();
-              drawer = !drawer;
+              drawerClose();
             "
             >ログアウト
           </v-btn>
         </v-list-item>
-
       </div>
     </v-navigation-drawer>
     <v-app-bar color="primary" dark app clipped-left>
-      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawerClose"></v-app-bar-nav-icon>
       <v-toolbar-title @click="$router.push('/')" style="cursor: pointer"
         >分散学習帳</v-toolbar-title
       >
@@ -102,12 +109,17 @@ export default {
           .post("/logout")
           .then((res) => {
             this.$store.commit("auth/setUser", null);
+            this.$router.push("/")
           })
           .catch((error) => {
             console.error(error);
           });
       });
     },
+    drawerClose() {
+        console.log(this.drawer)
+        this.drawer = !this.drawer;
+    }
   },
 
   computed: {

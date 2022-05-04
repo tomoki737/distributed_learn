@@ -67,10 +67,11 @@ export default {
           this.errors = error.response.data.errors;
         });
     },
+    
     tagsChange(tags) {
       this.questionForm.tags = JSON.stringify(tags);
-      console.log(this.questionForm.tags);
     },
+
     async getQuestion() {
       const response = await axios.get("/api/question/create");
       this.allTagNames = response.data.allTagNames;

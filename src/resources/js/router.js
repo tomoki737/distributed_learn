@@ -84,17 +84,6 @@ const routes = [
     },
 
 ];
-
-const google_route = async function() {
-    axios.post("login/social/" + provider)
-        .then((response) => {
-          console.log(response.data);
-          return response.data;
-        })
-        .catch((err) => {
-          console.log({ err: err });
-        });
-}
 const router = new VueRouter({
     mode: "history",
     routes,

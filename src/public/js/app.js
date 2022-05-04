@@ -3233,7 +3233,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
@@ -3244,7 +3243,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       questionForm: {
         question: "",
         answer: "",
-        tags: ""
+        tags: "",
+        share: ""
       },
       tagNames: [],
       errors: {},
@@ -25555,32 +25555,41 @@ var render = function () {
             ],
             1
           ),
+          _vm._v(" "),
+          _c(
+            "v-card-text",
+            [
+              _c("v-switch", {
+                staticClass: "d-flex justify-content-end",
+                attrs: { label: "Share" },
+                model: {
+                  value: _vm.questionForm.share,
+                  callback: function ($$v) {
+                    _vm.$set(_vm.questionForm, "share", $$v)
+                  },
+                  expression: "questionForm.share",
+                },
+              }),
+            ],
+            1
+          ),
         ],
         1
       ),
       _vm._v(" "),
       _c(
-        "v-row",
-        { attrs: { justify: "center" } },
+        "div",
+        { staticClass: "text-end" },
         [
-          _c("v-col", { attrs: { cols: "12" } }, [
-            _c(
-              "div",
-              { staticClass: "text-end" },
-              [
-                _c(
-                  "v-btn",
-                  {
-                    staticClass: "mt-4",
-                    attrs: { color: "primary", dark: "", "x-large": "" },
-                    on: { click: _vm.store },
-                  },
-                  [_vm._v("作成する")]
-                ),
-              ],
-              1
-            ),
-          ]),
+          _c(
+            "v-btn",
+            {
+              staticClass: "mt-4",
+              attrs: { color: "primary", dark: "", "x-large": "" },
+              on: { click: _vm.store },
+            },
+            [_vm._v("作成する")]
+          ),
         ],
         1
       ),

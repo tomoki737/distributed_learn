@@ -25,16 +25,15 @@
           {{ errors.answer[0] }}
         </span>
       </v-card-text>
+      <v-card-text>
+        <v-switch v-model="questionForm.share" label="Share" class="d-flex justify-content-end"></v-switch>
+      </v-card-text>
     </v-card>
-    <v-row justify="center">
-      <v-col cols="12">
-        <div class="text-end">
-          <v-btn color="primary" dark x-large class="mt-4" @click="store"
-            >作成する</v-btn
-          >
-        </div>
-      </v-col>
-    </v-row>
+    <div class="text-end">
+      <v-btn color="primary" dark x-large class="mt-4" @click="store"
+        >作成する</v-btn
+      >
+    </div>
   </v-container>
 </template>
 
@@ -48,6 +47,7 @@ export default {
         question: "",
         answer: "",
         tags: "",
+        share: "",
       },
 
       tagNames: [],

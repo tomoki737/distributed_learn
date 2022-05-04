@@ -13,7 +13,8 @@ class Question extends Model
     protected $fillable = [
         'question',
         'answer',
-        'correct_answer'
+        'correct_answer',
+        'share',
     ];
 
     public function tags(): BelongsToMany

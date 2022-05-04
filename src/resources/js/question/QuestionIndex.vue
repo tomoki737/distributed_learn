@@ -28,8 +28,7 @@
 
       <v-card-text>
         <v-text-field label="キーワード"></v-text-field>
-        <question-tags-input></question-tags-input>
-        <v-text-field label="タグ"></v-text-field>
+        <question-tags-input :placeholder="'タグ'" :autocompleteItems="allTagNames"></question-tags-input>
       </v-card-text>
 
         <v-card-actions>
@@ -63,6 +62,7 @@
     </v-container>
   </div>
 </template>
+
 <script>
 import Loading from "../components/Loading.vue";
 import QuestionIndexCard from "../components/QuestionIndexCard.vue";
@@ -79,6 +79,7 @@ export default {
       questions: [],
       loading: true,
       dialog:false,
+      allTagNames: [],
       searchForm: {
           tag:[],
           keyword: "",
@@ -90,6 +91,7 @@ export default {
     getQuestions() {
       axios.get("/api/question").then((response) => {
         this.questions = response.data.questions;
+        this.allTagNames = response.data.allTagNames;
         this.loading = false;
       });
     },

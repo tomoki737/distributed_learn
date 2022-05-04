@@ -7,6 +7,7 @@
           @tagsJson="tagsChange"
           :initialTags="tagNames"
           :autocompleteItems="allTagNames"
+          :placeholder="'タグを5個まで追加できます'"
         ></quesiton-tags-input>
         <span v-if="errors.tags">
           {{ errors.tags[0] }}

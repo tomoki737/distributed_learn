@@ -17,7 +17,12 @@ class QuestionController extends Controller
     {
         $user_id = $request->user()->id;
         $questions = Question::where("user_id", $user_id)->with("tags")->get();
-        return ['questions' => $questions];
+
+        $allTagNames =  Tag::all()->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+
+        return ['questions' => $questions, 'allTagNames' => $allTagNames];
     }
 
     public function create()

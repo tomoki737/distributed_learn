@@ -1,7 +1,8 @@
 <template>
-  <div>
-    <loading :loading="loading"></loading>
-    <v-card elevation="2" class="mt-10 mx-auto" width="600px" v-show="!loading">
+<div>
+        <loading :loading="loading" />
+    <v-container  v-show="!loading" style="max-width:1000px">
+    <v-card elevation="2" class="mt-10 mx-auto">
       <v-row>
         <v-col cols="6">
           <v-card-text>
@@ -31,7 +32,8 @@
         </div>
       </v-card-actions>
     </v-card>
-  </div>
+</v-container>
+</div>
 </template>
 <script>
 import Loading from "./components/Loading.vue";

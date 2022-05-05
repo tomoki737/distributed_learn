@@ -1,7 +1,7 @@
 <template>
   <div>
     <loading :loading="loading"></loading>
-    <v-container v-show="!loading" style="max-width:800px" class="mt-2">
+    <v-container v-show="!loading" style="max-width:1000px" class="mt-2">
      <template>
   <div class="text-end">
     <v-dialog

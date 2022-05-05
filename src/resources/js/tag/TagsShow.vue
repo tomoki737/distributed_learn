@@ -1,8 +1,8 @@
 <template>
   <div>
     <loading :loading="loading"></loading>
-    <v-container v-show="!loading">
-      <v-card class="mt-10 mx-auto" width="600px">
+    <v-container v-show="!loading" style="max-width:1000px">
+      <v-card class="mt-10 mx-auto">
         <v-card-title
           ><h2  class="ml-6">{{ name }}</h2> <span class="ml-2">({{ questions_length }})</span></v-card-title
         ></v-card

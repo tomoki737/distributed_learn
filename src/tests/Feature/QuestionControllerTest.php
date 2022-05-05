@@ -34,4 +34,12 @@ class QuestionControllerTest extends TestCase
         ]);
         $response->assertStatus(200);
     }
+
+    public function test_question_search()
+    {
+        $response = $this->actingAs($this->user)->postJson('/api/question/search', [
+            'keyword' => $this->question->question,
+        ]);
+        $response->assertStatus(200);
+    }
 }

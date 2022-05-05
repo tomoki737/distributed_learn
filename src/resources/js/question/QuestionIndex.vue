@@ -28,7 +28,7 @@
 
       <v-card-text>
         <question-tags-input :placeholder="'タグ'" :autocompleteItems="allTagNames" class="mt-3"></question-tags-input>
-        <v-text-field label="キーワード"></v-text-field>
+        <v-text-field label="キーワード" v-model="searchForm.keyword"></v-text-field>
       </v-card-text>
 
         <v-card-actions>
@@ -44,7 +44,7 @@
           <v-btn
             color="primary"
             text
-            @click="dialog = false"
+            @click="search(); dialog = false"
           >
             検索
           </v-btn>
@@ -89,12 +89,19 @@ export default {
 
   methods: {
     getQuestions() {
-      axios.get("/api/question").then((response) => {
-        this.questions = response.data.questions;
-        this.allTagNames = response.data.allTagNames;
+      axios.get("/api/question").then((res) => {
+        this.questions = res.data.questions;
+        this.allTagNames = res.data.allTagNames;
         this.loading = false;
       });
     },
+    search() {
+        this.loading = true;
+        axios.post("/api/question/search", this.searchForm).then(res => {
+            this.questions = res.data.questions;
+        })
+        this.loading = false;
+    }
   },
 
   mounted() {

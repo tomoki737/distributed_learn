@@ -85,14 +85,15 @@ class QuestionController extends Controller
 
     public function search(Request $request)
     {
+        $user_id = $request->user()->id;
         $keyword = $request->keyword;
         $query = Question::query();
-        if ($keyword === null) {
+        if ($keyword !== null) {
             $query->when($keyword, function ($query, $keyword) {
-                return $query->where('question', 'or', 'answer', '%' . $keyword . '%');
+                return $query->where('question', 'like', "%" . $keyword . "%");
             });
         }
         $questions = $query->with("tags")->get();
-        return ['questions' => $questions];
+        return ['questions' => $questions, 'keyword' => $keyword];
     }
 }

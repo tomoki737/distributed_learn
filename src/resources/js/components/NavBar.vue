@@ -117,7 +117,6 @@ export default {
       });
     },
     drawerClose() {
-        console.log(this.drawer)
         this.drawer = !this.drawer;
     }
   },

@@ -82,4 +82,17 @@ class QuestionController extends Controller
     {
         $question->delete();
     }
+
+    public function search(Request $request)
+    {
+        $keyword = $request->keyword;
+        $query = Question::query();
+        if ($keyword === null) {
+            $query->when($keyword, function ($query, $keyword) {
+                return $query->where('question', 'or', 'answer', '%' . $keyword . '%');
+            });
+        }
+        $questions = $query->with("tags")->get();
+        return ['questions' => $questions];
+    }
 }

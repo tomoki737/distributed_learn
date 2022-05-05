@@ -27,8 +27,8 @@
         <v-divider></v-divider>
 
       <v-card-text>
+        <question-tags-input :placeholder="'タグ'" :autocompleteItems="allTagNames" class="mt-3"></question-tags-input>
         <v-text-field label="キーワード"></v-text-field>
-        <question-tags-input :placeholder="'タグ'" :autocompleteItems="allTagNames"></question-tags-input>
       </v-card-text>
 
         <v-card-actions>

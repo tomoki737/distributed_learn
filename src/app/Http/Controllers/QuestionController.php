@@ -103,6 +103,6 @@ class QuestionController extends Controller
         }
         $questions = $query->with("tags")->get();
 
-        return ['questions' => $questions];
+        return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag];
     }
 }

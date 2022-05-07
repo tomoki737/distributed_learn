@@ -88,11 +88,11 @@ export default {
 
     createSelectAnswer(current_question) {
       this.current_question = current_question;
-      const removed_question = this.removeQuestion(
+      let removed_question = this.removeQuestion(
         this.all_questions,
         current_question
       );
-
+      console.log(removed_question)
       let shuffled_question = this.shuffleQuestion(removed_question);
       let answers = this.createAnswer(shuffled_question);
       let set_answers = new Set(answers);
@@ -100,7 +100,7 @@ export default {
       let array_answers = Array.from(set_answers);
       let slice_answers = array_answers.slice(0, 3);
       this.addAnswer(slice_answers, current_question.answer);
-      this.select_answers = slice_answers;
+      this.select_answers = this.shuffleQuestion(slice_answers);
     },
 
     shuffleQuestion(questions) {

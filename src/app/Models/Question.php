@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-
 class Question extends Model
 {
     use HasFactory;
@@ -23,8 +22,8 @@ class Question extends Model
         return $this->belongsToMany('App\Models\Tag')->withTimestamps();
     }
 
-    public function categories(): BelongsTo
+    public function category(): BelongsTo
     {
-        return $this->BelongsTo('App\Models\Category')->withTimestamps();
+        return $this->BelongsTo('App\Models\Category');
     }
 }

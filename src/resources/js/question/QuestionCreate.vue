@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-3" style="max-width:1000px">
+  <v-container class="mt-3" style="max-width: 1000px">
     <h1>問題の作成</h1>
     <v-card class="mt-10">
       <v-card-text>
@@ -9,6 +9,7 @@
           :autocompleteItems="allTagNames"
           :placeholder="'タグを5個まで追加できます'"
         ></quesiton-tags-input>
+        <v-select :items="items" label="カテゴリー" v-model="questionForm.category"></v-select>
         <span v-if="errors.tags">
           {{ errors.tags[0] }}
         </span>
@@ -27,7 +28,11 @@
         </span>
       </v-card-text>
       <v-card-text>
-        <v-switch v-model="questionForm.share" label="Share" class="d-flex justify-content-end"></v-switch>
+        <v-switch
+          v-model="questionForm.share"
+          label="Share"
+          class="d-flex justify-content-end"
+        ></v-switch>
       </v-card-text>
     </v-card>
     <div class="text-end">
@@ -49,8 +54,9 @@ export default {
         answer: "",
         tags: "",
         share: false,
+        category: "",
       },
-
+      items: ["学問", "ビジネス", "生活", "ヘルスケア", "スポーツ", "ゲーム", "音楽", "恋愛", "その他"],
       tagNames: [],
       errors: {},
       allTagNames: [],

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Question;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Http\Requests\QuestionRequest;
+use App\Models\Category;
 use Carbon\Carbon;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
@@ -67,6 +68,11 @@ class QuestionController extends Controller
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $question->tags()->attach($tag);
         });
+        $category = new Category();
+        $category->name = $request->category;
+        $category->question_id = $question->id;
+        // $category = Category::firstOrCreate(['name' => $request->category], ['name' => $request->category, 'question_id' => $question->id]);
+        $category->save();
     }
 
     public function update(QuestionRequest $request, Question $question)

@@ -4,7 +4,7 @@
     <v-container v-show="!loading" style="max-width: 1000px" class="mt-2">
       <v-row>
         <v-col>
-          <p>タグ: {{searchedTag}} / キーワード: {{searchedKeyword}}</p>
+          <p>タグ: {{ searchedTag }} / キーワード: {{ searchedKeyword }}</p>
         </v-col>
         <v-col>
           <div class="text-end">
@@ -80,10 +80,12 @@ export default {
       loading: true,
       dialog: false,
       allTagNames: [],
+
       searchForm: {
         tag: "",
         keyword: "",
       },
+
       searchedTag: "全て",
       searchedKeyword: "全て",
     };
@@ -93,9 +95,11 @@ export default {
     async getQuestions() {
       const response = await axios.get("/api/question");
       this.questions = response.data.questions;
+      console.log(this.questions);
       this.allTagNames = response.data.allTagNames;
       this.loading = false;
     },
+
     async search() {
       const response = await axios.post(
         "/api/question/search",

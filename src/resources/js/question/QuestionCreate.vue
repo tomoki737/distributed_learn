@@ -9,10 +9,14 @@
           :autocompleteItems="allTagNames"
           :placeholder="'タグを5個まで追加できます'"
         ></quesiton-tags-input>
-        <v-select :items="items" label="カテゴリー" v-model="questionForm.category"></v-select>
         <span v-if="errors.tags">
           {{ errors.tags[0] }}
         </span>
+        <v-select
+          :items="items"
+          label="カテゴリー"
+          v-model="questionForm.category"
+        ></v-select>
         <v-text-field
           v-model="questionForm.question"
           label="問題"
@@ -56,7 +60,19 @@ export default {
         share: false,
         category: "",
       },
-      items: ["学問", "ビジネス", "生活", "ヘルスケア", "スポーツ", "ゲーム", "音楽", "恋愛", "その他"],
+
+      items: [
+        "学問",
+        "ビジネス",
+        "生活",
+        "ヘルスケア",
+        "スポーツ",
+        "ゲーム",
+        "音楽",
+        "恋愛",
+        "その他",
+      ],
+
       tagNames: [],
       errors: {},
       allTagNames: [],
@@ -64,15 +80,9 @@ export default {
   },
   methods: {
     store() {
-      axios
-        .post("/api/question", this.questionForm)
-        .then((response) => {
-          this.questionForm.question = "";
-          this.questionForm.answer = "";
-        })
-        .catch((error) => {
-          this.errors = error.response.data.errors;
-        });
+      const response = axios.post("/api/question", this.questionForm);
+      this.questionForm.question = "";
+      this.questionForm.answer = "";
     },
 
     tagsChange(tags) {

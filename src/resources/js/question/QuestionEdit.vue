@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-3"  style="max-width:1000px">
+  <v-container class="mt-3" style="max-width: 1000px">
     <h1>問題の編集</h1>
     <v-card class="mt-10">
       <v-card-text>
@@ -12,6 +12,11 @@
         <span v-if="errors.tags">
           {{ errors.tags[0] }}
         </span>
+        <v-select
+          :items="items"
+          label="カテゴリー"
+          v-model="questionForm.category"
+        ></v-select>
         <v-text-field v-model="question.question" label="問題"></v-text-field>
         <span v-if="errors.question">
           {{ errors.question[0] }}
@@ -22,6 +27,13 @@
         <span v-if="errors.answer">
           {{ errors.answer[0] }}
         </span>
+      </v-card-text>
+      <v-card-text>
+        <v-switch
+          v-model="questionForm.share"
+          label="Share"
+          class="d-flex justify-content-end"
+        ></v-switch>
       </v-card-text>
     </v-card>
     <v-row justify="center">
@@ -42,10 +54,27 @@ export default {
   components: { QuesitonTagsInput },
   data() {
     return {
-      question: { question: "", answer: "", tags: "" },
+      questionForm: {
+        question: "",
+        answer: "",
+        tags: "",
+        share: false,
+        category: "",
+      },
       errors: {},
       tagNames: [],
       allTagNames: [],
+      items: [
+        "学問",
+        "ビジネス",
+        "生活",
+        "ヘルスケア",
+        "スポーツ",
+        "ゲーム",
+        "音楽",
+        "恋愛",
+        "その他",
+      ],
     };
   },
   props: {
@@ -53,20 +82,18 @@ export default {
   },
   methods: {
     edit() {
-      axios
-        .put("/api/question/" + this.question_id, this.question)
-        .then((response) => {
-          this.$router.push("/");
-        })
-        .catch((error) => {
-          this.errors = error.response.data.errors;
-        });
+      const response = axios.put(
+        "/api/question/" + this.question_id,
+        this.questionForm
+      );
+      this.$router.push("/");
     },
     async getQuestion() {
       const response = await axios.get(
         "/api/question/" + this.question_id + "/edit"
       );
       this.question = response.data.question;
+      console.log("category",response.data.question)
       this.tagNames = response.data.tagNames;
       this.allTagNames = response.data.allTagNames;
     },

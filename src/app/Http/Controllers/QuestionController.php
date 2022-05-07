@@ -18,7 +18,7 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->user()->id;
-        $questions = Question::where("user_id", $user_id)->with("tags")->get();
+        $questions = Question::where("user_id", $user_id)->with(["tags", 'category'])->get();
 
         $allTagNames =  Tag::all()->map(function ($tag) {
             return ['text' => $tag->name];
@@ -54,7 +54,7 @@ class QuestionController extends Controller
         $allTagNames =  Tag::all()->map(function ($tag) {
             return ['text' => $tag->name];
         });
-
+        $question->load(['category']);
         return ['question' => $question, 'tagNames' => $tagNames, 'allTagNames' => $allTagNames];
     }
 
@@ -64,14 +64,15 @@ class QuestionController extends Controller
         $question->user_id = $request->user()->id;
         $question->next_study_date = new Carbon();
         $question->save();
+        
         $request->tags->each(function ($tagName) use ($question) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $question->tags()->attach($tag);
         });
+
         $category = new Category();
         $category->name = $request->category;
         $category->question_id = $question->id;
-        // $category = Category::firstOrCreate(['name' => $request->category], ['name' => $request->category, 'question_id' => $question->id]);
         $category->save();
     }
 

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Http\Requests\QuestionRequest;
 use Carbon\Carbon;
 use App\Models\Tag;
+use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
@@ -17,7 +18,12 @@ class QuestionController extends Controller
     {
         $user_id = $request->user()->id;
         $questions = Question::where("user_id", $user_id)->with("tags")->get();
-        return ['questions' => $questions];
+
+        $allTagNames =  Tag::all()->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+
+        return ['questions' => $questions, 'allTagNames' => $allTagNames];
     }
 
     public function create()
@@ -76,5 +82,27 @@ class QuestionController extends Controller
     public function destroy(Question $question)
     {
         $question->delete();
+    }
+
+    public function search(Request $request)
+    {
+        $user_id = $request->user()->id;
+        $tag = $request->tag;
+        $keyword = $request->keyword;
+        $query = Question::query();
+
+        if ($keyword !== null) {
+            $query->where('question', 'like', "%" . $keyword . "%")->where('user_id', '=', $user_id);
+        }
+
+        if ($tag !== null) {
+            $query
+                ->whereHas('tags', function ($query) use ($tag) {
+                    $query->where('name', 'like', "%{$tag}%");
+                });
+        }
+        $questions = $query->with("tags")->get();
+
+        return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag];
     }
 }

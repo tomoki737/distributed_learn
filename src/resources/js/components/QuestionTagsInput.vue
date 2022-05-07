@@ -6,7 +6,7 @@
       :tags="initialTags"
       :autocomplete-items="filteredItems"
       @tags-changed="(newTags) => (tags = newTags)"
-      placeholder="タグを5個まで追加できます"
+      :placeholder= placeholder
       :add-on-key="[13, 32]"
     />
   </div>
@@ -26,6 +26,10 @@ export default {
     autocompleteItems: {
       type: Array,
       default: [],
+    },
+    placeholder: {
+      type: String,
+      default: "",
     },
   },
   data() {

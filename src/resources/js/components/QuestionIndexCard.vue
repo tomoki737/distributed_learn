@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="2" class="mt-10 mx-auto" width="600px">
+  <v-card elevation="2" class="mt-5 mx-auto">
     <v-tabs fixed-tabs>
       <v-tab @click="select(1)">質問</v-tab>
       <v-tab @click="select(2)">解答</v-tab>

@@ -1,5 +1,6 @@
 <template>
-  <v-card elevation="2" class="mt-10 mx-auto" width="600px">
+<v-container  style="max-width:1000px">
+  <v-card elevation="2" class="mt-10 mx-auto">
     <v-form>
       <v-card-title>
         <h2>登録</h2>
@@ -42,6 +43,7 @@
       </v-card-text>
     </v-form>
   </v-card>
+  </v-container>
 </template>
 
 <script>

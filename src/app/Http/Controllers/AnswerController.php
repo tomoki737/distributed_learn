@@ -32,7 +32,7 @@ class AnswerController extends Controller
     {
         $user_id = $request->user()->id;
         $dateNow = new Carbon();
-        $questions = Question::where("user_id", $user_id)->where("next_study_date", "<", $dateNow)->get();
+        $questions = Question::where("user_id", $user_id)->where("next_study_date", "<", $dateNow)->inRandomOrder()->get();
         $all_questions = Question::where("user_id", $user_id)->get();
         return ['questions' => $questions, 'all_questions' => $all_questions];
     }

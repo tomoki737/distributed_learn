@@ -14,9 +14,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory()->create(['email' => 'demo1@example.com']);
-        \App\Models\User::factory()->create(['email' => 'demo2@example.com']);
-        \App\Models\User::factory()->create(['email' => 'demo3@example.com']);
+        // \App\Models\User::factory()->create();
+        // \App\Models\User::factory()->create();
+        // \App\Models\User::factory()->create();
         $this->call([
             QuestionSeeder::class,
         ]);

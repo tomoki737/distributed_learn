@@ -8,6 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Http\Requests\QuestionRequest;
 use Carbon\Carbon;
 use App\Models\Tag;
+use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
@@ -86,14 +87,22 @@ class QuestionController extends Controller
     public function search(Request $request)
     {
         $user_id = $request->user()->id;
+        $tag = $request->tag;
         $keyword = $request->keyword;
         $query = Question::query();
+
         if ($keyword !== null) {
-            $query->when($keyword, function ($query, $keyword) {
-                return $query->where('question', 'like', "%" . $keyword . "%");
-            });
+            $query->where('question', 'like', "%" . $keyword . "%")->where('user_id', '=', $user_id);
+        }
+
+        if ($tag !== null) {
+            $query
+                ->whereHas('tags', function ($query) use ($tag) {
+                    $query->where('name', 'like', "%{$tag}%");
+                });
         }
         $questions = $query->with("tags")->get();
-        return ['questions' => $questions, 'keyword' => $keyword];
+
+        return ['questions' => $questions];
     }
 }

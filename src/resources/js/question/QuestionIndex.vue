@@ -17,11 +17,10 @@
             <v-divider></v-divider>
 
             <v-card-text>
-              <question-tags-input
-                :placeholder="'タグ'"
-                :autocompleteItems="allTagNames"
-                class="mt-3"
-              ></question-tags-input>
+              <v-text-field
+                label="タグ"
+                v-model="searchForm.tag"
+              ></v-text-field>
               <v-text-field
                 label="キーワード"
                 v-model="searchForm.keyword"
@@ -62,12 +61,10 @@
 <script>
 import Loading from "../components/Loading.vue";
 import QuestionIndexCard from "../components/QuestionIndexCard.vue";
-import QuestionTagsInput from "../components/QuestionTagsInput.vue";
 export default {
   components: {
     Loading,
     QuestionIndexCard,
-    QuestionTagsInput,
   },
 
   data() {
@@ -77,7 +74,7 @@ export default {
       dialog: false,
       allTagNames: [],
       searchForm: {
-        tag: [],
+        tag: "",
         keyword: "",
       },
     };
@@ -89,7 +86,6 @@ export default {
       this.questions = response.data.questions;
       this.allTagNames = response.data.allTagNames;
       this.loading = false;
-      console.log(this.questions);
     },
     async search() {
       const response = await axios.post(

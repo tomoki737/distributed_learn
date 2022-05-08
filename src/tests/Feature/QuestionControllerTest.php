@@ -31,9 +31,13 @@ class QuestionControllerTest extends TestCase
         $this->assertDatabaseHas('questions', [
             'question' => 'testtest',
             'answer' => 'testtest',
-            'category' => '学問',
             'share' => false
         ]);
+
+        $this->assertDatabaseHas('categories', [
+            'name' => '学問',
+        ]);
+
         $response->assertStatus(200);
     }
 

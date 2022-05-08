@@ -2,7 +2,7 @@
   <div>
     <loading :loading="loading"></loading>
     <v-container v-show="!loading" style="max-width:1000px">
-      <v-card elevation="2" class="mt-10" height="400px">
+      <v-card elevation="2" class="mt-3" height="250px">
         <v-toolbar color="blue lighten-3" class="white--text" flat>
           <h3 class="mx-auto">問題</h3>
         </v-toolbar>
@@ -92,7 +92,6 @@ export default {
         this.all_questions,
         current_question
       );
-      console.log(removed_question)
       let shuffled_question = this.shuffleQuestion(removed_question);
       let answers = this.createAnswer(shuffled_question);
       let set_answers = new Set(answers);

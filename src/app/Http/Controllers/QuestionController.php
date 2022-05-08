@@ -97,6 +97,7 @@ class QuestionController extends Controller
     {
         $user_id = $request->user()->id;
         $tag = $request->tag;
+        $category = $request->category;
         $keyword = $request->keyword;
         $query = Question::query();
 
@@ -110,8 +111,16 @@ class QuestionController extends Controller
                     $query->where('name', 'like', "%{$tag}%");
                 });
         }
-        $questions = $query->with("tags")->get();
-        
-        return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag];
+
+        if ($category !== null) {
+            $query
+                ->whereHas('category', function ($query) use ($category) {
+                    $query->where('name', '=', $category);
+                });
+        }
+
+        $questions = $query->with(["tags", "category"])->get();
+
+        return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag, 'category' => $category];
     }
 }

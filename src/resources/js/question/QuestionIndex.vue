@@ -3,10 +3,10 @@
     <loading :loading="loading"></loading>
     <v-container v-show="!loading" style="max-width: 1000px" class="mt-2">
       <v-row>
-        <v-col>
-          <p>タグ: {{searchedTag}} / キーワード: {{searchedKeyword}}</p>
+        <v-col cols="11">
+          <p>タグ: {{ searchForm.tag }} / キーワード: {{ searchForm.keyword }} / カテゴリー: {{ searchForm.category }}</p>
         </v-col>
-        <v-col>
+        <v-col cols="1">
           <div class="text-end">
             <v-dialog v-model="dialog" width="500">
               <template v-slot:activator="{ on, attrs }">
@@ -22,10 +22,18 @@
                 <v-divider></v-divider>
 
                 <v-card-text>
+
+                <v-select
+                  :items="items"
+                  label="カテゴリー"
+                  v-model="searchForm.category"
+                ></v-select>
+
                   <v-text-field
                     label="タグ"
                     v-model="searchForm.tag"
                   ></v-text-field>
+
                   <v-text-field
                     label="キーワード"
                     v-model="searchForm.keyword"
@@ -80,12 +88,25 @@ export default {
       loading: true,
       dialog: false,
       allTagNames: [],
+
+      items: [
+        "学問",
+        "ビジネス",
+        "生活",
+        "ヘルスケア",
+        "スポーツ",
+        "ゲーム",
+        "音楽",
+        "恋愛",
+        "その他",
+      ],
+
       searchForm: {
         tag: "",
         keyword: "",
+        category: "",
       },
-      searchedTag: "全て",
-      searchedKeyword: "全て",
+
     };
   },
 
@@ -96,14 +117,13 @@ export default {
       this.allTagNames = response.data.allTagNames;
       this.loading = false;
     },
+
     async search() {
       const response = await axios.post(
         "/api/question/search",
         this.searchForm
       );
       this.questions = response.data.questions;
-      this.searchedTag = response.data.tag;
-      this.searchedKeyword = response.data.keyword;
     },
   },
 

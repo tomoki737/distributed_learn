@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-3" style="max-width:1000px">
+  <v-container class="mt-3" style="max-width: 1000px">
     <h1>問題の作成</h1>
     <v-card class="mt-10">
       <v-card-text>
@@ -12,6 +12,11 @@
         <span v-if="errors.tags">
           {{ errors.tags[0] }}
         </span>
+        <v-select
+          :items="items"
+          label="カテゴリー"
+          v-model="questionForm.category"
+        ></v-select>
         <v-text-field
           v-model="questionForm.question"
           label="問題"
@@ -27,7 +32,11 @@
         </span>
       </v-card-text>
       <v-card-text>
-        <v-switch v-model="questionForm.share" label="Share" class="d-flex justify-content-end"></v-switch>
+        <v-switch
+          v-model="questionForm.share"
+          label="Share"
+          class="d-flex justify-content-end"
+        ></v-switch>
       </v-card-text>
     </v-card>
     <div class="text-end">
@@ -49,7 +58,20 @@ export default {
         answer: "",
         tags: "",
         share: false,
+        category: "",
       },
+
+      items: [
+        "学問",
+        "ビジネス",
+        "生活",
+        "ヘルスケア",
+        "スポーツ",
+        "ゲーム",
+        "音楽",
+        "恋愛",
+        "その他",
+      ],
 
       tagNames: [],
       errors: {},
@@ -58,15 +80,9 @@ export default {
   },
   methods: {
     store() {
-      axios
-        .post("/api/question", this.questionForm)
-        .then((response) => {
-          this.questionForm.question = "";
-          this.questionForm.answer = "";
-        })
-        .catch((error) => {
-          this.errors = error.response.data.errors;
-        });
+      const response = axios.post("/api/question", this.questionForm);
+      this.questionForm.question = "";
+      this.questionForm.answer = "";
     },
 
     tagsChange(tags) {

@@ -9,10 +9,19 @@
       <p v-show="isSelect === 2">{{ question.answer }}</p>
     </v-card-text>
     <v-card-actions>
+      <v-chip
+        close-icon="mdi-close-outline"
+        label
+        color="light-blue lighten-3"
+        class="mr-1"
+        >{{ question.category.name }}</v-chip
+      >
       <div v-for="(tag, index) in question.tags" :key="index">
         <v-chip
           router-link
+          label
           :to="{ name: 'tags.show', params: { name: tag.name } }"
+          class="mr-1"
           >{{ tag.name }}</v-chip
         >
       </div>

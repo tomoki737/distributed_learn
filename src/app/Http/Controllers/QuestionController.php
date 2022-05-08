@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Question;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Http\Requests\QuestionRequest;
+use App\Models\Category;
 use Carbon\Carbon;
 use App\Models\Tag;
 use Illuminate\Support\Facades\DB;
@@ -17,7 +18,7 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->user()->id;
-        $questions = Question::where("user_id", $user_id)->with("tags")->get();
+        $questions = Question::where("user_id", $user_id)->with(["tags", 'category'])->get();
 
         $allTagNames =  Tag::all()->map(function ($tag) {
             return ['text' => $tag->name];
@@ -53,7 +54,7 @@ class QuestionController extends Controller
         $allTagNames =  Tag::all()->map(function ($tag) {
             return ['text' => $tag->name];
         });
-
+        $question->load(['category']);
         return ['question' => $question, 'tagNames' => $tagNames, 'allTagNames' => $allTagNames];
     }
 
@@ -63,10 +64,16 @@ class QuestionController extends Controller
         $question->user_id = $request->user()->id;
         $question->next_study_date = new Carbon();
         $question->save();
+
         $request->tags->each(function ($tagName) use ($question) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $question->tags()->attach($tag);
         });
+
+        $category = new Category();
+        $category->name = $request->category;
+        $category->question_id = $question->id;
+        $category->save();
     }
 
     public function update(QuestionRequest $request, Question $question)
@@ -77,6 +84,8 @@ class QuestionController extends Controller
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $question->tags()->attach($tag);
         });
+
+        Category::where('question_id', $question->id)->update(['name' => $request->category]);
     }
 
     public function destroy(Question $question)
@@ -88,6 +97,7 @@ class QuestionController extends Controller
     {
         $user_id = $request->user()->id;
         $tag = $request->tag;
+        $category = $request->category;
         $keyword = $request->keyword;
         $query = Question::query();
 
@@ -101,8 +111,16 @@ class QuestionController extends Controller
                     $query->where('name', 'like', "%{$tag}%");
                 });
         }
-        $questions = $query->with("tags")->get();
 
-        return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag];
+        if ($category !== null) {
+            $query
+                ->whereHas('category', function ($query) use ($category) {
+                    $query->where('name', '=', $category);
+                });
+        }
+
+        $questions = $query->with(["tags", "category"])->get();
+
+        return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag, 'category' => $category];
     }
 }

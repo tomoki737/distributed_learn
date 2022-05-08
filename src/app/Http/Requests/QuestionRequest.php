@@ -27,6 +27,7 @@ class QuestionRequest extends FormRequest
             'question' => 'required|max:500',
             'answer' => 'required|max:500',
             'tags' => 'json|regex:/^(?!.*\s).+$/u|regex:/^(?!.*\/).*$/u',
+            'category' => 'required',
         ];
     }
 
@@ -36,6 +37,7 @@ class QuestionRequest extends FormRequest
             'question' => '問題',
             'answer' => '回答',
             'tags' => 'タグ',
+            'category' => 'カテゴリー',
         ];
     }
     public function passedValidation()

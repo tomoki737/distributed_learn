@@ -2,12 +2,14 @@
   <div>
     <loading :loading="loading"></loading>
     <v-container v-show="!loading" style="max-width: 1000px" class="mt-2">
-      <v-row>
-        <v-col cols="11">
-          <p>タグ: {{ searchForm.tag }} / キーワード: {{ searchForm.keyword }} / カテゴリー: {{ searchForm.category }}</p>
+      <v-row
+        ><v-col cols="9">
+          <span
+            >タグ: {{ searchForm.tag }} / キーワード: {{ searchForm.keyword }} /
+            カテゴリー: {{ searchForm.category }}</span
+          >
         </v-col>
-        <v-col cols="1">
-          <div class="text-end">
+        <v-col cols="3">
             <v-dialog v-model="dialog" width="500">
               <template v-slot:activator="{ on, attrs }">
                 <v-btn color="blue" dark v-bind="attrs" v-on="on" outlined>
@@ -22,12 +24,11 @@
                 <v-divider></v-divider>
 
                 <v-card-text>
-
-                <v-select
-                  :items="items"
-                  label="カテゴリー"
-                  v-model="searchForm.category"
-                ></v-select>
+                  <v-select
+                    :items="items"
+                    label="カテゴリー"
+                    v-model="searchForm.category"
+                  ></v-select>
 
                   <v-text-field
                     label="タグ"
@@ -59,15 +60,15 @@
                 </v-card-actions>
               </v-card>
             </v-dialog>
-          </div>
         </v-col>
       </v-row>
-      <div v-for="question in questions" :key="question.id">
-        <question-index-card
-          :question="question"
-          @get="getQuestions"
-        ></question-index-card>
-      </div>
+
+        <div v-for="question in questions" :key="question.id">
+          <question-index-card
+            :question="question"
+            @get="getQuestions"
+          ></question-index-card>
+        </div>
     </v-container>
   </div>
 </template>
@@ -106,7 +107,6 @@ export default {
         keyword: "",
         category: "",
       },
-
     };
   },
 

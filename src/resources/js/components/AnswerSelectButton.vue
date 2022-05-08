@@ -2,7 +2,7 @@
   <div class="mt-7">
     <v-dialog v-model="dialog" width="500" persistent no-click-animation>
       <template v-slot:activator="{ on, attrs }">
-        <div v-for="(select_answer, index) in select_answers" :key="index">
+        <div v-for="select_answer in select_answers" :key="select_answer.id">
           <v-btn
             block
             outlined
@@ -11,7 +11,11 @@
             v-bind="attrs"
             v-on="on"
             class="mb-2"
-            style="text-transform: none"
+            style="
+              text-transform: none;
+              display: block;
+              white-space: normal;
+            "
           >
             {{ select_answer }}
           </v-btn>
@@ -24,7 +28,7 @@
         </v-card-title>
 
         <v-card-text class="mt-2">
-          <h3>> {{ current_question.question }}</h3>
+          <h3>{{ current_question.question }}</h3>
         </v-card-text>
         <v-card-text>
           <p style="margin: 0; padding: 0">正解:</p>

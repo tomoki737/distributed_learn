@@ -96,7 +96,7 @@ export default {
       const response = await axios.get(
         "/api/question/" + this.question_id + "/edit"
       );
-      
+
       this.question = response.data.question;
       this.tagNames = response.data.tagNames;
       this.question.category = response.data.question.category.name;

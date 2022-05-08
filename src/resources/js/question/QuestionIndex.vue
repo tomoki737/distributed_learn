@@ -4,7 +4,7 @@
     <v-container v-show="!loading" style="max-width: 1000px" class="mt-2">
       <v-row>
         <v-col cols="11">
-          <p>タグ: {{ searchForm.tag }} / キーワード: {{ searchForm.keyword }}</p>
+          <p>タグ: {{ searchForm.tag }} / キーワード: {{ searchForm.keyword }} / カテゴリー: {{ searchForm.category }}</p>
         </v-col>
         <v-col cols="1">
           <div class="text-end">
@@ -107,8 +107,6 @@ export default {
         category: "",
       },
 
-      searchedTag: "全て",
-      searchedKeyword: "全て",
     };
   },
 
@@ -126,9 +124,6 @@ export default {
         this.searchForm
       );
       this.questions = response.data.questions;
-      console.log(this.questions)
-      this.searchedTag = response.data.tag;
-      this.searchedKeyword = response.data.keyword;
     },
   },
 

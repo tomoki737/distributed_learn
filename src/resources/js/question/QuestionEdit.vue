@@ -17,6 +17,9 @@
           label="カテゴリー"
           v-model="question.category"
         ></v-select>
+        <span v-if="errors.category">
+          {{ errors.category[0] }}
+        </span>
         <v-text-field v-model="question.question" label="問題"></v-text-field>
         <span v-if="errors.question">
           {{ errors.question[0] }}
@@ -84,12 +87,15 @@ export default {
   },
 
   methods: {
-    async edit() {
-      const response = await axios.put(
-        "/api/question/" + this.question_id,
-        this.question
-      );
-      this.$router.push("/");
+    edit() {
+      axios
+        .put("/api/question/" + this.question_id, this.question)
+        .then((response) => {
+          this.$router.push("/question/index");
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
     },
 
     async getQuestion() {

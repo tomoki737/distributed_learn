@@ -17,6 +17,9 @@
           label="カテゴリー"
           v-model="questionForm.category"
         ></v-select>
+        <span v-if="errors.category">
+          {{ errors.category[0] }}
+        </span>
         <v-text-field
           v-model="questionForm.question"
           label="問題"
@@ -80,9 +83,15 @@ export default {
   },
   methods: {
     store() {
-      const response = axios.post("/api/question", this.questionForm);
-      this.questionForm.question = "";
-      this.questionForm.answer = "";
+      axios
+        .post("/api/question", this.questionForm)
+        .then((response) => {
+          this.questionForm.question = "";
+          this.questionForm.answer = "";
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
     },
 
     tagsChange(tags) {

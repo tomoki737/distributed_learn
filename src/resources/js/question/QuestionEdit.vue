@@ -15,7 +15,7 @@
         <v-select
           :items="items"
           label="カテゴリー"
-          v-model="questionForm.category"
+          v-model="question.category"
         ></v-select>
         <v-text-field v-model="question.question" label="問題"></v-text-field>
         <span v-if="errors.question">
@@ -30,7 +30,7 @@
       </v-card-text>
       <v-card-text>
         <v-switch
-          v-model="questionForm.share"
+          v-model="question.share"
           label="Share"
           class="d-flex justify-content-end"
         ></v-switch>
@@ -54,13 +54,14 @@ export default {
   components: { QuesitonTagsInput },
   data() {
     return {
-      questionForm: {
+      question: {
         question: "",
         answer: "",
         tags: "",
         share: false,
         category: "",
       },
+
       errors: {},
       tagNames: [],
       allTagNames: [],
@@ -77,26 +78,31 @@ export default {
       ],
     };
   },
+
   props: {
     question_id: {},
   },
+
   methods: {
-    edit() {
-      const response = axios.put(
+    async edit() {
+      const response = await axios.put(
         "/api/question/" + this.question_id,
-        this.questionForm
+        this.question
       );
       this.$router.push("/");
     },
+
     async getQuestion() {
       const response = await axios.get(
         "/api/question/" + this.question_id + "/edit"
       );
+      
       this.question = response.data.question;
-      console.log("category",response.data.question)
       this.tagNames = response.data.tagNames;
+      this.question.category = response.data.question.category.name;
       this.allTagNames = response.data.allTagNames;
     },
+
     tagsChange(tags) {
       this.question.tags = JSON.stringify(tags);
     },

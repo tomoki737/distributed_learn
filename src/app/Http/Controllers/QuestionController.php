@@ -64,7 +64,7 @@ class QuestionController extends Controller
         $question->user_id = $request->user()->id;
         $question->next_study_date = new Carbon();
         $question->save();
-        
+
         $request->tags->each(function ($tagName) use ($question) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $question->tags()->attach($tag);
@@ -84,6 +84,8 @@ class QuestionController extends Controller
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $question->tags()->attach($tag);
         });
+
+        Category::where('question_id', $question->id)->update(['name' => $request->category]);
     }
 
     public function destroy(Question $question)
@@ -109,7 +111,7 @@ class QuestionController extends Controller
                 });
         }
         $questions = $query->with("tags")->get();
-
+        
         return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag];
     }
 }

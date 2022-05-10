@@ -20,7 +20,8 @@
         <span v-if="errors.category">
           {{ errors.category[0] }}
         </span>
-        <v-textarea  rows="2"
+        <v-textarea
+          rows="2"
           v-model="questionForm.question"
           label="問題"
         ></v-textarea>
@@ -29,8 +30,11 @@
         </span>
       </v-card-text>
       <v-card-text>
-          <v-textarea  rows="2"
-         v-model="questionForm.answer" label="解答"></v-textarea>
+        <v-textarea
+          rows="2"
+          v-model="questionForm.answer"
+          label="解答"
+        ></v-textarea>
         <span v-if="errors.answer">
           {{ errors.answer[0] }}
         </span>

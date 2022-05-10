@@ -47,7 +47,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="$emit('next')">次へ</v-btn>
+            <v-btn color="primary" text @click="$emit('next'); dialog = false">次へ</v-btn>
           </v-card-actions>
         </div>
       </v-card>
@@ -62,11 +62,10 @@ export default {
     current_question: {},
     your_answer: {},
     is_answer: "",
-    dialog: "",
   },
   data() {
     return {
-      dialog: this.dialog,
+      dialog: false,
     };
   },
   computed: {

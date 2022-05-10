@@ -15,7 +15,6 @@
         :current_question="current_question"
         :is_answer="is_answer"
         :your_answer="your_answer"
-        :dialog="dialog"
         @answer="answer"
         @next="next"
       ></answer-select-button>
@@ -38,7 +37,6 @@ export default {
       is_answer: "",
       your_answer: "",
       tags: [],
-      dialog: false,
       loading: true,
     };
   },
@@ -57,7 +55,6 @@ export default {
 
     next() {
       if (this.questions.length === this.number + 1) {
-        this.dialog = false;
         return this.$router.push("/");
       }
 

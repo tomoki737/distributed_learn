@@ -67,7 +67,7 @@ export default {
             })
             .catch((error) => {
               this.getUserMessage = "ログインに失敗しました。";
-              this.errors = error.response.data.errors;
+              this.errors = error.response.data.errors || [];
             });
         })
         .catch((error) => {

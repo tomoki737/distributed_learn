@@ -95,7 +95,7 @@ export default {
 
       let shuffled_questions = this.shuffleQuestion(removed_questions);
 
-      let category_priority_questions = this.categoryPush(
+      let category_priority_questions = this.categoryPriority(
         shuffled_questions,
         current_question
       );
@@ -106,10 +106,9 @@ export default {
       );
 
       let answers = this.createAnswer(tag_priority_questions);
-      let set_answers = new Set(answers);
+      let except_overlapping = Array.from(new Set(answers));
 
-      let array_answers = Array.from(set_answers);
-      let slice_answers = array_answers.slice(0, 3);
+      let slice_answers = except_overlapping.slice(0, 3);
       this.addAnswer(slice_answers, current_question.answer);
       this.select_answers = this.shuffleQuestion(slice_answers);
     },
@@ -124,7 +123,7 @@ export default {
       return questions;
     },
 
-    categoryPush(questions, current_question) {
+    categoryPriority(questions, current_question) {
       let category_questions = [];
       questions.forEach((question) => {
         if (question.category.name === current_question.category.name) {
@@ -142,15 +141,15 @@ export default {
         return tag.name;
       });
       questions.forEach((question) => {
-        const question_tag = question.tags.filter(tag => {
-            return current_question_tag_names.includes(tag.name);
-        })
-          if (question_tag.length !== 0) {
-            tag_priority_questions.unshift(question);
-            return;
-          }
-          tag_priority_questions.push(question);
+        const question_tag = question.tags.filter((tag) => {
+          return current_question_tag_names.includes(tag.name);
         });
+        if (question_tag.length !== 0) {
+          tag_priority_questions.unshift(question);
+          return;
+        }
+        tag_priority_questions.push(question);
+      });
       return tag_priority_questions;
     },
 

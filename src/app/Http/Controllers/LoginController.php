@@ -35,7 +35,7 @@ final class LoginController extends Controller
         if ($this->getGuard()->attempt($credentials,$remember =true)) {
             $request->session()->regenerate();
 
-            return new JsonResponse(['message' => 'ログインしました', 'credentials' => $credentials]);
+            return new JsonResponse(['message' => 'ログインしました']);
         }
 
         throw new Exception('ログインに失敗しました。再度お試しください');

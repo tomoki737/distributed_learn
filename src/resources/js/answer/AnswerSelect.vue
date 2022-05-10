@@ -88,12 +88,19 @@ export default {
 
     createSelectAnswer(current_question) {
       this.current_question = current_question;
-      let removed_question = this.removeQuestion(
+      let removed_questions = this.removeQuestion(
         this.all_questions,
         current_question
       );
-      let shuffled_question = this.shuffleQuestion(removed_question);
-      let answers = this.createAnswer(shuffled_question);
+
+      let shuffled_questions = this.shuffleQuestion(removed_questions);
+
+      let category_questions = this.categoryPush(
+        shuffled_questions,
+        current_question
+      );
+
+      let answers = this.createAnswer(category_questions);
       let set_answers = new Set(answers);
 
       let array_answers = Array.from(set_answers);
@@ -110,6 +117,18 @@ export default {
         }
       });
       return questions;
+    },
+
+    categoryPush(questions, current_question) {
+      let category_questions = [];
+      questions.forEach((question) => {
+        if (question.category.name === current_question.category.name) {
+          category_questions.unshift(question);
+        } else {
+          category_questions.push(question);
+        }
+      });
+      return category_questions;
     },
 
     createAnswer(quesitons) {

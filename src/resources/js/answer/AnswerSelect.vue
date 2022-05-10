@@ -95,12 +95,17 @@ export default {
 
       let shuffled_questions = this.shuffleQuestion(removed_questions);
 
-      let category_questions = this.categoryPush(
+      let category_priority_questions = this.categoryPush(
         shuffled_questions,
         current_question
       );
+        console.log("cate",category_priority_questions)
+      let tag_priority_questions = this.tagsPriority(
+        category_priority_questions,
+        current_question
+      );
 
-      let answers = this.createAnswer(category_questions);
+      let answers = this.createAnswer(tag_priority_questions);
       let set_answers = new Set(answers);
 
       let array_answers = Array.from(set_answers);
@@ -129,6 +134,35 @@ export default {
         }
       });
       return category_questions;
+    },
+
+    tagsPriority(questions, current_question) {
+      let tag_priority_questions = [];
+      let current_question_tags = [];
+        console.log("tag前",questions)
+      current_question.tags.forEach((tag) => {
+        current_question_tags.push(tag.name);
+      });
+
+      console.log("[", current_question_tags);
+      questions.forEach((question) => {
+        question.tags.forEach((tag) => {
+          let i = 1;
+          if (current_question_tags.includes(tag.name)) {
+            tag_priority_questions.unshift(question);
+            return;
+          }
+          if (i === question.tags.length) {
+            tag_priority_questions.push(question);
+          }
+          i++;
+        });
+        if(question.tags.length === 0) {
+            tag_priority_questions.push(question);
+        }
+      });
+      console.log("tagあと",tag_priority_questions)
+      return tag_priority_questions;
     },
 
     createAnswer(quesitons) {

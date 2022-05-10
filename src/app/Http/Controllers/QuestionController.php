@@ -102,7 +102,7 @@ class QuestionController extends Controller
         $query = Question::query();
 
         if ($keyword !== null) {
-            $query->where('question', 'like', "%" . $keyword . "%")->where('user_id', '=', $user_id);
+            $query->where('question', 'like', "%" . $keyword . "%")->orWhere('answer', 'like', "%" . $keyword . "%")->where('user_id', '=', $user_id);
         }
 
         if ($tag !== null) {

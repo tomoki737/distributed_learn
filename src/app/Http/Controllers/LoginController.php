@@ -32,7 +32,7 @@ final class LoginController extends Controller
             'password' =>  ['required', 'min:8', 'string'],
         ]);
 
-        if ($this->getGuard()->attempt($credentials)) {
+        if ($this->getGuard()->attempt($credentials,$remember =true)) {
             $request->session()->regenerate();
 
             return new JsonResponse(['message' => 'ログインしました']);
@@ -60,10 +60,5 @@ final class LoginController extends Controller
     private function getGuard(): StatefulGuard
     {
         return $this->auth->guard(config('auth.defaults.guard'));
-    }
-
-    public function redirectToProvider(string $provider)
-    {
-        return Socialite::driver($provider);
     }
 }

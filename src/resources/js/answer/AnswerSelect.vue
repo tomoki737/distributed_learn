@@ -15,7 +15,6 @@
         :current_question="current_question"
         :is_answer="is_answer"
         :your_answer="your_answer"
-        :dialog="dialog"
         @answer="answer"
         @next="next"
       ></answer-select-button>
@@ -38,7 +37,6 @@ export default {
       is_answer: "",
       your_answer: "",
       tags: [],
-      dialog: false,
       loading: true,
     };
   },
@@ -57,7 +55,6 @@ export default {
 
     next() {
       if (this.questions.length === this.number + 1) {
-        this.dialog = false;
         return this.$router.push("/");
       }
 
@@ -95,16 +92,20 @@ export default {
 
       let shuffled_questions = this.shuffleQuestion(removed_questions);
 
-      let category_questions = this.categoryPush(
+      let category_priority_questions = this.categoryPriority(
         shuffled_questions,
         current_question
       );
 
-      let answers = this.createAnswer(category_questions);
-      let set_answers = new Set(answers);
+      let tag_priority_questions = this.tagsPriority(
+        category_priority_questions,
+        current_question
+      );
 
-      let array_answers = Array.from(set_answers);
-      let slice_answers = array_answers.slice(0, 3);
+      let answers = this.createAnswer(tag_priority_questions);
+      let except_overlapping = Array.from(new Set(answers));
+
+      let slice_answers = except_overlapping.slice(0, 3);
       this.addAnswer(slice_answers, current_question.answer);
       this.select_answers = this.shuffleQuestion(slice_answers);
     },
@@ -119,7 +120,7 @@ export default {
       return questions;
     },
 
-    categoryPush(questions, current_question) {
+    categoryPriority(questions, current_question) {
       let category_questions = [];
       questions.forEach((question) => {
         if (question.category.name === current_question.category.name) {
@@ -129,6 +130,24 @@ export default {
         }
       });
       return category_questions;
+    },
+
+    tagsPriority(questions, current_question) {
+      let tag_priority_questions = [];
+      const current_question_tag_names = current_question.tags.map((tag) => {
+        return tag.name;
+      });
+      questions.forEach((question) => {
+        const question_tag = question.tags.filter((tag) => {
+          return current_question_tag_names.includes(tag.name);
+        });
+        if (question_tag.length !== 0) {
+          tag_priority_questions.unshift(question);
+          return;
+        }
+        tag_priority_questions.push(question);
+      });
+      return tag_priority_questions;
     },
 
     createAnswer(quesitons) {

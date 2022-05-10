@@ -2,7 +2,7 @@
   <div>
     <loading :loading="loading"></loading>
     <v-container v-show="!loading" style="max-width:1000px">
-      <v-card elevation="2" class="mt-3" height="250px">
+      <v-card elevation="2" class="mt-3" min-height="250px">
         <v-toolbar color="blue lighten-3" class="white--text" flat>
           <h3 class="mx-auto">問題</h3>
         </v-toolbar>

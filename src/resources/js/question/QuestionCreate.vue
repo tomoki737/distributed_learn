@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-3" style="max-width: 1000px">
+  <v-container style="max-width: 1000px">
     <h1>問題の作成</h1>
     <v-card class="mt-3">
       <v-card-text>
@@ -21,20 +21,20 @@
           {{ errors.category[0] }}
         </span>
         <v-textarea
-          rows="2"
           v-model="questionForm.question"
           label="問題"
+          style="font-size: 16px"
         ></v-textarea>
         <span v-if="errors.question">
           {{ errors.question[0] }}
         </span>
       </v-card-text>
       <v-card-text>
-        <v-textarea
-          rows="2"
+        <v-text-field
           v-model="questionForm.answer"
           label="解答"
-        ></v-textarea>
+          style="font-size: 16px"
+        ></v-text-field>
         <span v-if="errors.answer">
           {{ errors.answer[0] }}
         </span>
@@ -72,12 +72,12 @@ export default {
       items: [
         "学問",
         "ビジネス",
+        "IT",
         "生活",
         "ヘルスケア",
         "スポーツ",
         "ゲーム",
         "音楽",
-        "IT",
         "その他",
       ],
 

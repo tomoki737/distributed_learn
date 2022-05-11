@@ -20,13 +20,14 @@
         <span v-if="errors.category">
           {{ errors.category[0] }}
         </span>
-        <v-text-field v-model="question.question" label="問題"></v-text-field>
+        <v-textarea v-model="question.question" label="問題"></v-textarea>
         <span v-if="errors.question">
           {{ errors.question[0] }}
         </span>
       </v-card-text>
       <v-card-text>
-        <v-text-field v-model="question.answer" label="回答"></v-text-field>
+        <v-text-field
+         v-model="question.answer" label="回答"></v-text-field>
         <span v-if="errors.answer">
           {{ errors.answer[0] }}
         </span>

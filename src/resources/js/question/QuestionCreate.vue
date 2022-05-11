@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-3" style="max-width: 1000px">
+  <v-container style="max-width: 1000px">
     <h1>問題の作成</h1>
     <v-card class="mt-3">
       <v-card-text>
@@ -23,6 +23,7 @@
         <v-textarea
           v-model="questionForm.question"
           label="問題"
+          style="font-size: 16px"
         ></v-textarea>
         <span v-if="errors.question">
           {{ errors.question[0] }}
@@ -30,9 +31,9 @@
       </v-card-text>
       <v-card-text>
         <v-text-field
-          rows="2"
           v-model="questionForm.answer"
           label="解答"
+          style="font-size: 16px"
         ></v-text-field>
         <span v-if="errors.answer">
           {{ errors.answer[0] }}

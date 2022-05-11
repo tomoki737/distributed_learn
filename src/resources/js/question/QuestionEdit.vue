@@ -1,13 +1,14 @@
 <template>
   <v-container class="mt-3" style="max-width: 1000px">
     <h1>問題の編集</h1>
-    <v-card class="mt-10">
+    <v-card class="mt-3">
       <v-card-text>
         <quesiton-tags-input
           :initialTags="tagNames"
           @tagsJson="tagsChange"
           :autocompleteItems="allTagNames"
           :placeholder="'タグを5個まで追加できます'"
+          style="font-size: 16px"
         ></quesiton-tags-input>
         <span v-if="errors.tags">
           {{ errors.tags[0] }}
@@ -20,14 +21,17 @@
         <span v-if="errors.category">
           {{ errors.category[0] }}
         </span>
-        <v-textarea v-model="question.question" label="問題"></v-textarea>
+        <v-textarea
+          v-model="question.question"
+          label="問題"
+          style="font-size: 16px"
+        ></v-textarea>
         <span v-if="errors.question">
           {{ errors.question[0] }}
         </span>
       </v-card-text>
       <v-card-text>
-        <v-text-field
-         v-model="question.answer" label="回答"></v-text-field>
+        <v-text-field v-model="question.answer" label="回答" style="font-size: 16px;"></v-text-field>
         <span v-if="errors.answer">
           {{ errors.answer[0] }}
         </span>

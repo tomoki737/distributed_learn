@@ -11,11 +11,7 @@
             v-bind="attrs"
             v-on="on"
             class="mb-2"
-            style="
-              text-transform: none;
-              display: block;
-              white-space: normal;
-            "
+            style="text-transform: none; display: block; white-space: normal"
           >
             {{ select_answer }}
           </v-btn>
@@ -47,7 +43,7 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="$emit('next'); dialog = false">次へ</v-btn>
+            <v-btn color="primary" text @click="$emit('next')">次へ</v-btn>
           </v-card-actions>
         </div>
       </v-card>
@@ -62,16 +58,19 @@ export default {
     current_question: {},
     your_answer: {},
     is_answer: "",
+    // m_dialog: "",
   },
   data() {
     return {
       dialog: false,
     };
   },
+
   computed: {
     showCheckAnswer() {
       return this.is_answer ? "正解" : "不正解";
     },
+
     showAnswerColor() {
       return this.is_answer
         ? "color: green lighten-1"
@@ -79,6 +78,9 @@ export default {
     },
   },
   methods: {
+    dialogChange() {
+        this.dialog = false;
+    },
     answer(select_answer) {
       this.$emit("answer", select_answer);
     },

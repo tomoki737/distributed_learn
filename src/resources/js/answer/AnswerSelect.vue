@@ -10,7 +10,7 @@
           <h3>{{ questions[number].question }}</h3>
         </v-card-text>
       </v-card>
-      <answer-select-button
+      <answer-select-button ref="child"
         :select_answers="select_answers"
         :current_question="current_question"
         :is_answer="is_answer"
@@ -60,7 +60,7 @@ export default {
 
       this.number += 1;
       this.createSelectAnswer(this.questions[this.number]);
-      this.dialog = false;
+      this.$refs.child.dialogChange();
     },
 
     async answer(answer) {

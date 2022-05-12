@@ -127,7 +127,7 @@ export default {
       this.questions = response.data.questions;
       this.allTagNames = response.data.allTagNames;
       this.loading = false;
-      
+
       this.length = Math.ceil(this.questions.length / this.pageSize);
       this.displayQuestions = this.questions.slice(
         this.pageSize * (this.page - 1),
@@ -148,6 +148,10 @@ export default {
         this.pageSize * (pageNumber - 1),
         this.pageSize * pageNumber
       );
+      window.scrollTo({
+          top:0,
+          behavior: 'smooth'
+      })
     },
   },
 

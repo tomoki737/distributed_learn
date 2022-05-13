@@ -1,4 +1,5 @@
 <template>
+<div>
   <v-container class="mt-3" style="max-width: 1000px">
     <h1>問題の編集</h1>
     <v-card class="mt-3">
@@ -54,12 +55,15 @@
       </v-col>
     </v-row>
   </v-container>
+    <bottom-navigation></bottom-navigation>
+    </div>
 </template>
 
 <script>
 import QuesitonTagsInput from "../components/QuestionTagsInput.vue";
+import BottomNavigation from "../components/BottomNavigation.vue";
 export default {
-  components: { QuesitonTagsInput },
+  components: { QuesitonTagsInput, BottomNavigation },
   data() {
     return {
       question: {

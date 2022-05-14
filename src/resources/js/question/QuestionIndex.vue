@@ -147,6 +147,7 @@ export default {
         this.searchForm
       );
       this.questions = response.data.questions;
+      this.pageChange(1);
     },
 
     pageChange(pageNumber) {

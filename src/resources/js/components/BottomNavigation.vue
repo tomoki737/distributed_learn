@@ -15,6 +15,7 @@ export default {
         { title: "ホーム", icon: "mdi-home", url: "/" },
         { title: "一覧", icon: "mdi-book-open", url: "/question/index" },
         { title: "作成", icon: "mdi-pencil", url: "/question/create" },
+        { title: "ユーザー", icon: "mdi-account", url: "/about" },
       ],
     };
   },

@@ -1,6 +1,6 @@
 <template>
   <div class="mb-12">
-    <v-navigation-drawer app clipped v-model="drawer">
+    <v-navigation-drawer app clipped v-model="drawer" class="hidden-md-and-down">
       <v-list-item>
         <v-btn block outlined @click="drawerClose">閉じる</v-btn>
       </v-list-item>
@@ -70,27 +70,10 @@
       </div>
     </v-navigation-drawer>
     <v-app-bar color="primary" dark app clipped-left>
-      <v-app-bar-nav-icon @click="drawerClose"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawerClose" class="hidden-md-and-down"></v-app-bar-nav-icon>
       <v-toolbar-title @click="$router.push('/')" style="cursor: pointer"
         >分散学習帳</v-toolbar-title
       >
-      <v-spacer />
-      <div class="hidden-md-and-down">
-        <div v-if="!isLogin">
-          <v-btn outlined router-link :to="{ name: 'register' }"
-            >新規登録</v-btn
-          >
-          <v-btn outlined router-link :to="{ name: 'login' }">ログイン</v-btn>
-        </div>
-        <div v-else>
-          <v-btn outlined router-link :to="{ name: 'question.index' }"
-            >一覧</v-btn
-          >
-          <v-btn outlined router-link :to="{ name: 'question.create' }"
-            >作成</v-btn
-          >
-        </div>
-      </div>
     </v-app-bar>
   </div>
 </template>

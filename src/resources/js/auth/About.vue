@@ -7,11 +7,14 @@
         <v-btn outlined @click="logout">ログアウト</v-btn>
       </v-card-text>
     </v-card>
+    <bottom-navigation></bottom-navigation>
   </div>
 </template>
 
 <script>
+import BottomNavigation from '../components/BottomNavigation.vue';
 export default {
+  components: { BottomNavigation },
   data() {
     return {
       user: [],

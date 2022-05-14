@@ -1,8 +1,7 @@
 <template>
 <div>
-  <v-container class="mt-3" style="max-width: 1000px">
-    <h1>問題の編集</h1>
-    <v-card class="mt-3">
+  <v-container class="mt-2" style="max-width: 1000px">
+    <v-card>
       <v-card-text>
         <quesiton-tags-input
           :initialTags="tagNames"
@@ -47,8 +46,11 @@
     </v-card>
     <v-row justify="center">
       <v-col cols="12">
-        <div class="text-end">
-          <v-btn color="primary" dark x-large class="mt-4 mb-10" @click="edit"
+        <div class="text-end mt-4">
+          <v-btn color="primary" dark x-large  class="d-sm-block hidden-md-and-down" @click="edit"
+            >作成する</v-btn
+          >
+          <v-btn color="primary" dark block  class="mb-13 hidden-md-and-up" @click="edit"
             >作成する</v-btn
           >
         </div>

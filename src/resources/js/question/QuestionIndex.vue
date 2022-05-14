@@ -72,7 +72,7 @@
           ></question-index-card>
         </div>
         <div class="text-center">
-          <v-pagination
+          <v-pagination class="mb-10"
             v-model="page"
             :length="length"
             @input="pageChange"

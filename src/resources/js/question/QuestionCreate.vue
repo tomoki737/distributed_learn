@@ -49,7 +49,7 @@
       </v-card-text>
     </v-card>
     <div class="text-end">
-      <v-btn color="primary" dark x-large class="mt-4" @click="store"
+      <v-btn color="primary" dark x-large class="mt-4 mb-10" @click="store"
         >作成する</v-btn
       >
     </div>

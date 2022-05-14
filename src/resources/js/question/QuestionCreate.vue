@@ -1,63 +1,73 @@
 <template>
   <div>
-  <v-container style="max-width: 1000px">
-    <v-card class="mt-3">
-      <v-card-text>
-        <quesiton-tags-input
-          @tagsJson="tagsChange"
-          :initialTags="tagNames"
-          :autocompleteItems="allTagNames"
-          :placeholder="'タグを5個まで追加できます'"
-        ></quesiton-tags-input>
-        <span v-if="errors.tags">
-          {{ errors.tags[0] }}
-        </span>
-        <v-select
-          :items="items"
-          label="カテゴリー"
-          v-model="questionForm.category"
-        ></v-select>
-        <span v-if="errors.category">
-          {{ errors.category[0] }}
-        </span>
-        <v-textarea
-          v-model="questionForm.question"
-          label="問題"
-          style="font-size: 16px"
-        ></v-textarea>
-        <span v-if="errors.question">
-          {{ errors.question[0] }}
-        </span>
-      </v-card-text>
-      <v-card-text>
-        <v-text-field
-          v-model="questionForm.answer"
-          label="解答"
-          style="font-size: 16px"
-        ></v-text-field>
-        <span v-if="errors.answer">
-          {{ errors.answer[0] }}
-        </span>
-      </v-card-text>
-      <v-card-text>
-        <v-switch
-          v-model="questionForm.share"
-          label="Share"
-          class="d-flex justify-content-end"
-        ></v-switch>
-      </v-card-text>
-    </v-card>
-    <div class="text-end mt-4">
-          <v-btn color="primary" dark x-large  class="d-sm-block hidden-md-and-down" @click="store"
-            >作成する</v-btn
-          >
-          <v-btn color="primary" dark block  class="mb-13 hidden-md-and-up" @click="edit"
-            >作成する</v-btn
-          >
-        </div>
-  </v-container>
+    <v-container style="max-width: 1000px">
+      <v-card class="mt-3">
+        <v-card-text>
+          <quesiton-tags-input
+            @tagsJson="tagsChange"
+            :initialTags="tagNames"
+            :autocompleteItems="allTagNames"
+            :placeholder="'タグを5個まで追加できます'"
+          ></quesiton-tags-input>
+          <span v-if="errors.tags">
+            {{ errors.tags[0] }}
+          </span>
+          <v-select
+            :items="items"
+            label="カテゴリー"
+            v-model="questionForm.category"
+          ></v-select>
+          <span v-if="errors.category">
+            {{ errors.category[0] }}
+          </span>
+          <v-textarea
+            v-model="questionForm.question"
+            label="問題"
+            style="font-size: 16px"
+          ></v-textarea>
+          <span v-if="errors.question">
+            {{ errors.question[0] }}
+          </span>
+        </v-card-text>
+        <v-card-text>
+          <v-text-field
+            v-model="questionForm.answer"
+            label="解答"
+            style="font-size: 16px"
+          ></v-text-field>
+          <span v-if="errors.answer">
+            {{ errors.answer[0] }}
+          </span>
+        </v-card-text>
+        <v-card-text>
+          <v-switch
+            v-model="questionForm.share"
+            label="Share"
+            class="d-flex justify-content-end"
+          ></v-switch>
+        </v-card-text>
+      </v-card>
+      <div class="text-end mt-4">
+        <v-btn
+          color="primary"
+          dark
+          x-large
+          class="d-sm-block hidden-md-and-down"
+          @click="store"
+          >作成する</v-btn
+        >
+        <v-btn
+          color="primary"
+          dark
+          block
+          class="mb-13 hidden-md-and-up"
+          @click="store"
+          >作成する</v-btn
+        >
+      </div>
+    </v-container>
     <bottom-navigation></bottom-navigation>
-</div>
+  </div>
 </template>
 
 <script>

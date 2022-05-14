@@ -50,7 +50,7 @@ class QuestionControllerTest extends TestCase
     }
     public function test_question_except()
     {
-        $response = $this->actingAs($this->user)->putJson('/api/question/' . this->question . "/except");
+        $response = $this->actingAs($this->user)->putJson('/api/question/' . this->question->id . '/except');
         $response->assertStatus(200);
         $this->assertDatabaseHas('questions', [
             'learning' => false,

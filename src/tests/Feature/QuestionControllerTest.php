@@ -48,13 +48,4 @@ class QuestionControllerTest extends TestCase
         ]);
         $response->assertStatus(200);
     }
-    public function test_question_except()
-    {
-        $response = $this->actingAs($this->user)->putJson('/api/question/' + this->question->id + '/except');
-        $response->assertStatus(200);
-        $this->assertDatabaseHas('questions', [
-            'learning' => false,
-        ]);
-
-    }
 }

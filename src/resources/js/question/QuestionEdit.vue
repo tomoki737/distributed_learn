@@ -48,7 +48,7 @@
     <v-row justify="center">
       <v-col cols="12">
         <div class="text-end">
-          <v-btn color="primary" dark x-large class="mt-4" @click="edit"
+          <v-btn color="primary" dark x-large class="mt-4 mb-10" @click="edit"
             >作成する</v-btn
           >
         </div>

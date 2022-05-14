@@ -93,6 +93,12 @@ class QuestionController extends Controller
         $question->delete();
     }
 
+    public function exceptQuestion(Question $question)
+    {
+        $question->learning = false;
+        $question->save();
+    }
+
     public function search(Request $request)
     {
         $user_id = $request->user()->id;

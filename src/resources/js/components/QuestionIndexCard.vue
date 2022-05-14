@@ -43,6 +43,9 @@
           <v-list-item @click="questionDelete(question.id)">
             <v-list-item-title>削除</v-list-item-title>
           </v-list-item>
+          <v-list-item @click="questionExcept(question.id)">
+            <v-list-item-title>対象外にする</v-list-item-title>
+          </v-list-item>
         </v-list>
       </v-menu>
     </v-card-actions>
@@ -71,6 +74,14 @@ export default {
       this.$emit("get");
     },
 
+    async questionExcept(question_id) {
+      const response = await axios
+        .put("/api/question/" + question_id + "/except")
+        .catch((error) => {
+          return console.error(error);
+        });
+      this.$emit("get");
+    },
     select(val) {
       this.isSelect = val;
     },

@@ -1,7 +1,6 @@
 <template>
   <div>
-    <loading :loading="loading"></loading>
-    <v-container v-show="!loading" style="max-width: 1000px">
+    <v-container style="max-width: 1000px">
       <v-card elevation="2" class="mt-3" min-height="250px">
         <v-toolbar color="blue lighten-3" class="white--text" flat>
           <h3 class="mx-auto">問題</h3>
@@ -10,7 +9,8 @@
           <h3>{{ questions[number].question }}</h3>
         </v-card-text>
       </v-card>
-      <answer-select-button ref="child"
+      <answer-select-button
+        ref="child"
         :select_answers="select_answers"
         :current_question="current_question"
         :is_answer="is_answer"
@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import Loading from "../components/Loading.vue";
 import AnswerSelectButton from "../components/AnswerSelectButton.vue";
 export default {
   components: { Loading, AnswerSelectButton },
@@ -37,7 +36,6 @@ export default {
       is_answer: "",
       your_answer: "",
       tags: [],
-      loading: true,
     };
   },
   methods: {

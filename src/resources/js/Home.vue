@@ -22,7 +22,7 @@
           </v-card-text>
           <v-card-actions
             v-if="new_questions != '0' || review_questions != '0'"
-             class="mt-5"
+            class="mt-5"
           >
             <div class="mx-auto">
               <v-btn router-link outlined :to="{ name: 'answer.understand' }">
@@ -39,6 +39,12 @@
             </v-card-text>
           </div>
         </v-card>
+        <div class="text-center mt-4">
+          <v-btn @click="getQuestions" text
+        icon class="ma-2">
+            <v-icon x-large>mdi-restore</v-icon>
+          </v-btn>
+        </div>
       </div>
       <bottom-navigation></bottom-navigation>
     </v-container>

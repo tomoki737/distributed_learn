@@ -1,30 +1,35 @@
 <template>
   <div>
-    <v-card elevation="2" class="mt-10">
-      <v-card-text>
-        {{ user.name }}
-        {{ user.email }}
-        <v-btn outlined @click="logout">ログアウト</v-btn>
-      </v-card-text>
-    </v-card>
-    <bottom-navigation></bottom-navigation>
+      <loading :loading="loading"></loading>
+    <v-container>
+        <div v-show="!loading">
+      <p>ユーザー名: {{ user.name }}</p>
+      <p>メールアドレス: {{ user.email }}</p>
+      <v-btn outlined @click="logout">ログアウト</v-btn>
+      </div>
+      <bottom-navigation></bottom-navigation>
+    </v-container>
   </div>
 </template>
 
 <script>
-import BottomNavigation from '../components/BottomNavigation.vue';
+import BottomNavigation from "../components/BottomNavigation.vue";
+import Loading from "../components/Loading.vue";
 export default {
-  components: { BottomNavigation },
+  components: { BottomNavigation, Loading },
   data() {
     return {
       user: [],
+      loading: true,
     };
   },
   mounted() {
     axios.get("/api/me").then((response) => {
       this.user = response.data;
+      this.loading = false;
     });
   },
+
   methods: {
     logout() {
       axios.get("/sanctum/csrf-cookie").then((res) => {
@@ -32,7 +37,7 @@ export default {
           .post("logout")
           .then((res) => {
             this.$store.commit("auth/setUser", null);
-            this.$router.push("/");
+            this.$router.push("/login");
           })
           .catch((error) => {
             console.error(error);

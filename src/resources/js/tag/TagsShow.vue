@@ -2,7 +2,8 @@
   <div>
     <loading :loading="loading"></loading>
     <v-container v-show="!loading" style="max-width:1000px">
-      <v-card class="mt-10 mx-auto">
+    <div class="mb-13">
+      <v-card class="mt-7 mx-auto">
         <v-card-title
           ><h2  class="ml-6">{{ name }}</h2> <span class="ml-2">({{ questions_length }})</span></v-card-title
         ></v-card
@@ -13,16 +14,20 @@
           @get="getQuestions"
         ></question-index-card>
       </div>
+      </div>
     </v-container>
+    <bottom-navigation></bottom-navigation>
   </div>
 </template>
 <script>
 import Loading from "../components/Loading.vue";
+import BottomNavigation from "../components/BottomNavigation.vue";
 import QuestionIndexCard from "../components/QuestionIndexCard.vue";
 export default {
   components: {
     Loading,
     QuestionIndexCard,
+    BottomNavigation,
   },
 
   props: {

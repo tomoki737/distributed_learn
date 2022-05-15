@@ -1,7 +1,15 @@
 <template>
   <div>
     <v-container style="max-width: 1000px">
-      <v-card class="mt-3">
+      <v-btn
+        color="primary"
+        dark
+        block
+        class="mb-3 mt-2 hidden-md-and-up"
+        @click="store"
+        >作成する</v-btn
+      >
+      <v-card class="mb-13 mt-3">
         <v-card-text>
           <quesiton-tags-input
             @tagsJson="tagsChange"
@@ -52,15 +60,7 @@
           color="primary"
           dark
           x-large
-          class="d-sm-block hidden-md-and-down"
-          @click="store"
-          >作成する</v-btn
-        >
-        <v-btn
-          color="primary"
-          dark
-          block
-          class="mb-13 hidden-md-and-up"
+          class="hidden-sm-and-down"
           @click="store"
           >作成する</v-btn
         >
@@ -81,7 +81,7 @@ export default {
         question: "",
         answer: "",
         tags: "",
-        share: false,
+        share: true,
         category: "",
       },
 

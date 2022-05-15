@@ -42,7 +42,9 @@ class QuestionController extends Controller
         $new_questions = Question::where("user_id", $user_id)->where("answer_times", 0)->get();
         $dateNow = new Carbon();
         $review_questions = Question::where("user_id", $user_id)->where("answer_times", ">", 0)->where("next_study_date", "<", $dateNow)->get();
-        return ['new_questions' => $new_questions, "review_questions" => $review_questions];
+        $next_question =  Question::get()->where("next_study_date", ">", $dateNow)->sortBy("next_study_date")->first();
+        $next_study_date = $next_question->next_study_date;
+        return ['new_questions' => $new_questions, "review_questions" => $review_questions, 'next_study_date' => $next_study_date];
     }
 
     public function edit(Question $question)

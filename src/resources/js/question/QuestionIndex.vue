@@ -72,7 +72,8 @@
           ></question-index-card>
         </div>
         <div class="text-center">
-          <v-pagination class="mb-10"
+          <v-pagination
+            class="mt-3 mb-13"
             v-model="page"
             :length="length"
             @input="pageChange"

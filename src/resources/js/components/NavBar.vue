@@ -70,7 +70,7 @@
       </div>
     </v-navigation-drawer>
     <v-app-bar color="primary" dark app clipped-left>
-      <v-app-bar-nav-icon @click="drawerClose" class="hidden-md-and-down"></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click="drawerClose" class="hidden-sm-and-down"></v-app-bar-nav-icon>
       <v-toolbar-title @click="$router.push('/')" style="cursor: pointer"
         >分散学習帳</v-toolbar-title
       >

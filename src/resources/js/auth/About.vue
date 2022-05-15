@@ -1,11 +1,11 @@
 <template>
   <div>
-      <loading :loading="loading"></loading>
+    <loading :loading="loading"></loading>
     <v-container>
-        <div v-show="!loading">
-      <p>ユーザー名: {{ user.name }}</p>
-      <p>メールアドレス: {{ user.email }}</p>
-      <v-btn outlined @click="logout">ログアウト</v-btn>
+      <div v-show="!loading">
+        <p>ユーザー名: {{ user.name }}</p>
+        <p>メールアドレス: {{ user.email }}</p>
+        <v-btn outlined @click="logout">ログアウト</v-btn>
       </div>
       <bottom-navigation></bottom-navigation>
     </v-container>

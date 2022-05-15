@@ -9,7 +9,7 @@
         @click="edit"
         >作成する</v-btn
       >
-      <v-card class="mb-13">
+      <v-card class="mb-13 mt-3">
         <v-card-text>
           <quesiton-tags-input
             :initialTags="tagNames"
@@ -63,7 +63,7 @@
               color="primary"
               dark
               x-large
-              class="d-sm-block hidden-md-and-down"
+              class="hidden-sm-and-down"
               @click="edit"
               >作成する</v-btn
             >

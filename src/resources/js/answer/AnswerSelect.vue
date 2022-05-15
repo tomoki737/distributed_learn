@@ -25,7 +25,7 @@
 <script>
 import AnswerSelectButton from "../components/AnswerSelectButton.vue";
 export default {
-  components: { Loading, AnswerSelectButton },
+  components: { AnswerSelectButton },
   data() {
     return {
       number: 0,

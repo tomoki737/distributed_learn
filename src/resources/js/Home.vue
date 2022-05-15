@@ -4,42 +4,40 @@
     <v-container style="max-width: 1000px">
       <div v-show="!loading">
         <v-card elevation="2" class="mt-10 mx-auto">
-          <v-row>
-            <v-col cols="6">
-              <v-card-text>
+          <v-card-text>
+            <v-row>
+              <v-col cols="6">
                 <div class="pink lighten-4 text-center">
                   <p>新しく覚える</p>
                   <h3>{{ new_questions }}</h3>
                 </div>
-              </v-card-text>
-            </v-col>
-            <v-col cols="6">
-              <v-card-text>
+              </v-col>
+              <v-col cols="6">
                 <div class="light-blue lighten-4 text-center">
                   <p>復習</p>
                   <h3>{{ review_questions }}</h3>
                 </div>
-              </v-card-text>
-            </v-col>
-          </v-row>
-          <v-card-actions>
+              </v-col>
+            </v-row>
+          </v-card-text>
+          <v-card-actions
+            v-if="new_questions != '0' || review_questions != '0'"
+             class="mt-5"
+          >
             <div class="mx-auto">
-              <v-btn
-                router-link
-                :to="{ name: 'answer.understand' }"
-                v-show="new_questions != '0' || review_questions != '0'"
-              >
+              <v-btn router-link outlined :to="{ name: 'answer.understand' }">
                 学習する
               </v-btn>
-              <v-btn
-                router-link
-                :to="{ name: 'answer.select' }"
-                v-show="new_questions != '0' || review_questions != '0'"
-              >
-                選択肢で学習する
+              <v-btn router-link outlined :to="{ name: 'answer.select' }">
+                選択肢で学習
               </v-btn>
             </div>
           </v-card-actions>
+          <div v-else class="text-end">
+            <v-card-text>
+              <p>次回: {{ next_study_date }}</p>
+            </v-card-text>
+          </div>
         </v-card>
       </div>
       <bottom-navigation></bottom-navigation>
@@ -56,6 +54,8 @@ export default {
       review_questions: "0",
       loading: true,
       new_questions: "0",
+      imgPath: "",
+      next_study_date: "",
     };
   },
   methods: {
@@ -63,6 +63,7 @@ export default {
       axios.get("/api/home").then((response) => {
         this.review_questions = response.data.review_questions.length;
         this.new_questions = response.data.new_questions.length;
+        this.next_study_date = response.data.next_study_date;
         this.loading = false;
       });
     },

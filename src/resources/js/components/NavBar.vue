@@ -1,6 +1,6 @@
 <template>
   <div class="mb-12">
-    <v-navigation-drawer app clipped v-model="drawer" class="hidden-md-and-down">
+    <v-navigation-drawer app clipped v-model="drawer" class="hidden-sm-and-down">
       <v-list-item>
         <v-btn block outlined @click="drawerClose">閉じる</v-btn>
       </v-list-item>

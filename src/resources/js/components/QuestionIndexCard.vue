@@ -25,6 +25,19 @@
           >{{ tag.name }}</v-chip
         >
       </div>
+    </v-card-actions>
+    <v-divider></v-divider>
+    <v-card-actions>
+      <v-icon>mdi-book-open</v-icon>
+      <span class="ml-1">{{ question.answer_times }}回</span>
+      <v-icon class="ml-5" :class="question.correct_answer ? 'green--text' : 'red--text'">{{
+        question.correct_answer
+          ? "mdi-checkbox-blank-circle-outline"
+          : "mdi-window-close"
+      }}</v-icon>
+      <span class="ml-1">{{
+        question.correct_answer ? "正解" : "不正解"
+      }}</span>
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
@@ -85,6 +98,9 @@ export default {
     select(val) {
       this.isSelect = val;
     },
+  },
+  mounted() {
+    this.question.next_study_date.substr(0, 10);
   },
 };
 </script>

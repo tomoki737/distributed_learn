@@ -82,14 +82,10 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-    if ((from.name !== "login" || to.name !== "login") && !store.getters["auth/check"] && to.name !== "login" && to.name !== "register") {
-        next({ name: "login" });
-        // console.log("login!")
+    if (!store.getters["auth/check"] && to.name !== "login" && to.name !== "register") {
+            next({ name: "login" });
     } else {
         next();
-        console.log("islogin!")
-        // console.log("check",store.getters["auth/check"])
-        // console.log("user",store.getters["auth/user"])
     }
 });
 export default router;

@@ -16,7 +16,7 @@ const mutations = {
 
 const actions = {
     currentUser(context) {
-        Axios.get("/api/me").then((response) => {
+        axios.get("/api/me").then((response) => {
             const user = response.data;
             context.commit("setUser", user);
         });

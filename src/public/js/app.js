@@ -2585,6 +2585,8 @@ __webpack_require__.r(__webpack_exports__);
         axios.post("logout").then(function (res) {
           _this2.$store.commit("auth/setUser", null);
 
+          console.log(_this2.$store.state.auth.user);
+
           _this2.$router.push("/login");
         })["catch"](function (error) {
           console.error(error);
@@ -2648,6 +2650,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2667,7 +2677,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/sanctum/csrf-cookie").then(function (res) {
         axios.post("login", _this.LoginForm).then(function (res) {
           if (res.status == 200) {
-            _this.$store.commit("auth/setUser", res.data);
+            console.log(res.data);
+
+            _this.$store.commit("auth/setUser", res.data.user);
 
             _this.$router.push("/about");
           }
@@ -3952,15 +3964,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 /* harmony import */ var _bootstrap__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_bootstrap__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
 /* harmony import */ var _vuetify__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./vuetify */ "./resources/js/vuetify.js");
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./router */ "./resources/js/router.js");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store */ "./resources/js/store/index.js");
 /* harmony import */ var _App_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./App.vue */ "./resources/js/App.vue");
 /* harmony import */ var vue_loaders__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-loaders */ "./node_modules/vue-loaders/dist/vue-loaders.esm.js");
 /* harmony import */ var vue_loading_template__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-loading-template */ "./node_modules/vue-loading-template/dist/vueLoading.common.js");
 /* harmony import */ var vue_loading_template__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(vue_loading_template__WEBPACK_IMPORTED_MODULE_7__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_8__);
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -3976,19 +3990,37 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 
 
-vue__WEBPACK_IMPORTED_MODULE_8__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_9__["default"], _vuetify__WEBPACK_IMPORTED_MODULE_2__["default"], vue_loaders__WEBPACK_IMPORTED_MODULE_6__["default"], (vue_loading_template__WEBPACK_IMPORTED_MODULE_7___default()));
+
+vue__WEBPACK_IMPORTED_MODULE_9__["default"].use(vue_router__WEBPACK_IMPORTED_MODULE_10__["default"], _vuetify__WEBPACK_IMPORTED_MODULE_2__["default"], vue_loaders__WEBPACK_IMPORTED_MODULE_6__["default"], (vue_loading_template__WEBPACK_IMPORTED_MODULE_7___default()));
 
 var app = /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+    var res, user;
     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return _store__WEBPACK_IMPORTED_MODULE_4__["default"].dispatch("auth/currentUser");
+            return axios__WEBPACK_IMPORTED_MODULE_8___default().get("/api/me")["catch"](function () {
+              console.log("a");
+              new vue__WEBPACK_IMPORTED_MODULE_9__["default"]({
+                el: "#app",
+                router: _router__WEBPACK_IMPORTED_MODULE_3__["default"],
+                store: _store__WEBPACK_IMPORTED_MODULE_4__["default"],
+                vuetify: _vuetify__WEBPACK_IMPORTED_MODULE_2__["default"],
+                components: {
+                  App: _App_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+                },
+                template: "<App/>"
+              });
+            });
 
           case 2:
-            new vue__WEBPACK_IMPORTED_MODULE_8__["default"]({
+            res = _context.sent;
+            user = res.data.user;
+            console.log(user);
+            _store__WEBPACK_IMPORTED_MODULE_4__["default"].commit("auth/setUser", user);
+            new vue__WEBPACK_IMPORTED_MODULE_9__["default"]({
               el: "#app",
               router: _router__WEBPACK_IMPORTED_MODULE_3__["default"],
               store: _store__WEBPACK_IMPORTED_MODULE_4__["default"],
@@ -3999,7 +4031,7 @@ var app = /*#__PURE__*/function () {
               template: "<App/>"
             });
 
-          case 3:
+          case 7:
           case "end":
             return _context.stop();
         }
@@ -4133,18 +4165,14 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_12__["default"]({
   routes: routes
 });
 router.beforeEach(function (to, from, next) {
-  if (to.name === "register") {
-    if (_store__WEBPACK_IMPORTED_MODULE_10__["default"].state.auth.user) {
-      next('/login');
-    } else {
-      next("/register");
-    }
+  if ((from.name !== "login" || to.name !== "login") && !_store__WEBPACK_IMPORTED_MODULE_10__["default"].getters["auth/check"] && to.name !== "login") {
+    next({
+      name: "login"
+    }); // console.log("login!")
   } else {
-    if (_store__WEBPACK_IMPORTED_MODULE_10__["default"].state.auth.user) {
-      next();
-    } else {
-      next('/login');
-    }
+    next();
+    console.log("islogin!"); // console.log("check",store.getters["auth/check"])
+    // console.log("user",store.getters["auth/user"])
   }
 });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
@@ -4170,7 +4198,7 @@ var state = {
 };
 var getters = {
   check: function check(state) {
-    return !!state.user;
+    return state.user === null ? false : true;
   },
   user: function user(state) {
     return state.user ? state.user : "";
@@ -4183,10 +4211,9 @@ var mutations = {
 };
 var actions = {
   currentUser: function currentUser(context) {
-    axios.get("/api/me").then(function (response) {
-      var user = response.data;
-      context.commit("setUser", user);
-    });
+    var response = axios.get("/api/me");
+    var user = response.data;
+    context.commit("setUser", user);
   }
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -25018,10 +25045,27 @@ var render = function () {
                         "v-btn",
                         {
                           staticClass: "info",
-                          attrs: { dark: "" },
+                          attrs: { block: "", dark: "" },
                           on: { click: _vm.login },
                         },
                         [_vm._v("ログイン")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-btn",
+                        {
+                          attrs: {
+                            block: "",
+                            "router-link": "",
+                            to: { name: "register" },
+                          },
+                          on: {
+                            click: function ($event) {
+                              return _vm.drawerClose()
+                            },
+                          },
+                        },
+                        [_vm._v("\n            新規登録\n          ")]
                       ),
                     ],
                     1

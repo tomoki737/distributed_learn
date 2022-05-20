@@ -26,7 +26,6 @@ const app = async () => {
         });
     });
     const user = res.data.user;
-    console.log(user)
     store.commit("auth/setUser", user);
 
     new Vue({

@@ -38,8 +38,19 @@
           {{ errors.password[0] }}
         </span>
         <v-card-actions>
-          <v-btn class="info" dark @click="register">登録</v-btn>
+          <v-btn class="info" block dark @click="register">登録</v-btn>
         </v-card-actions>
+         <v-card-actions>
+            <v-btn
+              class="mx-auto"
+              @click="drawerClose()"
+              router-link
+              text
+              :to="{ name: 'login' }"
+            >
+              ログインはこちら
+            </v-btn>
+          </v-card-actions>
       </v-card-text>
     </v-form>
   </v-card>

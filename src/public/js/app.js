@@ -2658,6 +2658,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -2715,6 +2718,17 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -4018,7 +4032,6 @@ var app = /*#__PURE__*/function () {
           case 2:
             res = _context.sent;
             user = res.data.user;
-            console.log(user);
             _store__WEBPACK_IMPORTED_MODULE_4__["default"].commit("auth/setUser", user);
             new vue__WEBPACK_IMPORTED_MODULE_9__["default"]({
               el: "#app",
@@ -4031,7 +4044,7 @@ var app = /*#__PURE__*/function () {
               template: "<App/>"
             });
 
-          case 7:
+          case 6:
           case "end":
             return _context.stop();
         }
@@ -25048,13 +25061,20 @@ var render = function () {
                         },
                         [_vm._v("ログイン")]
                       ),
-                      _vm._v(" "),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
                       _c(
                         "v-btn",
                         {
+                          staticClass: "mx-auto",
                           attrs: {
-                            block: "",
                             "router-link": "",
+                            text: "",
                             to: { name: "register" },
                           },
                           on: {
@@ -25063,7 +25083,7 @@ var render = function () {
                             },
                           },
                         },
-                        [_vm._v("\n            新規登録\n          ")]
+                        [_vm._v("\n            登録はこちら\n          ")]
                       ),
                     ],
                     1
@@ -25212,10 +25232,38 @@ var render = function () {
                         "v-btn",
                         {
                           staticClass: "info",
-                          attrs: { dark: "" },
+                          attrs: { block: "", dark: "" },
                           on: { click: _vm.register },
                         },
                         [_vm._v("登録")]
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-actions",
+                    [
+                      _c(
+                        "v-btn",
+                        {
+                          staticClass: "mx-auto",
+                          attrs: {
+                            "router-link": "",
+                            text: "",
+                            to: { name: "login" },
+                          },
+                          on: {
+                            click: function ($event) {
+                              return _vm.drawerClose()
+                            },
+                          },
+                        },
+                        [
+                          _vm._v(
+                            "\n              ログインはこちら\n            "
+                          ),
+                        ]
                       ),
                     ],
                     1

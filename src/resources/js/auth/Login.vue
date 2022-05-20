@@ -33,13 +33,16 @@
           </span>
           <v-card-actions>
             <v-btn block class="info" dark @click="login">ログイン</v-btn>
+          </v-card-actions>
+          <v-card-actions>
             <v-btn
-              block
+              class="mx-auto"
               @click="drawerClose()"
               router-link
+              text
               :to="{ name: 'register' }"
             >
-              新規登録
+              登録はこちら
             </v-btn>
           </v-card-actions>
         </v-card-text>

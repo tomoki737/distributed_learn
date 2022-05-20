@@ -4165,7 +4165,7 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_12__["default"]({
   routes: routes
 });
 router.beforeEach(function (to, from, next) {
-  if ((from.name !== "login" || to.name !== "login") && !_store__WEBPACK_IMPORTED_MODULE_10__["default"].getters["auth/check"] && to.name !== "login") {
+  if ((from.name !== "login" || to.name !== "login") && !_store__WEBPACK_IMPORTED_MODULE_10__["default"].getters["auth/check"] && to.name !== "login" && to.name !== "register") {
     next({
       name: "login"
     }); // console.log("login!")

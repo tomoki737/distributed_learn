@@ -3446,6 +3446,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -3535,8 +3536,6 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-//
-//
 //
 //
 //
@@ -26133,18 +26132,8 @@ var render = function () {
         { staticStyle: { "max-width": "1000px" } },
         [
           _c(
-            "v-btn",
-            {
-              staticClass: "mb-3 mt-2 hidden-md-and-up",
-              attrs: { color: "primary", dark: "", block: "" },
-              on: { click: _vm.store },
-            },
-            [_vm._v("作成する")]
-          ),
-          _vm._v(" "),
-          _c(
             "v-card",
-            { staticClass: "mb-13 mt-3" },
+            { staticClass: "mt-3" },
             [
               _c(
                 "v-card-text",
@@ -26265,13 +26254,29 @@ var render = function () {
           _vm._v(" "),
           _c(
             "div",
-            { staticClass: "text-end mt-4" },
+            { staticClass: "mb-13" },
             [
+              _c(
+                "div",
+                { staticClass: "text-end mt-4 hidden-sm-and-down" },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: { color: "primary", dark: "", "x-large": "" },
+                      on: { click: _vm.store },
+                    },
+                    [_vm._v("作成する")]
+                  ),
+                ],
+                1
+              ),
+              _vm._v(" "),
               _c(
                 "v-btn",
                 {
-                  staticClass: "hidden-sm-and-down",
-                  attrs: { color: "primary", dark: "", "x-large": "" },
+                  staticClass: "hidden-md-and-up mt-2",
+                  attrs: { color: "primary", dark: "", block: "" },
                   on: { click: _vm.store },
                 },
                 [_vm._v("作成する")]
@@ -26319,18 +26324,8 @@ var render = function () {
         { staticStyle: { "max-width": "1000px" } },
         [
           _c(
-            "v-btn",
-            {
-              staticClass: "mb-3 mt-2 hidden-md-and-up",
-              attrs: { color: "primary", dark: "", block: "" },
-              on: { click: _vm.edit },
-            },
-            [_vm._v("作成する")]
-          ),
-          _vm._v(" "),
-          _c(
             "v-card",
-            { staticClass: "mb-13 mt-3" },
+            { staticClass: "mt-3" },
             [
               _c(
                 "v-card-text",
@@ -26451,27 +26446,35 @@ var render = function () {
           ),
           _vm._v(" "),
           _c(
-            "v-row",
-            { attrs: { justify: "center" } },
+            "div",
+            { staticClass: "mb-13" },
             [
-              _c("v-col", { attrs: { cols: "12" } }, [
-                _c(
-                  "div",
-                  { staticClass: "text-end mt-4" },
-                  [
-                    _c(
-                      "v-btn",
-                      {
-                        staticClass: "hidden-sm-and-down",
-                        attrs: { color: "primary", dark: "", "x-large": "" },
-                        on: { click: _vm.edit },
-                      },
-                      [_vm._v("作成する")]
-                    ),
-                  ],
-                  1
-                ),
-              ]),
+              _c(
+                "div",
+                { staticClass: "text-end mt-4" },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "hidden-sm-and-down",
+                      attrs: { color: "primary", dark: "", "x-large": "" },
+                      on: { click: _vm.edit },
+                    },
+                    [_vm._v("作成する")]
+                  ),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-btn",
+                {
+                  staticClass: "mb-3 mt-2 hidden-md-and-up",
+                  attrs: { color: "primary", dark: "", block: "" },
+                  on: { click: _vm.edit },
+                },
+                [_vm._v("作成する")]
+              ),
             ],
             1
           ),

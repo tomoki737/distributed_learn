@@ -3215,7 +3215,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   data: function data() {
     return {
-      isSelect: 1
+      isSelect: 1,
+      correct_answer: "",
+      correct_answer_icon: ""
     };
   },
   methods: {
@@ -3246,9 +3248,25 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee);
       }))();
     },
-    questionExcept: function questionExcept(question_id) {
-      var _this2 = this;
+    correctAnswer: function correctAnswer() {
+      var correct_answer = this.question.correct_answer;
 
+      if (correct_answer === null) {
+        return this.correct_answer = "未解答";
+      }
+
+      this.correct_answer = correct_answer ? "正解" : "不正解";
+    },
+    correctAnswerIcon: function correctAnswerIcon() {
+      var correct_answer = this.question.correct_answer;
+
+      if (this.question.correct_answer === null) {
+        return;
+      }
+
+      this.correct_answer_icon = correct_answer ? "mdi-checkbox-blank-circle-outline" : "mdi-window-close";
+    },
+    questionExcept: function questionExcept(question_id) {
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
         var response;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
@@ -3263,9 +3281,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
               case 2:
                 response = _context2.sent;
 
-                _this2.$emit("get");
-
-              case 4:
+              case 3:
               case "end":
                 return _context2.stop();
             }
@@ -3278,7 +3294,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   mounted: function mounted() {
-    this.question.next_study_date.substr(0, 10);
+    this.correctAnswer();
+    this.correctAnswerIcon();
   }
 });
 
@@ -25925,19 +25942,11 @@ var render = function () {
               staticClass: "ml-5",
               class: _vm.question.correct_answer ? "green--text" : "red--text",
             },
-            [
-              _vm._v(
-                _vm._s(
-                  _vm.question.correct_answer
-                    ? "mdi-checkbox-blank-circle-outline"
-                    : "mdi-window-close"
-                )
-              ),
-            ]
+            [_vm._v(_vm._s(_vm.correct_answer_icon))]
           ),
           _vm._v(" "),
           _c("span", { staticClass: "ml-1" }, [
-            _vm._v(_vm._s(_vm.question.correct_answer ? "正解" : "不正解")),
+            _vm._v(_vm._s(_vm.correct_answer)),
           ]),
           _vm._v(" "),
           _c("v-spacer"),

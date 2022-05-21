@@ -30,14 +30,14 @@
     <v-card-actions>
       <v-icon>mdi-book-open</v-icon>
       <span class="ml-1">{{ question.answer_times }}回</span>
-      <v-icon class="ml-5" :class="question.correct_answer ? 'green--text' : 'red--text'">{{
-        question.correct_answer
-          ? "mdi-checkbox-blank-circle-outline"
-          : "mdi-window-close"
-      }}</v-icon>
-      <span class="ml-1">{{
-        question.correct_answer ? "正解" : "不正解"
-      }}</span>
+      <v-icon
+        class="ml-5"
+        :class="question.correct_answer ? 'green--text' : 'red--text'"
+        >{{
+          correct_answer_icon
+        }}</v-icon
+      >
+      <span class="ml-1">{{ correct_answer }}</span>
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
@@ -74,6 +74,8 @@ export default {
   data() {
     return {
       isSelect: 1,
+      correct_answer: "",
+      correct_answer_icon: "",
     };
   },
 
@@ -86,6 +88,22 @@ export default {
         });
       this.$emit("get");
     },
+    correctAnswer() {
+      const correct_answer = this.question.correct_answer;
+      if (correct_answer === null) {
+        return (this.correct_answer = "未解答");
+      }
+      this.correct_answer = correct_answer ? "正解" : "不正解";
+    },
+    correctAnswerIcon() {
+      const correct_answer = this.question.correct_answer;
+      if (this.question.correct_answer === null) {
+        return;
+      }
+      this.correct_answer_icon = correct_answer
+        ? "mdi-checkbox-blank-circle-outline"
+        : "mdi-window-close";
+    },
 
     async questionExcept(question_id) {
       const response = await axios
@@ -93,14 +111,14 @@ export default {
         .catch((error) => {
           return console.error(error);
         });
-      this.$emit("get");
     },
     select(val) {
       this.isSelect = val;
     },
   },
   mounted() {
-    this.question.next_study_date.substr(0, 10);
+    this.correctAnswer();
+    this.correctAnswerIcon();
   },
 };
 </script>

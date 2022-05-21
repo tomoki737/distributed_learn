@@ -58,7 +58,6 @@ export default {
     current_question: {},
     your_answer: {},
     is_answer: "",
-    // m_dialog: "",
   },
   data() {
     return {

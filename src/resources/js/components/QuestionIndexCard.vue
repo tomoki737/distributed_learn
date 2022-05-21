@@ -33,11 +33,27 @@
       <v-icon
         class="ml-5"
         :class="question.correct_answer ? 'green--text' : 'red--text'"
-        >{{
-          correct_answer_icon
-        }}</v-icon
+        >{{ correct_answer_icon }}</v-icon
       >
       <span class="ml-1">{{ correct_answer }}</span>
+      <v-dialog v-model="dialog">
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn text v-bind="attrs" v-on="on" class="ml-4">
+            {{ created_at }}
+          </v-btn>
+        </template>
+        <v-card>
+          <v-card-text>
+            <p>次回学習日: {{ question.next_study_date }}</p>
+            <p>作成日: {{ created_at }}</p>
+          </v-card-text>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="primary" text @click="dialog = false"> OK </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
       <v-spacer></v-spacer>
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
@@ -66,6 +82,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   props: {
     question: {},
@@ -76,6 +93,8 @@ export default {
       isSelect: 1,
       correct_answer: "",
       correct_answer_icon: "",
+      created_at: "",
+      dialog: false,
     };
   },
 
@@ -104,6 +123,9 @@ export default {
         ? "mdi-checkbox-blank-circle-outline"
         : "mdi-window-close";
     },
+    formatCreatedAt() {
+      this.created_at = moment(this.question.created_at).format("YYYY/MM/DD");
+    },
 
     async questionExcept(question_id) {
       const response = await axios
@@ -119,6 +141,7 @@ export default {
   mounted() {
     this.correctAnswer();
     this.correctAnswerIcon();
+    this.formatCreatedAt();
   },
 };
 </script>

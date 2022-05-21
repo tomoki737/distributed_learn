@@ -8,8 +8,9 @@ import App from "./App.vue";
 import VueLoaders from "vue-loaders";
 import VueLoading from "vue-loading-template";
 import axios from "axios";
+import moment from "moment";
 
-Vue.use(VueRouter, Vuetify, VueLoaders, VueLoading);
+Vue.use(VueRouter, Vuetify, VueLoaders, VueLoading, moment);
 
 const app = async () => {
     const res = await axios.get("/api/me").catch(() => {

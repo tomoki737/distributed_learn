@@ -24586,11 +24586,15 @@ var render = function () {
                         "div",
                         { staticClass: "text-end" },
                         [
-                          _c("v-card-text", [
-                            _c("p", [
-                              _vm._v("次回: " + _vm._s(_vm.next_study_date)),
-                            ]),
-                          ]),
+                          _vm.next_study_date
+                            ? _c("v-card-text", [
+                                _c("p", [
+                                  _vm._v(
+                                    "次回: " + _vm._s(_vm.next_study_date)
+                                  ),
+                                ]),
+                              ])
+                            : _vm._e(),
                         ],
                         1
                       ),

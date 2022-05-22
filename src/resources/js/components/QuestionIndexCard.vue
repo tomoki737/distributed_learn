@@ -29,7 +29,7 @@
     <v-divider></v-divider>
     <v-card-actions>
       <v-icon>mdi-book-open</v-icon>
-      <span class="ml-1">{{ question.answer_times }}回</span>
+      <span class="ml-2">{{ question.answer_times }} 回</span>
       <v-icon
         class="ml-5"
         :class="question.correct_answer ? 'green--text' : 'red--text'"
@@ -125,7 +125,7 @@ export default {
         ? "mdi-checkbox-blank-circle-outline"
         : "mdi-window-close";
     },
-    
+
     formatCreatedAt() {
       this.created_at = moment(this.question.created_at).format("YYYY/MM/DD");
     },

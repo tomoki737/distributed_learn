@@ -107,6 +107,7 @@ export default {
         });
       this.$emit("get");
     },
+
     correctAnswer() {
       const correct_answer = this.question.correct_answer;
       if (correct_answer === null) {
@@ -114,6 +115,7 @@ export default {
       }
       this.correct_answer = correct_answer ? "正解" : "不正解";
     },
+
     correctAnswerIcon() {
       const correct_answer = this.question.correct_answer;
       if (this.question.correct_answer === null) {
@@ -123,6 +125,7 @@ export default {
         ? "mdi-checkbox-blank-circle-outline"
         : "mdi-window-close";
     },
+    
     formatCreatedAt() {
       this.created_at = moment(this.question.created_at).format("YYYY/MM/DD");
     },

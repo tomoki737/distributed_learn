@@ -9,6 +9,7 @@ import QuestionEdit from "./question/QuestionEdit.vue";
 import QuestionIndex from "./question/QuestionIndex.vue";
 import AnswerSelect from "./answer/AnswerSelect.vue";
 import AnswerUnderstand from "./answer/AnswerUnderstand.vue";
+import AnswerWriting from "./answer/AnswerWriting.vue";
 import TagsShow from "./tag/TagsShow.vue";
 import store from "./store";
 
@@ -67,6 +68,12 @@ const routes = [
         path: "/answer/select",
         name: "answer.select",
         component: AnswerSelect,
+    },
+
+    {
+        path: "/answer/writing",
+        name: "answer.writing",
+        component: AnswerWriting,
     },
 
     {

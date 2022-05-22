@@ -1,21 +1,19 @@
 <template>
-  <div class="mt-7">
+  <div class="mt-2">
     <v-dialog v-model="dialog" width="500" persistent no-click-animation>
       <template v-slot:activator="{ on, attrs }">
-        <div v-for="select_answer in select_answers" :key="select_answer.id">
           <v-btn
+            plain
             block
             outlined
             x-large
-            @click="answer(select_answer)"
+            @click="answer"
             v-bind="attrs"
             v-on="on"
-            class="mb-2"
             style="text-transform: none; display: block; white-space: normal"
           >
             {{ select_answer }}
           </v-btn>
-        </div>
       </template>
 
       <v-card>
@@ -40,10 +38,9 @@
             </h3></v-card-text
           >
           <v-divider></v-divider>
-
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="$emit('next')">次へ</v-btn>
+            <v-btn color="primary" text @click="$emit('next', index)">次へ</v-btn>
           </v-card-actions>
         </div>
       </v-card>
@@ -54,10 +51,11 @@
 <script>
 export default {
   props: {
-    select_answers: {},
+    select_answer: {},
     current_question: {},
     your_answer: {},
     is_answer: "",
+    index: "",
   },
   data() {
     return {
@@ -78,10 +76,10 @@ export default {
   },
   methods: {
     dialogChange() {
-        this.dialog = false;
+      this.dialog = false;
     },
-    answer(select_answer) {
-      this.$emit("answer", select_answer);
+    answer() {
+      this.$emit("answer", this.select_answer, this.index);
     },
   },
 };

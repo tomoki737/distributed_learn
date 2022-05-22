@@ -1,23 +1,26 @@
 <template>
   <div>
     <v-container style="max-width: 1000px">
-      <v-card elevation="2" class="mt-3" min-height="250px">
+      <v-card elevation="2" class="mt-3 mb-7" min-height="250px">
         <v-toolbar color="blue lighten-3" class="white--text" flat>
           <h3 class="mx-auto">問題</h3>
         </v-toolbar>
         <v-card-text class="text-center mt-3">
-          <h3>{{ questions[number].question }}</h3>
+          <h3>{{ current_question.question }}</h3>
         </v-card-text>
       </v-card>
-      <answer-select-button
-        ref="child"
-        :select_answers="select_answers"
-        :current_question="current_question"
-        :is_answer="is_answer"
-        :your_answer="your_answer"
-        @answer="answer"
-        @next="next"
-      ></answer-select-button>
+      <div v-for="(select_answer, index) in select_answers" :key="index">
+        <answer-select-button
+          :index="index"
+          ref="child"
+          :select_answer="select_answer"
+          :current_question="current_question"
+          :is_answer="is_answer"
+          :your_answer="your_answer"
+          @answer="answer"
+          @next="next"
+        ></answer-select-button>
+      </div>
     </v-container>
   </div>
 </template>
@@ -51,22 +54,22 @@ export default {
       });
     },
 
-    next() {
+    next(index) {
       if (this.questions.length === this.number + 1) {
         return this.$router.push("/");
       }
-
       this.number += 1;
       this.createSelectAnswer(this.questions[this.number]);
-      this.$refs.child.dialogChange();
+      this.$refs.child[index].dialogChange();
     },
 
-    async answer(answer) {
+    async answer(answer, index) {
       this.is_answer = this.checkAnswer(answer);
       this.your_answer = answer;
+
       if (this.is_answer) {
         setTimeout(() => {
-          this.next();
+          this.next(index);
         }, 1000);
       }
       const response = await axios.put(

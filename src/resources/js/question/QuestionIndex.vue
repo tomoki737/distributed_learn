@@ -44,22 +44,11 @@
                     label="キーワード"
                     v-model="searchForm.keyword"
                   ></v-text-field>
-                  <v-row>
-                    <v-col cols="6">
                       <v-checkbox
                         v-model="searchForm.learning"
                         label="学習中"
                         hide-details
                       ></v-checkbox>
-                    </v-col>
-                    <v-col cols="6">
-                      <v-checkbox
-                        v-model="searchForm.unlearned"
-                        label="未学習"
-                        hide-details
-                      ></v-checkbox>
-                    </v-col>
-                  </v-row>
                   <v-divider class="mt-2"></v-divider>
                 </v-card-text>
                 <v-card-actions>

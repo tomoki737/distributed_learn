@@ -9,7 +9,6 @@ use App\Http\Requests\QuestionRequest;
 use App\Models\Category;
 use Carbon\Carbon;
 use App\Models\Tag;
-use Illuminate\Support\Facades\DB;
 
 class QuestionController extends Controller
 {
@@ -108,6 +107,8 @@ class QuestionController extends Controller
         $category = $request->category;
         $keyword = $request->keyword;
         $query = Question::query();
+        $learning = $request->learning;
+        $unlearned = $request->unlearned;
 
         if ($keyword !== null) {
             $query->where('question', 'like', "%" . $keyword . "%")->orWhere('answer', 'like', "%" . $keyword . "%")->where('user_id', '=', $user_id);
@@ -126,7 +127,8 @@ class QuestionController extends Controller
                     $query->where('name', '=', $category);
                 });
         }
-
+        
+        $unlearned ? $query->where('answer_times', 0) : $query->where('answer_times', "!=" , 0);
         $questions = $query->with(["tags", "category"])->get();
 
         return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag, 'category' => $category];

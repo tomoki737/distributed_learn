@@ -51,16 +51,11 @@
                         label="学習中"
                         hide-details
                       ></v-checkbox>
-                      <v-checkbox
-                        v-model="searchForm.unlearned"
-                        label="未学習"
-                        hide-details
-                      ></v-checkbox>
                     </v-col>
                     <v-col cols="6">
                       <v-checkbox
-                        v-model="searchForm.applicable"
-                        label="対象外"
+                        v-model="searchForm.unlearned"
+                        label="未学習"
                         hide-details
                       ></v-checkbox>
                     </v-col>

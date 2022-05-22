@@ -5,7 +5,7 @@ const state = {
 };
 
 const getters = {
-    check: (state) => !!state.user,
+    check: (state) => (state.user === null ? false : true),
     user: (state) => (state.user ? state.user : ""),
 };
 const mutations = {
@@ -16,10 +16,9 @@ const mutations = {
 
 const actions = {
     currentUser(context) {
-        Axios.get("/api/me").then((response) => {
-            const user = response.data;
-            context.commit("setUser", user);
-        });
+        const response = axios.get("/api/me");
+        const user = response.data;
+        context.commit("setUser", user);
     },
 };
 

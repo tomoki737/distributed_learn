@@ -10,6 +10,7 @@ import QuestionIndex from "./question/QuestionIndex.vue";
 import AnswerSelect from "./answer/AnswerSelect.vue";
 import AnswerUnderstand from "./answer/AnswerUnderstand.vue";
 import TagsShow from "./tag/TagsShow.vue";
+import store from "./store";
 
 Vue.use(VueRouter);
 
@@ -48,7 +49,7 @@ const routes = [
         path: "/question/:question_id/edit",
         name: "question.edit",
         component: QuestionEdit,
-        props: true
+        props: true,
     },
 
     {
@@ -72,21 +73,19 @@ const routes = [
         path: "/tags/:name",
         name: "tags.show",
         component: TagsShow,
-        props: true
+        props: true,
     },
-
-    {
-        path: "/google_auth",
-        name: "google_auth",
-        beforeEnter() {
-            window.location = "https://google.com"
-          }
-    },
-
 ];
 const router = new VueRouter({
     mode: "history",
     routes,
 });
 
+router.beforeEach((to, from, next) => {
+    if (!store.getters["auth/check"] && to.name !== "login" && to.name !== "register") {
+            next({ name: "login" });
+    } else {
+        next();
+    }
+});
 export default router;

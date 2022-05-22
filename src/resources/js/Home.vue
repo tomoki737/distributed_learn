@@ -34,7 +34,7 @@
             </div>
           </v-card-actions>
           <div v-else class="text-end">
-            <v-card-text>
+            <v-card-text v-if="next_study_date">
               <p>次回: {{ next_study_date }}</p>
             </v-card-text>
           </div>

@@ -1,15 +1,7 @@
 <template>
   <div>
     <v-container style="max-width: 1000px">
-      <v-btn
-        color="primary"
-        class="mb-3 mt-2 hidden-md-and-up"
-        dark
-        block
-        @click="edit"
-        >作成する</v-btn
-      >
-      <v-card class="mb-13 mt-3">
+      <v-card class="mt-3">
         <v-card-text>
           <quesiton-tags-input
             :initialTags="tagNames"
@@ -56,20 +48,26 @@
           ></v-switch>
         </v-card-text>
       </v-card>
-      <v-row justify="center">
-        <v-col cols="12">
-          <div class="text-end mt-4">
-            <v-btn
-              color="primary"
-              dark
-              x-large
-              class="hidden-sm-and-down"
-              @click="edit"
-              >作成する</v-btn
-            >
-          </div>
-        </v-col>
-      </v-row>
+      <div class="mb-13">
+        <div class="text-end mt-4">
+          <v-btn
+            color="primary"
+            dark
+            x-large
+            class="hidden-sm-and-down"
+            @click="edit"
+            >作成する</v-btn
+          >
+        </div>
+        <v-btn
+          color="primary"
+          class="mb-3 mt-2 hidden-md-and-up"
+          dark
+          block
+          @click="edit"
+          >作成する</v-btn
+        >
+      </div>
     </v-container>
     <bottom-navigation></bottom-navigation>
   </div>

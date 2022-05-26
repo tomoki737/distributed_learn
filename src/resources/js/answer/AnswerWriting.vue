@@ -14,10 +14,24 @@
         v-model="your_answer"
         :color="text_field_color"
         @keyup.enter="answer"
+        :disabled="disabled"
         hide-details
       >
         <template v-slot:append>
-          <v-btn color="primary" text @click="answerShow">わからない</v-btn>
+          <v-btn
+            color="primary"
+            text
+            @click="answerShow"
+            v-if="!answer_show_button"
+            >わからない</v-btn
+          >
+          <v-btn
+            color="primary"
+            text
+            v-if="your_correct_show"
+            @click="you_correct"
+            >私の回答が正しい</v-btn
+          >
         </template>
       </v-text-field>
       <p :class="text_color">{{ answer_text }}</p>
@@ -31,13 +45,19 @@ export default {
       questions: {},
       number: 0,
       current_question: {},
-      is_answer: "",
       your_answer: "",
       text_field_color: "black",
       text_color: "black",
       answer_text: "",
+      ansewr_again: false,
+      answer_show_again: false,
+      disabled: false,
+      answer_show_button: false,
+      your_correct_show: false,
+      firstAnswer: false,
     };
   },
+
   methods: {
     async getQuestions() {
       const response = await axios.get("/api/answer");
@@ -47,35 +67,52 @@ export default {
 
     next() {
       if (this.questions.length === this.number + 1) {
-        return this.$router.push("/");
+        this.$router.push("/");
       }
       this.reset();
+      this.answer_show_again = false;
+      this.answer_show_button = false;
       this.number += 1;
       this.current_question = this.questions[this.number];
     },
 
     async answer() {
-        if(this.your_answer === "") {
-            return;
-        }
-      this.is_answer = this.checkAnswer();
-      this.text_field_color = this.is_answer ? "green" : "red";
-      this.text_color = this.is_answer ? "green--text" : "red--text";
-      this.answer_text = this.is_answer ? "正解" : "不正解";
+      if (this.your_answer === "") {
+        return;
+      }
+      const is_answer = this.checkAnswer();
+      this.text_field_color = is_answer ? "green" : "red";
+      this.text_color = is_answer ? "green--text" : "red--text";
+      this.answer_text = is_answer ? "正解" : "不正解";
+      this.answer_show_button = true;
 
-      if (!this.is_answer) {
+      if (!this.answer_again) {
+        this.firstAnswer = this.checkAnswer();
+      }
+
+      if (is_answer) {
+        this.answerStore();
+        setTimeout(() => {
+          this.next();
+        }, 1000);
+      } else {
         this.your_answer = this.current_question.answer;
+        this.your_correct_show = true;
         setTimeout(() => {
           this.reset();
         }, 2000);
-        return;
       }
 
-      this.next();
+      if (!is_answer) {
+        this.answer_again = true;
+      }
+    },
+    async answerStore() {
+      console.log("store");
       const response = await axios.put(
         "/api/question/" + this.current_question.id + "/answer",
         {
-          correct_answer: this.is_answer,
+          correct_answer: this.firstAnswer,
         }
       );
     },
@@ -84,10 +121,23 @@ export default {
       return this.current_question.answer === this.your_answer ? true : false;
     },
 
+    you_correct() {
+      this.firstAnswer = true;
+      this.answer_again = false;
+      this.answer();
+    },
+
     answerShow() {
+      this.answer_show_button = true;
       this.your_answer = this.current_question.answer;
+      this.answer_again = true;
+      this.firstAnswer = false;
+      this.answer_show_again = true;
+      this.disabled = true;
       setTimeout(() => {
         this.reset();
+        this.disabled = false;
+        this.answer_show_button = false;
       }, 2000);
     },
 
@@ -95,6 +145,8 @@ export default {
       this.text_field_color = "black";
       this.your_answer = "";
       this.answer_text = "";
+      this.answer_show_button = false;
+      this.your_correct_show = false;
     },
   },
   mounted() {

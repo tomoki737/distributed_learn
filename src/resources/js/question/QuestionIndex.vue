@@ -30,19 +30,27 @@
                     :items="items"
                     label="カテゴリー"
                     v-model="searchForm.category"
+                    hide-details
                   ></v-select>
 
                   <v-text-field
+                    hide-details
                     label="タグ"
                     v-model="searchForm.tag"
                   ></v-text-field>
 
                   <v-text-field
+                    hide-details
                     label="キーワード"
                     v-model="searchForm.keyword"
                   ></v-text-field>
+                      <v-checkbox
+                        v-model="searchForm.learning"
+                        label="学習中"
+                        hide-details
+                      ></v-checkbox>
+                  <v-divider class="mt-2"></v-divider>
                 </v-card-text>
-
                 <v-card-actions>
                   <v-spacer></v-spacer>
 
@@ -120,6 +128,9 @@ export default {
         tag: "",
         keyword: "",
         category: "",
+        learning: true,
+        unlearned:true,
+        applicable: true
       },
       page: 1,
       length: 0,

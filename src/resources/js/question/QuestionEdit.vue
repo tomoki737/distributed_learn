@@ -29,8 +29,6 @@
           <span v-if="errors.question">
             {{ errors.question[0] }}
           </span>
-        </v-card-text>
-        <v-card-text>
           <v-text-field
             v-model="question.answer"
             label="回答"
@@ -39,8 +37,6 @@
           <span v-if="errors.answer">
             {{ errors.answer[0] }}
           </span>
-        </v-card-text>
-        <v-card-text>
           <v-switch
             v-model="question.share"
             label="Share"
@@ -56,7 +52,7 @@
             x-large
             class="hidden-sm-and-down"
             @click="edit"
-            >作成する</v-btn
+            >編集する</v-btn
           >
         </div>
         <v-btn
@@ -65,7 +61,7 @@
           dark
           block
           @click="edit"
-          >作成する</v-btn
+          >編集する</v-btn
         >
       </div>
     </v-container>

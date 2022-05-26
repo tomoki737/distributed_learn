@@ -28,8 +28,6 @@
           <span v-if="errors.question">
             {{ errors.question[0] }}
           </span>
-        </v-card-text>
-        <v-card-text>
           <v-text-field
             v-model="questionForm.answer"
             label="解答"
@@ -38,8 +36,6 @@
           <span v-if="errors.answer">
             {{ errors.answer[0] }}
           </span>
-        </v-card-text>
-        <v-card-text>
           <v-switch
             v-model="questionForm.share"
             label="Share"
@@ -48,23 +44,17 @@
         </v-card-text>
       </v-card>
       <div class="mb-13">
-      <div class="text-end mt-4 hidden-sm-and-down">
         <v-btn
           color="primary"
           dark
-          x-large
+          block
+          class="hidden-md-and-up mt-2"
           @click="store"
           >作成する</v-btn
         >
-      </div>
-         <v-btn
-        color="primary"
-        dark
-        block
-        class="hidden-md-and-up mt-2"
-        @click="store"
-        >作成する</v-btn
-      >
+        <div class="text-end mt-4 hidden-sm-and-down">
+          <v-btn color="primary" dark x-large @click="store">作成する</v-btn>
+        </div>
       </div>
     </v-container>
     <bottom-navigation></bottom-navigation>

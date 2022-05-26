@@ -24,7 +24,7 @@ class AnswerController extends Controller
     {
         $user_id = $request->user()->id;
         $dateNow = new Carbon();
-        $questions = Question::where("user_id", $user_id)->where("next_study_date", "<", $dateNow)->get();
+        $questions = Question::where("user_id", $user_id)->where("next_study_date", "<", $dateNow)->where('learning', true)->get();
         return ['questions' => $questions];
     }
 

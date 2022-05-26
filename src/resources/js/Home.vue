@@ -26,10 +26,13 @@
           >
             <div class="mx-auto">
               <v-btn router-link outlined :to="{ name: 'answer.understand' }">
-                学習する
+                学習
               </v-btn>
               <v-btn router-link outlined :to="{ name: 'answer.select' }">
-                選択肢で学習
+                選択肢
+              </v-btn>
+              <v-btn router-link outlined :to="{ name: 'answer.writing' }">
+                筆記
               </v-btn>
             </div>
           </v-card-actions>

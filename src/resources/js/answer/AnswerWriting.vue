@@ -28,7 +28,7 @@
           <v-btn
             color="primary"
             text
-            v-if="your_correct_show"
+            v-if="your_correct_button"
             @click="you_correct"
             >私の回答が正しい</v-btn
           >
@@ -49,12 +49,12 @@ export default {
       text_field_color: "black",
       text_color: "black",
       answer_text: "",
-      ansewr_again: false,
       answer_show_again: false,
       disabled: false,
       answer_show_button: false,
-      your_correct_show: false,
-      firstAnswer: false,
+      your_correct_button: false,
+      storeAnswer: false,
+      answer_again: false,
     };
   },
 
@@ -87,7 +87,7 @@ export default {
       this.answer_show_button = true;
 
       if (!this.answer_again) {
-        this.firstAnswer = this.checkAnswer();
+        this.storeAnswer = this.checkAnswer();
       }
 
       if (is_answer) {
@@ -97,7 +97,7 @@ export default {
         }, 1000);
       } else {
         this.your_answer = this.current_question.answer;
-        this.your_correct_show = true;
+        this.your_correct_button = true;
         setTimeout(() => {
           this.reset();
         }, 2000);
@@ -112,7 +112,7 @@ export default {
       const response = await axios.put(
         "/api/question/" + this.current_question.id + "/answer",
         {
-          correct_answer: this.firstAnswer,
+          correct_answer: this.storeAnswer,
         }
       );
     },
@@ -122,7 +122,7 @@ export default {
     },
 
     you_correct() {
-      this.firstAnswer = true;
+      this.storeAnswer = true;
       this.answer_again = false;
       this.answer();
     },
@@ -131,7 +131,7 @@ export default {
       this.answer_show_button = true;
       this.your_answer = this.current_question.answer;
       this.answer_again = true;
-      this.firstAnswer = false;
+      this.storeAnswer = false;
       this.answer_show_again = true;
       this.disabled = true;
       setTimeout(() => {
@@ -146,7 +146,7 @@ export default {
       this.your_answer = "";
       this.answer_text = "";
       this.answer_show_button = false;
-      this.your_correct_show = false;
+      this.your_correct_button = false;
     },
   },
   mounted() {

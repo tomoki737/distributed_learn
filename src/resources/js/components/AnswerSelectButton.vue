@@ -30,17 +30,17 @@
             {{ current_question.answer }}
           </h3></v-card-text
         >
-        <div v-if="!is_answer">
+        <div v-if="!is_correct_answer">
           <v-card-text>
             <p style="margin: 0; padding: 0">あなたの回答:</p>
             <h3 style="margin: 0; padding: 0">
-              {{ your_answer }}
+              {{ your_select_answer }}
             </h3></v-card-text
           >
           <v-divider></v-divider>
           <v-card-actions>
             <v-spacer></v-spacer>
-            <v-btn color="primary" text @click="$emit('next', index)">次へ</v-btn>
+            <v-btn color="primary" text @click="$emit('next_question', index)">次へ</v-btn>
           </v-card-actions>
         </div>
       </v-card>
@@ -53,8 +53,8 @@ export default {
   props: {
     select_answer: {},
     current_question: {},
-    your_answer: {},
-    is_answer: "",
+    your_select_answer: {},
+    is_correct_answer: "",
     index: "",
   },
   data() {
@@ -65,11 +65,11 @@ export default {
 
   computed: {
     showCheckAnswer() {
-      return this.is_answer ? "正解" : "不正解";
+      return this.is_correct_answer ? "正解" : "不正解";
     },
 
     showAnswerColor() {
-      return this.is_answer
+      return this.is_correct_answer
         ? "color: green lighten-1"
         : "color: deep-orange lighten-3";
     },

@@ -103,9 +103,9 @@ export default {
       );
 
       let answers = this.createAnswer(tag_priority_questions);
-      let except_overlapping = Array.from(new Set(answers));
+      let exclude_overlapping = Array.from(new Set(answers));
 
-      let slice_answers = except_overlapping.slice(0, 3);
+      let slice_answers = exclude_overlapping.slice(0, 3);
       this.addCurrentAnswer(slice_answers, current_question.answer);
       this.select_answers = this.shuffleQuestions(slice_answers);
     },
@@ -162,9 +162,9 @@ export default {
       return answers.push(add_answer);
     },
 
-    excludeQuestion(allQuestions, exceptQuestion) {
-      return allQuestions.filter(
-        (question) => !(question.answer == exceptQuestion.answer)
+    excludeQuestion(all_questions, exclude_question) {
+      return all_questions.filter(
+        (question) => !(question.answer == exclude_question.answer)
       );
     },
   },

@@ -86,15 +86,14 @@ export default {
 
     createSelectAnswers(current_question) {
       this.current_question = current_question;
-      let removed_questions = this.removeQuestion(
+      let exclude_questions = this.excludeQuestion(
         this.all_questions,
         current_question
       );
-
-      let shuffled_questions = this.shuffleQuestions(removed_questions);
+      let shuffle_questions = this.shuffleQuestions(exclude_questions);
 
       let category_priority_questions = this.categoryPriority(
-        shuffled_questions,
+        shuffle_questions,
         current_question
       );
 
@@ -107,7 +106,7 @@ export default {
       let except_overlapping = Array.from(new Set(answers));
 
       let slice_answers = except_overlapping.slice(0, 3);
-      this.addAnswer(slice_answers, current_question.answer);
+      this.addCurrentAnswer(slice_answers, current_question.answer);
       this.select_answers = this.shuffleQuestions(slice_answers);
     },
 
@@ -135,14 +134,13 @@ export default {
 
     tagsPriority(questions, current_question) {
       let tag_priority_questions = [];
-      const current_question_tag_names = current_question.tags.map((tag) => {
-        return tag.name;
-      });
-
+      const current_question_tag_names = current_question.tags.map(
+        (tag) => tag.name
+      );
       questions.forEach((select_question) => {
-        const question_tags = select_question.tags.filter((tag) => {
-          return current_question_tag_names.includes(tag.name);
-        });
+        const question_tags = select_question.tags.filter((tag) =>
+          current_question_tag_names.includes(tag.name)
+        );
         if (question_tags.length !== 0) {
           tag_priority_questions.unshift(select_question);
           return;
@@ -160,11 +158,11 @@ export default {
       return answer;
     },
 
-    addAnswer(answers, add_answer) {
+    addCurrentAnswer(answers, add_answer) {
       return answers.push(add_answer);
     },
 
-    removeQuestion(allQuestions, exceptQuestion) {
+    excludeQuestion(allQuestions, exceptQuestion) {
       return allQuestions.filter(
         (question) => !(question.answer == exceptQuestion.answer)
       );

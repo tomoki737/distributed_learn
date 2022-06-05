@@ -14,7 +14,6 @@ Vue.use(VueRouter, Vuetify, VueLoaders, VueLoading, moment);
 
 const app = async () => {
     const res = await axios.get("/api/me").catch(() => {
-        console.log("a")
         new Vue({
             el: "#app",
             router,

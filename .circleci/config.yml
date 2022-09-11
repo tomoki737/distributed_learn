@@ -53,9 +53,8 @@ jobs:
       - run:
           name: get ready for postgres
           command: |
-            wget -q -O - https://dl.google.com/linux/linux_signing_key.pub
-            sudo apt-get update
-            sudo apt-get install libpq-dev
+            sudo apt-get update --allow-unauthenticated
+            sudo apt-get install libpq-dev --allow-unauthenticated
             sudo docker-php-ext-install pdo_pgsql
             dockerize -wait tcp://localhost:5432 -timeout 1m
       - run:

@@ -27,7 +27,7 @@
       </div>
     </v-card-actions>
     <v-divider></v-divider>
-    <v-card-actions>
+    <v-card-actions v-if="my_question_search">
       <v-icon>mdi-book-open</v-icon>
       <span class="ml-2">{{ question.answer_times }} 回</span>
       <v-icon
@@ -78,6 +78,15 @@
         </v-list>
       </v-menu>
     </v-card-actions>
+    <v-card-actions v-else>
+      <v-icon>mdi-account</v-icon>
+      <span>{{ question.user.name }}</span>
+      <span class="ml-2">{{ created_at }}</span>
+      <v-spacer></v-spacer>
+      <v-btn class="mx-2" fab dark small color="primary"
+        ><v-icon>mdi-cloud-download-outline</v-icon></v-btn
+      >
+    </v-card-actions>
   </v-card>
 </template>
 
@@ -86,6 +95,7 @@ import moment from "moment";
 export default {
   props: {
     question: {},
+    my_question_search: "",
   },
 
   data() {

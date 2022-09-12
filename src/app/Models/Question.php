@@ -28,4 +28,9 @@ class Question extends Model
     {
         return $this->HasOne('App\Models\Category');
     }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo('App\Models\User');
+    }
 }

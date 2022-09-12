@@ -17,7 +17,7 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->user()->id;
-        $questions = Question::where("user_id", $user_id)->with(["tags", 'category'])->get();
+        $questions = Question::where("user_id", $user_id)->with(["tags", 'category', 'user'])->get();
 
         $allTagNames =  Tag::all()->map(function ($tag) {
             return ['text' => $tag->name];
@@ -129,7 +129,7 @@ class QuestionController extends Controller
 
             $query->where('learning', $learning);
 
-        $questions = $query->with(["tags", "category"])->get();
+        $questions = $query->with(["tags", "category", "user"])->get();
 
         return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag, 'category' => $category];
     }

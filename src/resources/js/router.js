@@ -5,6 +5,7 @@ import Login from "./auth/Login.vue";
 import Register from "./auth/Register.vue";
 import About from "./auth/About.vue";
 import QuestionCreate from "./question/QuestionCreate.vue";
+import QuestionSearch from "./question/QuestionSearch.vue";
 import QuestionEdit from "./question/QuestionEdit.vue";
 import QuestionIndex from "./question/QuestionIndex.vue";
 import AnswerSelect from "./answer/AnswerSelect.vue";
@@ -57,6 +58,12 @@ const routes = [
         path: "/question/index",
         name: "question.index",
         component: QuestionIndex,
+    },
+
+    {
+        path: "/question/search",
+        name: "question.search",
+        component: QuestionSearch,
     },
 
     {

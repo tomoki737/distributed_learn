@@ -55,6 +55,7 @@ class QuestionController extends Controller
         $allTagNames =  Tag::all()->map(function ($tag) {
             return ['text' => $tag->name];
         });
+
         $question->load(['category']);
         return ['question' => $question, 'tagNames' => $tagNames, 'allTagNames' => $allTagNames];
     }
@@ -100,6 +101,29 @@ class QuestionController extends Controller
         $question->save();
     }
 
+    public function downloadQuestion(Request $request, Question $question)
+    {
+        $download_question = Question::where('id', $request->question_id)->with(["tags", "category"])->first();
+        $question->user_id = $request->user()->id;
+        $question->question = $download_question->question;
+        $question->next_study_date = new Carbon();
+        $question->answer = $download_question->answer;
+        $question->share = false;
+        $question->save();
+
+
+        $download_question->tags->each(function ($tag) use ($question) {
+            $question->tags()->attach($tag);
+        });
+
+        $category = new Category();
+        $category->name = $download_question->category->name;
+        $category->question_id = $question->id;
+        $category->save();
+
+        return [];
+    }
+
     public function search(Request $request)
     {
         $user_id = $request->user()->id;
@@ -127,7 +151,7 @@ class QuestionController extends Controller
                 });
         }
 
-            $query->where('learning', $learning);
+        $query->where('learning', $learning);
 
         $questions = $query->with(["tags", "category", "user"])->get();
 

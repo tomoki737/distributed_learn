@@ -83,7 +83,7 @@
       <span>{{ question.user.name }}</span>
       <span class="ml-2">{{ created_at }}</span>
       <v-spacer></v-spacer>
-      <v-btn class="mx-2" fab dark small color="primary"
+      <v-btn class="mx-2" fab dark small color="primary" @click="downloadQuestion"
         ><v-icon>mdi-cloud-download-outline</v-icon></v-btn
       >
     </v-card-actions>
@@ -147,6 +147,15 @@ export default {
           return console.error(error);
         });
     },
+
+    async downloadQuestion() {
+      const response = await axios
+        .post("/api/question/download", {question_id: this.question.id})
+        .catch((error) => {
+          return console.error(error);
+        });
+    },
+
     select(val) {
       this.isSelect = val;
     },

@@ -14,6 +14,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::get('/home', [QuestionController::class, 'homeIndex']);
 Route::resource('/question', QuestionController::class)->except(['show']);
 Route::post('/question/search', [QuestionController::class, 'search']);
+Route::post('/question/download', [QuestionController::class, 'downloadQuestion']);
 Route::put('/question/{question}/except', [QuestionController::class, 'exceptQuestion']);
 
 Route::put('/question/{question}/answer', [AnswerController::class, 'answer']);

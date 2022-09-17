@@ -22,6 +22,7 @@
           label
           :to="{ name: 'tags.show', params: { name: tag.name } }"
           class="mr-1"
+          v-if="tag.name"
           >{{ tag.name }}</v-chip
         >
       </div>
@@ -80,7 +81,7 @@
     </v-card-actions>
     <v-card-actions v-else>
       <v-icon>mdi-account</v-icon>
-      <span>{{ question.user.name }}</span>
+      <span v-if="question">{{ question.user.name }}</span>
       <span class="ml-2">{{ created_at }}</span>
       <v-spacer></v-spacer>
       <v-btn class="mx-2" fab dark small color="primary" @click="downloadQuestion"

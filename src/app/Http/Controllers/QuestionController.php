@@ -63,29 +63,20 @@ class QuestionController extends Controller
     public function store(QuestionRequest $request, Question $question)
     {
         $question->fill($request->all());
-        $question->user_id = $request->user()->id;
-        $question->next_study_date = new Carbon();
-        $question->save();
+        $this->question_create($request,$question);
 
-        $request->tags->each(function ($tagName) use ($question) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $question->tags()->attach($tag);
-        });
+        $this->tags_create($request,$question);
 
-        $category = new Category();
-        $category->name = $request->category;
-        $category->question_id = $question->id;
-        $category->save();
+        $this->category_create($request->category,$question);
     }
+
+
 
     public function update(QuestionRequest $request, Question $question)
     {
         $question->fill($request->all())->save();
         $question->tags()->detach();
-        $request->tags->each(function ($tagName) use ($question) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $question->tags()->attach($tag);
-        });
+        $this->tags_create($request,$question);
 
         Category::where('question_id', $question->id)->update(['name' => $request->category]);
     }
@@ -104,24 +95,17 @@ class QuestionController extends Controller
     public function downloadQuestion(Request $request, Question $question)
     {
         $download_question = Question::where('id', $request->question_id)->with(["tags", "category"])->first();
-        $question->user_id = $request->user()->id;
         $question->question = $download_question->question;
-        $question->next_study_date = new Carbon();
         $question->answer = $download_question->answer;
         $question->share = false;
-        $question->save();
 
+        $this->question_create($request,$question);
 
         $download_question->tags->each(function ($tag) use ($question) {
             $question->tags()->attach($tag);
         });
 
-        $category = new Category();
-        $category->name = $download_question->category->name;
-        $category->question_id = $question->id;
-        $category->save();
-
-        return [];
+        $this->category_create($download_question->category->name,$question);
     }
 
     public function search(Request $request)
@@ -156,5 +140,25 @@ class QuestionController extends Controller
         $questions = $query->with(["tags", "category", "user"])->get();
 
         return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag, 'category' => $category];
+    }
+
+    private function question_create($request, $question) {
+        $question->user_id = $request->user()->id;
+        $question->next_study_date = new Carbon();
+        $question->save();
+    }
+
+    private function category_create($request_category, $question) {
+        $category = new Category();
+        $category->name = $request_category;
+        $category->question_id = $question->id;
+        $category->save();
+    }
+
+    private function tags_create($request,$question) {
+        $request->tags->each(function ($tagName) use ($question) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $question->tags()->attach($tag);
+        });
     }
 }

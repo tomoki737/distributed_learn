@@ -28,6 +28,6 @@ class MeControllerTest extends TestCase
     {
         $response = $this->getJson("/api/me");
         $response->assertStatus(401);
-        $response->assertJson(['message' => 'ログインしていません']);
+        $response->assertJson(['message' => 'Unauthenticated.']);
     }
 }

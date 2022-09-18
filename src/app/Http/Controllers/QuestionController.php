@@ -17,7 +17,7 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->user()->id;
-        $questions = Question::where("user_id", $user_id)->with(["tags", 'category', 'user'])->get();
+        $questions = Question::where("user_id", $user_id)->with(["tags", 'category', 'user',"downloads"])->get();
 
         $allTagNames =  Tag::all()->map(function ($tag) {
             return ['text' => $tag->name];
@@ -99,8 +99,9 @@ class QuestionController extends Controller
         $question->answer = $download_question->answer;
         $question->share = false;
         $this->question_create($request,$question);
-        $question->download()->detach($request->user()->id);
-        $question->download()->attach($request->user()->id);
+
+        $question->downloads()->detach($request->user()->id);
+        $question->downloads()->attach($request->user()->id);
 
         $download_question->tags->each(function ($tag) use ($question) {
             $question->tags()->attach($tag);
@@ -138,7 +139,7 @@ class QuestionController extends Controller
 
         $query->where('learning', $learning);
 
-        $questions = $query->with(["tags", "category", "user"])->get();
+        $questions = $query->with(["tags", "category", "user", "downloads"])->get();
 
         return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag, 'category' => $category];
     }

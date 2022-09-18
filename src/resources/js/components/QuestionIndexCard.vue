@@ -46,7 +46,7 @@
         <v-card>
           <v-card-text>
             <p>次回学習日: {{ question.next_study_date }}</p>
-            <p>作成日: {{ created_at }}</p>
+            <p>作成日: {{ created_at }} </p>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
@@ -84,7 +84,14 @@
       <span v-if="question">{{ question.user.name }}</span>
       <span class="ml-2">{{ created_at }}</span>
       <v-spacer></v-spacer>
-      <v-btn class="mx-2" fab dark small color="primary" @click="downloadQuestion"
+      <v-btn
+        v-show="get_user_id !== question.user_id"
+        class="mx-2"
+        fab
+        dark
+        small
+        :class="download ? 'grey' : 'primary'"
+        @click="clickDownload"
         ><v-icon>mdi-cloud-download-outline</v-icon></v-btn
       >
     </v-card-actions>
@@ -106,6 +113,7 @@ export default {
       correct_answer_icon: "",
       created_at: "",
       dialog: false,
+      download: false,
     };
   },
 
@@ -149,18 +157,34 @@ export default {
         });
     },
 
+    clickDownload() {
+      if (this.download === false) {
+        this.downloadQuestion();
+      } else {
+        alert("すでにダウンロードされています");
+      }
+    },
+
     async downloadQuestion() {
       const response = await axios
-        .post("/api/question/download", {question_id: this.question.id})
+        .post("/api/question/download", { question_id: this.question.id })
         .catch((error) => {
           return console.error(error);
         });
+      this.download = true;
     },
 
     select(val) {
       this.isSelect = val;
     },
   },
+
+  computed: {
+    get_user_id() {
+      return this.$store.getters["auth/id"];
+    },
+  },
+
   mounted() {
     this.correctAnswer();
     this.correctAnswerIcon();

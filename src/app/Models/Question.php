@@ -29,7 +29,7 @@ class Question extends Model
         return $this->HasOne('App\Models\Category');
     }
 
-    public function download(): BelongsToMany
+    public function downloads(): BelongsToMany
     {
         return $this->BelongsToMany('App\Models\User', 'question_download')->withTimestamps();
     }

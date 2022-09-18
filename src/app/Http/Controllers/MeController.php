@@ -9,15 +9,16 @@ use Illuminate\Http\Request;
 class MeController extends Controller
 {
     use RefreshDatabase;
-    
+
     public function me(Request $request)
     {
         $user = $request->user();
 
-        return new JsonResponse([
-            'id' => $user->id,
-            'name' => $user->name,
-            'email' => $user->email,
-        ]);
+        // return new JsonResponse([
+        //     'id' => $user->id,
+        //     'name' => $user->name,
+        //     'email' => $user->email,
+        // ]);
+        return ["user" => $user];
     }
 }

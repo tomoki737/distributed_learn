@@ -1,5 +1,5 @@
 <template>
-<div>
+  <div>
     <loading :loading="loading"></loading>
     <v-container style="max-width: 1000px" class="mt-2">
       <div v-show="!loading">

@@ -19,6 +19,9 @@ class MeController extends Controller
         //     'name' => $user->name,
         //     'email' => $user->email,
         // ]);
-        return ["user" => $user];
+        if($user) {
+            return ["user" => $user];
+        }
+        throw new Exception('ログインしていません');
     }
 }

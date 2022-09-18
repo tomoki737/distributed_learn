@@ -1,12 +1,9 @@
 <template>
   <div>
-    <loading :loading="loading"></loading>
     <v-container>
-      <div v-show="!loading">
-        <p>ユーザー名: {{ user.name }}</p>
-        <p>メールアドレス: {{ user.email }}</p>
+        <p>ユーザー名: {{ get_user_name }}</p>
+        <p>メールアドレス: {{ get_user_email }}</p>
         <v-btn outlined @click="logout">ログアウト</v-btn>
-      </div>
       <bottom-navigation></bottom-navigation>
     </v-container>
   </div>
@@ -23,12 +20,6 @@ export default {
       loading: true,
     };
   },
-  mounted() {
-    axios.get("/api/me").then((response) => {
-      this.user = response.data;
-      this.loading = false;
-    });
-  },
 
   methods: {
     logout() {
@@ -37,13 +28,20 @@ export default {
           .post("logout")
           .then((res) => {
             this.$store.commit("auth/setUser", null);
-            console.log(this.$store.state.auth.user)
             this.$router.push("/login");
           })
           .catch((error) => {
             console.error(error);
           });
       });
+    },
+  },
+  computed: {
+    get_user_name() {
+      return this.$store.getters["auth/name"];
+    },
+    get_user_email() {
+      return this.$store.getters["auth/email"];
     },
   },
 };

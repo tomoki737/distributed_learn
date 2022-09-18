@@ -8,6 +8,8 @@ const getters = {
     check: (state) => (state.user ? true : false),
     user: (state) => (state.user ? state.user : ""),
     id: (state) => (state.user ? state.user.id : ""),
+    name: (state) => (state.user ? state.user.name : ""),
+    email: (state) => (state.user ? state.user.email : ""),
 };
 const mutations = {
     setUser(state, user) {

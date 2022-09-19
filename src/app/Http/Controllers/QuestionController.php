@@ -17,7 +17,7 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->user()->id;
-        $questions = Question::where("user_id", $user_id)->with(["tags", 'category', 'user'])->get();
+        $questions = Question::where("user_id", $user_id)->with(["tags", 'category', 'user',"downloads"])->get();
 
         $allTagNames =  Tag::all()->map(function ($tag) {
             return ['text' => $tag->name];
@@ -55,6 +55,7 @@ class QuestionController extends Controller
         $allTagNames =  Tag::all()->map(function ($tag) {
             return ['text' => $tag->name];
         });
+
         $question->load(['category']);
         return ['question' => $question, 'tagNames' => $tagNames, 'allTagNames' => $allTagNames];
     }
@@ -62,29 +63,20 @@ class QuestionController extends Controller
     public function store(QuestionRequest $request, Question $question)
     {
         $question->fill($request->all());
-        $question->user_id = $request->user()->id;
-        $question->next_study_date = new Carbon();
-        $question->save();
+        $this->question_create($request,$question);
 
-        $request->tags->each(function ($tagName) use ($question) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $question->tags()->attach($tag);
-        });
+        $this->tags_create($request,$question);
 
-        $category = new Category();
-        $category->name = $request->category;
-        $category->question_id = $question->id;
-        $category->save();
+        $this->category_create($request->category,$question);
     }
+
+
 
     public function update(QuestionRequest $request, Question $question)
     {
         $question->fill($request->all())->save();
         $question->tags()->detach();
-        $request->tags->each(function ($tagName) use ($question) {
-            $tag = Tag::firstOrCreate(['name' => $tagName]);
-            $question->tags()->attach($tag);
-        });
+        $this->tags_create($request,$question);
 
         Category::where('question_id', $question->id)->update(['name' => $request->category]);
     }
@@ -98,6 +90,24 @@ class QuestionController extends Controller
     {
         $question->learning = false;
         $question->save();
+    }
+
+    public function downloadQuestion(Request $request, Question $question)
+    {
+        $download_question = Question::where('id', $request->question_id)->with(["tags", "category"])->first();
+        $question->question = $download_question->question;
+        $question->answer = $download_question->answer;
+        $question->share = false;
+        $this->question_create($request,$question);
+
+        $download_question->downloads()->detach($request->user()->id);
+        $download_question->downloads()->attach($request->user()->id);
+
+        $download_question->tags->each(function ($tag) use ($question) {
+            $question->tags()->attach($tag);
+        });
+
+        $this->category_create($download_question->category->name,$question);
     }
 
     public function search(Request $request)
@@ -127,10 +137,30 @@ class QuestionController extends Controller
                 });
         }
 
-            $query->where('learning', $learning);
+        $query->where('learning', $learning);
 
-        $questions = $query->with(["tags", "category", "user"])->get();
+        $questions = $query->with(["tags", "category", "user", "downloads"])->get();
 
         return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag, 'category' => $category];
+    }
+
+    private function question_create($request, $question) {
+        $question->user_id = $request->user()->id;
+        $question->next_study_date = new Carbon();
+        $question->save();
+    }
+
+    private function category_create($request_category, $question) {
+        $category = new Category();
+        $category->name = $request_category;
+        $category->question_id = $question->id;
+        $category->save();
+    }
+
+    private function tags_create($request,$question) {
+        $request->tags->each(function ($tagName) use ($question) {
+            $tag = Tag::firstOrCreate(['name' => $tagName]);
+            $question->tags()->attach($tag);
+        });
     }
 }

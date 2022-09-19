@@ -20,11 +20,6 @@ class MeControllerTest extends TestCase
     {
         $response = $this->actingAs($this->user)->getJson("/api/me");
         $response->assertStatus(200);
-        $response->assertJson([
-            'id' => $this->user->id,
-            'name' => $this->user->name,
-            'email' => $this->user->email,
-        ]);
     }
     public function test_guestUser()
     {

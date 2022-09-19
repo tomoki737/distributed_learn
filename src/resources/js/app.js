@@ -27,7 +27,6 @@ const app = async () => {
     });
     const user = res.data.user;
     store.commit("auth/setUser", user);
-
     new Vue({
         el: "#app",
         router,

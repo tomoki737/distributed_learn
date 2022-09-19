@@ -29,6 +29,18 @@ class Question extends Model
         return $this->HasOne('App\Models\Category');
     }
 
+    public function downloads(): BelongsToMany
+    {
+        return $this->BelongsToMany('App\Models\User', 'question_download')->withTimestamps();
+    }
+
+    public function isDownloadedBy(?User $user): bool
+    {
+        return $user
+            ? (bool)$this->download->where('user_id', $user->id)->count()
+            : false;
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo('App\Models\User');

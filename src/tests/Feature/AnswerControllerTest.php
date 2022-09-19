@@ -19,6 +19,7 @@ class AnswerControllerTest extends TestCase
 
     }
 
+    //次回の学習をしないよう設定する機能についてのテスト
     public function test_next_learning_false()
     {
 

@@ -55,7 +55,7 @@ export default {
 
   methods: {
     async getQuestions() {
-      const response = await axios.get("/api/question");
+      const response = await axios.get("/api/question/search");
       this.questions = response.data.questions;
       this.allTagNames = response.data.allTagNames;
       this.loading = false;

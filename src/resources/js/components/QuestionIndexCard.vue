@@ -46,7 +46,7 @@
         <v-card>
           <v-card-text>
             <p>次回学習日: {{ question.next_study_date }}</p>
-            <p>作成日: {{ created_at }} </p>
+            <p>作成日: {{ created_at }}</p>
           </v-card-text>
           <v-divider></v-divider>
           <v-card-actions>
@@ -81,8 +81,8 @@
     </v-card-actions>
     <v-card-actions v-else>
       <v-icon>mdi-account</v-icon>
-      <span v-if="question">{{ question.user.name }}</span>
-      <span class="ml-2">{{ created_at }}</span>
+      <span v-if="question" class="ml-2">{{ question.user.name }}</span>
+      <span class="ml-4">{{ created_at }}</span>
       <v-spacer></v-spacer>
       <v-btn
         v-show="get_user_id !== question.user_id"
@@ -90,7 +90,7 @@
         fab
         dark
         small
-        :class="download ? 'grey' : 'primary'"
+        :class="is_downloaded ? 'grey' : 'primary'"
         @click="clickDownload"
         ><v-icon>mdi-cloud-download-outline</v-icon></v-btn
       >
@@ -113,7 +113,7 @@ export default {
       correct_answer_icon: "",
       created_at: "",
       dialog: false,
-      download: false,
+      is_downloaded: false,
     };
   },
 
@@ -158,7 +158,7 @@ export default {
     },
 
     clickDownload() {
-      if (this.download === false) {
+      if (this.is_downloaded === false) {
         this.downloadQuestion();
       } else {
         alert("すでにダウンロードされています");
@@ -171,11 +171,18 @@ export default {
         .catch((error) => {
           return console.error(error);
         });
-      this.download = true;
+      this.is_downloaded = true;
     },
 
     select(val) {
       this.isSelect = val;
+    },
+    is_user_is_downloaded() {
+        this.question.download_users.map((obj) => {
+            if(obj.id === this.get_user_id) {
+                this.is_downloaded = true
+            }
+        })
     },
   },
 
@@ -189,6 +196,7 @@ export default {
     this.correctAnswer();
     this.correctAnswerIcon();
     this.formatCreatedAt();
+    this.is_user_is_downloaded();
   },
 };
 </script>

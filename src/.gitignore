@@ -1,5 +1,6 @@
 /public/css
 /public/js
+src/public/js/app.js
 /public/mix-manifest.json
 /node_modules
 /public/hot

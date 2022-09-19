@@ -72,7 +72,7 @@ export default {
             .post("login", this.LoginForm)
             .then((res) => {
               if (res.status == 200) {
-                console.log(res.data);
+                console.log(res.data.user);
                 this.$store.commit("auth/setUser", res.data.user);
                 this.$router.push("/about");
               }

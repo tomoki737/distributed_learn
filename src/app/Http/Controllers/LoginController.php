@@ -25,7 +25,7 @@ final class LoginController extends Controller
      * @return JsonResponse
      * @throws Exception
      */
-    public function login(Request $request): JsonResponse
+    public function login(Request $request)
     {
         $credentials = $request->validate([
             'email' => ['required', 'email', 'max:255', 'string'],
@@ -35,7 +35,7 @@ final class LoginController extends Controller
         if ($this->getGuard()->attempt($credentials,$remember =true)) {
             $request->session()->regenerate();
 
-            return new JsonResponse(['message' => 'ログインしました']);
+            return['user' => $request->user()];
         }
 
         throw new Exception('ログインに失敗しました。再度お試しください');

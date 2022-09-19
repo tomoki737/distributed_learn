@@ -22,7 +22,9 @@ final class CookieAuthenticationControllerTest extends TestCase
             'password' => 'password',
         ]);
         $response->assertStatus(200);
-        $response->assertJson(['message' => 'ログインしました']);
+        $response->assertJson(['user' => [
+            'email' => 'test@example.com',
+        ]]);
     }
 
     /**
@@ -49,7 +51,10 @@ final class CookieAuthenticationControllerTest extends TestCase
         ]);
 
         $response->assertStatus(200);
-        $response->assertJson(['message' => '登録に成功しました']);
+        $response->assertJson(['user' => [
+            'name' => 'testUser',
+            'email' => 'test@example.com',
+        ]]);
     }
 
     public function testRegisterFaild(): void

@@ -20,7 +20,7 @@ class AnswerController extends Controller
         return $question;
     }
 
-    public function answerIndex(Request $request)
+    public function indexAnswer(Request $request)
     {
         $user_id = $request->user()->id;
         $dateNow = new Carbon();
@@ -28,7 +28,7 @@ class AnswerController extends Controller
         return ['questions' => $questions];
     }
 
-    public function selectAnswerIndex(Request $request)
+    public function indexSelectAnswer(Request $request)
     {
         $user_id = $request->user()->id;
         $dateNow = new Carbon();

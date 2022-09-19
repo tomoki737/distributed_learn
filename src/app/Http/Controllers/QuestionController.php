@@ -42,7 +42,7 @@ class QuestionController extends Controller
         return ['allTagNames' => $allTagNames];
     }
 
-    public function homeIndex(Request $request)
+    public function indexHome(Request $request)
     {
         $user_id = $request->user()->id;
         $new_questions = Question::where("user_id", $user_id)->where("answer_times", 0)->get();

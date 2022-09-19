@@ -8,17 +8,6 @@ use App\Models\Question;
 
 class AnswerController extends Controller
 {
-    public function answer(Request $request, Question $question)
-    {
-        $question->answer_times += 1;
-        $next_date = $this->next_date($question->answer_times);
-        $question->next_study_date = $next_date;
-        if($question->next_study_date === null) {
-            $question->learning = false;
-        }
-        $question->fill($request->all())->save();
-        return $question;
-    }
 
     public function indexAnswer(Request $request)
     {
@@ -27,6 +16,19 @@ class AnswerController extends Controller
         $questions = Question::where("user_id", $user_id)->where("next_study_date", "<", $dateNow)->where('learning', true)->get();
         return ['questions' => $questions];
     }
+
+    public function answer(Request $request, Question $question)
+    {
+        $question->answer_times += 1;
+        $next_date = $this->next_date($question->answer_times);
+        $question->next_study_date = $next_date;
+        if ($question->next_study_date === null) {
+            $question->learning = false;
+        }
+        $question->fill($request->all())->save();
+        return $question;
+    }
+
 
     public function indexSelectAnswer(Request $request)
     {

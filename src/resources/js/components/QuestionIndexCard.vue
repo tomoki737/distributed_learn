@@ -81,8 +81,8 @@
     </v-card-actions>
     <v-card-actions v-else>
       <v-icon>mdi-account</v-icon>
-      <span v-if="question">{{ question.user.name }}</span>
-      <span class="ml-2">{{ created_at }}</span>
+      <span v-if="question" class="ml-2">{{ question.user.name }}</span>
+      <span class="ml-4">{{ created_at }}</span>
       <v-spacer></v-spacer>
       <v-btn
         v-show="get_user_id !== question.user_id"

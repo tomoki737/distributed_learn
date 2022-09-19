@@ -14,11 +14,6 @@ class MeController extends Controller
     {
         $user = $request->user();
 
-        // return new JsonResponse([
-        //     'id' => $user->id,
-        //     'name' => $user->name,
-        //     'email' => $user->email,
-        // ]);
             return ["user" => $user];
     }
 }

@@ -19,18 +19,25 @@ class QuestionController extends Controller
         $user_id = $request->user()->id;
         $questions = Question::where("user_id", $user_id)->with(["tags", 'category', 'user',"downloads"])->get();
 
-        $allTagNames =  Tag::all()->map(function ($tag) {
-            return ['text' => $tag->name];
-        });
+        $allTagNames =  $this->toAllTagNames();
+
+        return ['questions' => $questions, 'allTagNames' => $allTagNames];
+    }
+
+    public function indexSearch(Request $request)
+    {
+        $user_id = $request->user()->id;
+        $questions = Question::where("user_id", '!=' ,$user_id)->with(["tags", 'category', 'user',"downloads"])->get();
+
+
+        $allTagNames =  $this->toAllTagNames();
 
         return ['questions' => $questions, 'allTagNames' => $allTagNames];
     }
 
     public function create()
     {
-        $allTagNames =  Tag::all()->map(function ($tag) {
-            return ['text' => $tag->name];
-        });
+        $allTagNames =  $this->toAllTagNames();
 
         return ['allTagNames' => $allTagNames];
     }
@@ -52,9 +59,7 @@ class QuestionController extends Controller
             return ['text' => $tag->name];
         });
 
-        $allTagNames =  Tag::all()->map(function ($tag) {
-            return ['text' => $tag->name];
-        });
+        $allTagNames =  $this->toAllTagNames();
 
         $question->load(['category']);
         return ['question' => $question, 'tagNames' => $tagNames, 'allTagNames' => $allTagNames];
@@ -63,11 +68,11 @@ class QuestionController extends Controller
     public function store(QuestionRequest $request, Question $question)
     {
         $question->fill($request->all());
-        $this->question_create($request,$question);
+        $this->createQuestion($request,$question);
 
-        $this->tags_create($request,$question);
+        $this->createTags($request,$question);
 
-        $this->category_create($request->category,$question);
+        $this->createCategory($request->category,$question);
     }
 
 
@@ -76,7 +81,7 @@ class QuestionController extends Controller
     {
         $question->fill($request->all())->save();
         $question->tags()->detach();
-        $this->tags_create($request,$question);
+        $this->createTags($request,$question);
 
         Category::where('question_id', $question->id)->update(['name' => $request->category]);
     }
@@ -98,7 +103,7 @@ class QuestionController extends Controller
         $question->question = $download_question->question;
         $question->answer = $download_question->answer;
         $question->share = false;
-        $this->question_create($request,$question);
+        $this->createQuestion($request,$question);
 
         $download_question->downloads()->detach($request->user()->id);
         $download_question->downloads()->attach($request->user()->id);
@@ -107,7 +112,7 @@ class QuestionController extends Controller
             $question->tags()->attach($tag);
         });
 
-        $this->category_create($download_question->category->name,$question);
+        $this->createCategory($download_question->category->name,$question);
     }
 
     public function search(Request $request)
@@ -144,23 +149,29 @@ class QuestionController extends Controller
         return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag, 'category' => $category];
     }
 
-    private function question_create($request, $question) {
+    private function createQuestion($request, $question) {
         $question->user_id = $request->user()->id;
         $question->next_study_date = new Carbon();
         $question->save();
     }
 
-    private function category_create($request_category, $question) {
+    private function createCategory($request_category, $question) {
         $category = new Category();
         $category->name = $request_category;
         $category->question_id = $question->id;
         $category->save();
     }
 
-    private function tags_create($request,$question) {
+    private function createTags($request,$question) {
         $request->tags->each(function ($tagName) use ($question) {
             $tag = Tag::firstOrCreate(['name' => $tagName]);
             $question->tags()->attach($tag);
+        });
+    }
+
+    private function toAllTagNames() {
+        return Tag::all()->map(function ($tag) {
+            return ['text' => $tag->name];
         });
     }
 }

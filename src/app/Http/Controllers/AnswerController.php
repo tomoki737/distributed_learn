@@ -41,17 +41,14 @@ class AnswerController extends Controller
 
     private function next_date($answer_times)
     {
-        if ($answer_times === 1) {
-            $date = "1";
-        } else if ($answer_times === 2) {
-            $date = "7";
-        } else if ($answer_times === 3) {
-            $date = "14";
-        } else if ($answer_times === 4) {
-            $date = "30";
-        } else {
-            return null;
-        }
+        $to_date = [
+            1 => "1",
+            2 => "7",
+            3 => "14",
+            4 => "30",
+            5 => null,
+        ];
+        $date = $to_date[$answer_times];
         return new Carbon("+" . $date . " day");
     }
 }

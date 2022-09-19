@@ -1,9 +1,9 @@
 <template>
   <div>
-    <v-container>
+    <v-container class="mt-10 max-width: 1000px">
         <p>ユーザー名: {{ get_user_name }}</p>
         <p>メールアドレス: {{ get_user_email }}</p>
-        <v-btn outlined @click="logout">ログアウト</v-btn>
+        <v-btn outlined color="success" d-block @click="logout" class="mt-5">ログアウト</v-btn>
       <bottom-navigation></bottom-navigation>
     </v-container>
   </div>

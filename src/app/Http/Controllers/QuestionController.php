@@ -17,7 +17,7 @@ class QuestionController extends Controller
     public function index(Request $request)
     {
         $user_id = $request->user()->id;
-        $questions = Question::where("user_id", $user_id)->with(["tags", 'category', 'user',"downloads"])->get();
+        $questions = Question::where("user_id", $user_id)->with(["tags", 'category', 'user',"download_users"])->get();
 
         $allTagNames =  $this->toAllTagNames();
 
@@ -27,7 +27,7 @@ class QuestionController extends Controller
     public function indexSearch(Request $request)
     {
         $user_id = $request->user()->id;
-        $questions = Question::where("user_id", '!=' ,$user_id)->with(["tags", 'category', 'user',"downloads"])->get();
+        $questions = Question::where("user_id", '!=' ,$user_id)->with(["tags", 'category', 'user',"download_users"])->get();
 
 
         $allTagNames =  $this->toAllTagNames();
@@ -105,8 +105,8 @@ class QuestionController extends Controller
         $question->share = false;
         $this->createQuestion($request,$question);
 
-        $download_question->downloads()->detach($request->user()->id);
-        $download_question->downloads()->attach($request->user()->id);
+        $download_question->download_users()->detach($request->user()->id);
+        $download_question->download_users()->attach($request->user()->id);
 
         $download_question->tags->each(function ($tag) use ($question) {
             $question->tags()->attach($tag);
@@ -144,7 +144,7 @@ class QuestionController extends Controller
 
         $query->where('learning', $learning);
 
-        $questions = $query->with(["tags", "category", "user", "downloads"])->get();
+        $questions = $query->with(["tags", "category", "user", "download_users"])->get();
 
         return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag, 'category' => $category];
     }

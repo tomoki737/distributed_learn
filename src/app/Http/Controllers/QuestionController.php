@@ -100,8 +100,8 @@ class QuestionController extends Controller
         $question->share = false;
         $this->question_create($request,$question);
 
-        $question->downloads()->detach($request->user()->id);
-        $question->downloads()->attach($request->user()->id);
+        $download_question->downloads()->detach($request->user()->id);
+        $download_question->downloads()->attach($request->user()->id);
 
         $download_question->tags->each(function ($tag) use ($question) {
             $question->tags()->attach($tag);

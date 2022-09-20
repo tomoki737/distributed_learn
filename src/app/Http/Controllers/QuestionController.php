@@ -155,12 +155,16 @@ class QuestionController extends Controller
                 });
         }
 
-        if($request->is_my_question_search) {
+        if ($request->is_my_question_search) {
             $query->where([
                 ['learning', $learning],
                 ['user_id', $user_id]
             ]);
-        } 
+        } else {
+            $query->where('user_id', '!=', $user_id);
+        }
+
+        $query->where("share", true);
 
         $questions = $query->with(["tags", "category", "user", "download_users"])->get();
 

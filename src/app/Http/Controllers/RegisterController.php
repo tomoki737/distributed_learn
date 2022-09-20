@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Contracts\Auth\Factory as Auth;
-use App\Http\Controllers\LoginController;
 
 class RegisterController extends Controller
 {

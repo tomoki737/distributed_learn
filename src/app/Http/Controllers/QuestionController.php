@@ -19,7 +19,7 @@ class QuestionController extends Controller
         $user_id = $request->user()->id;
         $questions = Question::where("user_id", $user_id)->with(["tags", 'category', 'user', "download_users"])->get();
 
-        $allTagNames =  $this->toAllTagNames();
+        $allTagNames =  $this->getAllTagNames();
 
         return ['questions' => $questions, 'allTagNames' => $allTagNames];
     }
@@ -30,7 +30,7 @@ class QuestionController extends Controller
         $questions = Question::where('user_id', '!=', $user_id)->where("share", true)->with(["tags", 'category', 'user', "download_users"])->get();
 
 
-        $allTagNames =  $this->toAllTagNames();
+        $allTagNames =  $this->getAllTagNames();
 
         return ['questions' => $questions, 'allTagNames' => $allTagNames];
     }
@@ -61,8 +61,7 @@ class QuestionController extends Controller
         $tagNames = $question->tags->map(function ($tag) {
             return ['text' => $tag->name];
         });
-
-        $allTagNames =  $this->toAllTagNames();
+        $allTagNames =  $this->getAllTagNames();
 
         $question->load(['category']);
         return ['question' => $question, 'tagNames' => $tagNames, 'allTagNames' => $allTagNames];
@@ -183,7 +182,7 @@ class QuestionController extends Controller
         });
     }
 
-    private function toAllTagNames()
+    private function getAllTagNames()
     {
         return Tag::all()->map(function ($tag) {
             return ['text' => $tag->name];

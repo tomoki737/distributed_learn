@@ -17,7 +17,7 @@ class QuestionFactory extends Factory
         return [
                 'question' => $this->faker->text(),
                 'answer' => $this->faker->text(),
-                'share' => false,
+                'share' => true,
                 'user_id' => function() {
                     return User::factory()->create()->id;
                 },

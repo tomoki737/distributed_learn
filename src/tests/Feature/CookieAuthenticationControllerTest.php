@@ -66,4 +66,20 @@ final class CookieAuthenticationControllerTest extends TestCase
 
         $response->assertStatus(422);
     }
+
+    public function testGuestLoginSuccess(): void
+    {
+        $guest_user = $this->user = User::factory()->create(['id' => 1]);
+        $response = $this->getJson('/api/guest');
+
+        $response->assertStatus(200);
+    }
+
+    public function testGuestLoginFaild(): void
+    {
+        $another_user = $this->user = User::factory()->create(['id' => 2]);
+        $response = $this->getJson('/api/guest');
+
+        $response->assertStatus(500);
+    }
 }

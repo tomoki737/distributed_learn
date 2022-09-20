@@ -5,6 +5,7 @@
       <div v-show="!loading">
         <question-search-form
           @questionChange="questionChange"
+          :is_my_question_search="false"
         ></question-search-form>
         <div v-for="question in displayQuestions" :key="question.id">
           <question-index-card

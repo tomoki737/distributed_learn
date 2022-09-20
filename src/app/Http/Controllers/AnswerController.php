@@ -13,7 +13,13 @@ class AnswerController extends Controller
     {
         $user_id = $request->user()->id;
         $dateNow = new Carbon();
-        $questions = Question::where("user_id", $user_id)->where("next_study_date", "<", $dateNow)->where('learning', true)->get();
+
+        $questions = Question::where([
+            ["user_id", $user_id],
+            ["next_study_date", "<", $dateNow],
+            ['learning', true]
+        ])->get();
+
         return ['questions' => $questions];
     }
 
@@ -22,9 +28,11 @@ class AnswerController extends Controller
         $question->answer_times += 1;
         $next_date = $this->next_date($question->answer_times);
         $question->next_study_date = $next_date;
+
         if ($question->next_study_date === null) {
             $question->learning = false;
         }
+
         $question->fill($request->all())->save();
         return $question;
     }
@@ -34,7 +42,12 @@ class AnswerController extends Controller
     {
         $user_id = $request->user()->id;
         $dateNow = new Carbon();
-        $questions = Question::where("user_id", $user_id)->where("next_study_date", "<", $dateNow)->with(["category", "tags"])->inRandomOrder()->get();
+
+        $questions = Question::where([
+            ["user_id", $user_id],
+            ["next_study_date", "<", $dateNow]
+        ])->with(["category", "tags"])->inRandomOrder()->get();
+
         $all_questions = Question::where("user_id", $user_id)->with(["category", "tags"])->get();
         return ['questions' => $questions, 'all_questions' => $all_questions];
     }
@@ -48,7 +61,13 @@ class AnswerController extends Controller
             4 => "30",
             5 => null,
         ];
+
         $date = $to_date[$answer_times];
+        
+        if ($date === null) {
+            return;
+        }
+
         return new Carbon("+" . $date . " day");
     }
 }

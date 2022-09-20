@@ -24,6 +24,15 @@ class QuestionController extends Controller
         return ['questions' => $questions, 'allTagNames' => $allTagNames];
     }
 
+    public function create()
+    {
+        $allTagNames =  Tag::all()->map(function ($tag) {
+            return ['text' => $tag->name];
+        });
+
+        return ['allTagNames' => $allTagNames];
+    }
+    
     public function indexSearch(Request $request)
     {
         $user_id = $request->user()->id;

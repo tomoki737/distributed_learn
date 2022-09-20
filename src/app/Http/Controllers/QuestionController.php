@@ -32,7 +32,6 @@ class QuestionController extends Controller
 
         return ['allTagNames' => $allTagNames];
     }
-    
     public function indexSearch(Request $request)
     {
         $user_id = $request->user()->id;
@@ -161,7 +160,7 @@ class QuestionController extends Controller
                 ['learning', $learning],
                 ['user_id', $user_id]
             ]);
-        }
+        } 
 
         $questions = $query->with(["tags", "category", "user", "download_users"])->get();
 

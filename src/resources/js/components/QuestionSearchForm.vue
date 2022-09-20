@@ -38,6 +38,7 @@
               v-model="searchForm.keyword"
             ></v-text-field>
             <v-checkbox
+              v-if="is_my_question_search"
               v-model="searchForm.learning"
               label="学習中"
               hide-details
@@ -92,8 +93,6 @@ export default {
         keyword: "",
         category: "",
         learning: true,
-        unlearned: true,
-        applicable: true,
         is_my_question_search: this.is_my_question_search,
       },
     };

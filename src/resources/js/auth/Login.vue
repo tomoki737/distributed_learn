@@ -35,6 +35,11 @@
             <v-btn block class="info" dark @click="login">ログイン</v-btn>
           </v-card-actions>
           <v-card-actions>
+            <v-btn block class="error" dark @click="loginGuest"
+              >ゲストログイン</v-btn
+            >
+          </v-card-actions>
+          <v-card-actions>
             <v-btn
               class="mx-auto"
               @click="drawerClose()"
@@ -84,6 +89,19 @@ export default {
         })
         .catch((error) => {
           console.error(error);
+        });
+    },
+    loginGuest() {
+      axios
+        .get("/api/guest")
+        .then((res) => {
+            console.log(res.data.user);
+            this.$store.commit("auth/setUser", res.data.user);
+            this.$router.push("/about");
+        })
+        .catch((error) => {
+          this.getUserMessage = "ログインに失敗しました。";
+          this.errors = error.response.data.errors || [];
         });
     },
   },

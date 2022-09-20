@@ -6,10 +6,13 @@ use App\Http\Controllers\MeController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\AnswerController;
+use App\Http\Controllers\LoginController;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/me', [MeController::class, 'me']);
 });
+
+Route::get('/guest',[LoginController::class, 'guestLogin']);
 
 Route::get('/home', [QuestionController::class, 'indexHome']);
 Route::resource('/question', QuestionController::class)->except(['show']);

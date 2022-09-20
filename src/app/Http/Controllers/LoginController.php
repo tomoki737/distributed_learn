@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Http\Controllers;
 
 use Exception;
-use Illuminate\Contracts\Auth\Factory as Auth;
+use Illuminate\Support\Facades\Auth as FacadesAuth;
+use Illuminate\Contracts\Auth\Factory as FactoryAuth;
 use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 final class LoginController extends Controller
 {
@@ -17,9 +19,8 @@ final class LoginController extends Controller
      * @param Auth $auth
      */
     public function __construct(
-        private Auth $auth,
+        private FactoryAuth $auth,
     ){}
-
     /**
      * @param Request $request
      * @return JsonResponse
@@ -52,6 +53,19 @@ final class LoginController extends Controller
         $request->session()->regenerateToken();
 
         return new JsonResponse(['message' => 'ログアウトしました']);
+    }
+
+    private const GUEST_USER_ID = 1;
+
+    public function guestLogin()
+    {
+       $guest_user = User::where('id', self::GUEST_USER_ID)->first();
+
+        if(FacadesAuth::loginUsingId(self::GUEST_USER_ID)){
+            return ['user' => $guest_user];
+        }
+
+        throw new Exception('ログインに失敗しました。再度お試しください');
     }
 
     /**

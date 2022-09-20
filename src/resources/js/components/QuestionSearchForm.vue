@@ -68,9 +68,13 @@
 </template>
 <script>
 export default {
+  props: {
+    is_my_question_search: Boolean,
+  },
+
   data() {
     return {
-        dialog: false,
+      dialog: false,
 
       items: [
         "学問",
@@ -90,6 +94,7 @@ export default {
         learning: true,
         unlearned: true,
         applicable: true,
+        is_my_question_search: this.is_my_question_search,
       },
     };
   },
@@ -101,7 +106,7 @@ export default {
         this.searchForm
       );
       this.questions = response.data.questions;
-      this.$emit('questionChange', this.questions)
+      this.$emit("questionChange", this.questions);
     },
   },
 };

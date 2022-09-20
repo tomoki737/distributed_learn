@@ -19,10 +19,8 @@ class AnswerControllerTest extends TestCase
 
     }
 
-    //次回の学習をしないよう設定する機能についてのテスト
-    public function test_next_learning_false()
+    public function test_5_times_next_learning_false()
     {
-
         $response = $this->actingAs($this->user)->putJson("/api/question/" . $this->question->id . "/answer",[
             "correct_answer" => true,
         ]);

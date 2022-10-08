@@ -1,6 +1,11 @@
-FROM nginx:1.20-alpine
-COPY ./docker/nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
-COPY ./src /var/www/html
+FROM nginx:1.20-alpine AS base
 ENV TZ=Asia/Tokyo
+COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
+
+FROM base AS development
+COPY ./docker/nginx/development/default.conf /etc/nginx/conf.d/default.conf
+
+FROM base AS deploy
+COPY ./docker/nginx/deploy/default.conf /etc/nginx/conf.d/default.conf
+COPY ./src /var/www/html
 EXPOSE 80

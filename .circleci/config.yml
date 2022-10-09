@@ -78,8 +78,8 @@ workflows:
       - build
       - aws-ecr/build-and-push-image:
           executor: docker_build
-          registry-id: ${AWS_ECR_REGISTRY_ID}
-          region: ${AWS_REGION}
+          registry-id: AWS_ECR_REGISTRY_ID
+          region: AWS_REGION
           repo: "php"
           tag: "${CIRCLE_SHA1}"
           path: ./

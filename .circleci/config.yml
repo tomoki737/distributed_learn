@@ -72,7 +72,7 @@ jobs:
             pwd
             php artisan test
   build_and_push_image:
-    executor: docker_build
+    executor: 'docker_build'
     account-url: ${AWS_ECR_ACCOUNT_URL}
     region: ${AWS_REGION}
     repo: 'php'
@@ -80,7 +80,7 @@ jobs:
     path: ./
     dockerfile: ./docker/php/Dockerfile
 
-    executor: docker_build
+    executor: 'docker_build'
     account-url: ${AWS_ECR_ACCOUNT_URL}
     region: ${AWS_REGION}
     repo: 'nginx'

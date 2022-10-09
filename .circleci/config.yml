@@ -82,7 +82,7 @@ jobs:
     path: ./
     dockerfile: ./docker/php/Dockerfile
 
-  aws-ecr/deploy_service-update:
+  aws-ecs/deploy_service-update:
     family: 'distributed_learn_task_definition'
     service-name: 'distributed-learn-service'
     cluster-name: 'distributed-learn-cluster'

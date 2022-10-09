@@ -72,19 +72,19 @@ jobs:
             cd src/
             php artisan test
 
-  aws-ecr/build-and-push-image:
-    executor: docker_build
-    registry_id: "${AWS_ECR_ACCOUNT_URL}"
-    region: "${AWS_REGION}"
-    repo: "php"
-    tag: "${CIRCLE_SHA1}"
-    path: ./
-    dockerfile: ./docker/php/Dockerfile
-  aws-ecs/deploy-service-update:
-    family: "distributed_learn_task_definition"
-    service-name: "distributed-learn-service"
-    cluster-name: "distributed-learn-cluster"
-    container-image-name-updates: "container=php,image-and-tag=${AWS_ECR_ACCOUNT_URL}/php:${CIRCLE_SHA1},container=nginx,image-and-tag=${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}"
+  - aws-ecr/build-and-push-image:
+      executor: docker_build
+      account-url: "${AWS_ECR_ACCOUNT_URL}"
+      region: "${AWS_REGION}"
+      repo: "php"
+      tag: "${CIRCLE_SHA1}"
+      path: ./
+      dockerfile: ./docker/php/Dockerfile
+  - aws-ecs/deploy-service-update:
+      family: "distributed_learn_task_definition"
+      service-name: "distributed-learn-service"
+      cluster-name: "distributed-learn-cluster"
+      container-image-name-updates: "container=php,image-and-tag=${AWS_ECR_ACCOUNT_URL}/php:${CIRCLE_SHA1},container=nginx,image-and-tag=${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}"
 
 workflows:
   version: 2

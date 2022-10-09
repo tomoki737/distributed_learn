@@ -109,7 +109,7 @@ workflows:
       - deploy_service_update:
           requires:
             - build_and_push_image
-            filters:
-              branches:
-                only:
-                  - main
+          filters:
+            branches:
+              only:
+                - main

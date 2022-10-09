@@ -11,7 +11,7 @@ executors:
 workflows:
   build-and-deploy:
     jobs:
-    - build:
+      test:
         docker:
           - image: circleci/php:8-node-browsers
           - image: circleci/postgres:11.6-alpine
@@ -75,7 +75,7 @@ workflows:
                 cd src/
                 php artisan test
 
-    - aws-ecr/build_and_push_image:
+      aws-ecr/build_and_push_image:
         executor: docker_build
         name: 'build-staging'
         account-url: ${AWS_ECR_ACCOUNT_URL}
@@ -88,7 +88,7 @@ workflows:
           branches:
             only:
               - main
-    - aws-ecs/deploy_service-update:
+      aws-ecs/deploy_service-update:
         requires:
           - build-staging
         family: 'distributed_learn_task_definition'

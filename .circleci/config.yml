@@ -69,7 +69,6 @@ jobs:
           name: php test
           command: |
             cd src/
-            pwd
             php artisan test
 
   aws-ecr/build_and_push_image:
@@ -81,7 +80,7 @@ jobs:
     tag: "${CIRCLE_SHA1}"
     path: ./
     dockerfile: ./docker/php/Dockerfile
-    
+
   aws-ecs/deploy_service-update:
     family: 'distributed_learn_task_definition'
     service-name: 'distributed-learn-service'

@@ -74,7 +74,6 @@ workflows:
                   cd src/
                   pwd
                   php artisan test
-           filters:
       - aws-ecr/build-and-push-image:
           executor: docker_build
           registry-id: AWS_ECR_REGISTRY_ID

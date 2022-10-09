@@ -1,7 +1,8 @@
 version: 2.1
 orbs:
-  aws-ecr: circleci/aws-ecr@1.0.0
-  aws-ecs: circleci/aws-ecs@0.0.6
+  aws-ecr: circleci/aws-ecr@8.1
+  aws-ecs: circleci/aws-ecs@3.2
+
 executors:
   docker_build:
     machine:
@@ -77,10 +78,9 @@ workflows:
       - build
       - aws-ecr/build-and-push-image:
           executor: docker_build
-          name: 'build-staging'
-          account-url: AWS_ECR_ACCOUNT_URL
-          region: AWS_REGION
-          repo: 'php'
+          registry-id: "${AWS_ECR_REGISTRY_ID}"
+          region: ${AWS_REGION}
+          repo: "php"
           tag: "${CIRCLE_SHA1}"
           path: ./
           dockerfile: ./docker/php/Dockerfile

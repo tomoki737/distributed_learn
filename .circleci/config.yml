@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
-  aws-ecr: circleci/aws-ecr@1.0.0
-  aws-ecs: circleci/aws-ecs@0.0.6
+  aws-ecr: circleci/aws-ecr@8.1
+  aws-ecs: circleci/aws-ecs@3.2
 
 executors:
   docker_build:
@@ -72,7 +72,7 @@ jobs:
             cd src/
             php artisan test
 
-  aws-ecr/build_and_push_image:
+  aws-ecr/build-and-push-image:
     executor: docker_build
     name: "build-staging"
     account-url: "${AWS_ECR_ACCOUNT_URL}"
@@ -81,7 +81,7 @@ jobs:
     tag: "${CIRCLE_SHA1}"
     path: ./
     dockerfile: ./docker/php/Dockerfile
-  aws-ecs/deploy_service-update:
+  aws-ecs/deploy-service-update:
     family: "distributed_learn_task_definition"
     service-name: "distributed-learn-service"
     cluster-name: "distributed-learn-cluster"

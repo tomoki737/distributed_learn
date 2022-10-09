@@ -71,8 +71,9 @@ jobs:
             cd src/
             pwd
             php artisan test
+
   build_and_push_image:
-    executor: 'docker_build'
+    executor: docker_build
     account-url: ${AWS_ECR_ACCOUNT_URL}
     region: ${AWS_REGION}
     repo: 'php'
@@ -80,13 +81,13 @@ jobs:
     path: ./
     dockerfile: ./docker/php/Dockerfile
 
-    executor: 'docker_build'
-    account-url: ${AWS_ECR_ACCOUNT_URL}
-    region: ${AWS_REGION}
-    repo: 'nginx'
-    tag: ${CIRCLE_SHA1}
-    path: ./
-    dockerfile: ./docker/nginx/Dockerfile:prod
+    # executor: docker_build
+    # account-url: ${AWS_ECR_ACCOUNT_URL}
+    # region: ${AWS_REGION}
+    # repo: 'nginx'
+    # tag: ${CIRCLE_SHA1}
+    # path: ./
+    # dockerfile: ./docker/nginx/Dockerfile:prod
 
   deploy_service-update:
     family: 'distributed_learn_task_definition'

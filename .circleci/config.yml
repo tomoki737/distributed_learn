@@ -75,7 +75,7 @@ jobs:
     executor: docker_build
     account-url: ${AWS_ECR_ACCOUNT_URL}
     region: ${AWS_REGION}
-    repo: php
+    repo: 'php'
     tag: ${CIRCLE_SHA1}
     path: ./
     dockerfile: ./docker/php/Dockerfile
@@ -83,15 +83,15 @@ jobs:
     executor: docker_build
     account-url: ${AWS_ECR_ACCOUNT_URL}
     region: ${AWS_REGION}
-    repo: nginx
+    repo: 'nginx'
     tag: ${CIRCLE_SHA1}
     path: ./
     dockerfile: ./docker/nginx/Dockerfile:prod
 
   deploy_service-update:
-    family: distributed_learn_task_definition
-          service-name: distributed-learn-service
-          cluster-name: distributed-learn-cluster
+    family: 'distributed_learn_task_definition'
+          service-name: 'distributed-learn-service'
+          cluster-name: 'distributed-learn-cluster'
           container-image-name-updates: 'container=php,image-and-tag=${AWS_ECR_ACCOUNT_URL}/php:${CIRCLE_SHA1}, container=nginx, image-and-tag=${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}'
 
 workflows:

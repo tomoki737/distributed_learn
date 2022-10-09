@@ -81,14 +81,6 @@ jobs:
     path: ./
     dockerfile: ./docker/php/Dockerfile
 
-    # executor: docker_build
-    # account-url: ${AWS_ECR_ACCOUNT_URL}
-    # region: ${AWS_REGION}
-    # repo: 'nginx'
-    # tag: ${CIRCLE_SHA1}
-    # path: ./
-    # dockerfile: ./docker/nginx/Dockerfile:prod
-
   deploy_service-update:
     family: 'distributed_learn_task_definition'
     service-name: 'distributed-learn-service'

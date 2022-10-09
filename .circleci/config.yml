@@ -74,7 +74,6 @@ jobs:
 
   aws-ecr/build-and-push-image:
     executor: docker_build
-    name: "build-staging"
     account-url: "${AWS_ECR_ACCOUNT_URL}"
     region: "${AWS_REGION}"
     repo: "php"
@@ -101,7 +100,7 @@ workflows:
                 - main
       - aws-ecs/deploy_service-update:
           requires:
-            - build-staging
+            - aws-ecs/deploy-service-update
           filters:
             branches:
               only:

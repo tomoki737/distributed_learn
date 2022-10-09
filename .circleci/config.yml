@@ -84,6 +84,8 @@ workflows:
           tag: "${CIRCLE_SHA1}"
           path: ./
           dockerfile: ./docker/php/Dockerfile
+          requires:
+            - build
           filters:
             branches:
               only:

@@ -73,6 +73,7 @@ jobs:
             php artisan test
 
   ecs/build_and_push_image:
+    name: 'build-staging'
     executor: docker_build
     account-url: ${AWS_ECR_ACCOUNT_URL}
     region: ${AWS_REGION}
@@ -101,7 +102,7 @@ workflows:
                 - main
       - deploy_service_update:
           requires:
-            - build_and_push_image
+            - build-staging
           filters:
             branches:
               only:

@@ -80,7 +80,7 @@ jobs:
     repo: 'php'
     tag: ${CIRCLE_SHA1}
     path: ./
-    dockerfile: ./docker/php/Dockerfile
+    docker: ./docker/php/Dockerfile
 
   aws-ecs/deploy_service-update:
     family: 'distributed_learn_task_definition'

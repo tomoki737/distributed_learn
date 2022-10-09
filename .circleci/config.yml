@@ -7,7 +7,7 @@ executors:
   docker_build:
     machine:
       docker_layer_caching: true
-      jobs:
+jobs:
   build:
     docker:
       - image: circleci/php:8-node-browsers

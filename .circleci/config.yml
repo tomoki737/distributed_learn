@@ -8,6 +8,70 @@ executors:
     machine:
       docker_layer_caching: true
 jobs:
+  test:
+    docker:
+      - image: circleci/php:8-node-browsers
+      - image: circleci/postgres:11.6-alpine
+        environment:
+          POSTGRES_DB: larasns
+          POSTGRES_USER: default
+          POSTGRES_PASSWORD: secret
+          APP_KEY: ${APP_KEY}
+    environment:
+      APP_ENV: testing
+      DB_CONNECTION: pgsql
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_DATABASE: larasns
+      DB_USERNAME: default
+      DB_PASSWORD: secret
+    steps:
+      - checkout
+      - run: sudo composer self-update --1
+      - run: pwd
+      - restore_cache:
+          key: composer-v1-{{ checksum "./src/composer.lock" }}
+      - run:
+          name: composer install
+          command: |
+            cd src/
+            composer install -n --prefer-dist
+      - save_cache:
+          key: composer-v1-{{ checksum "./src/composer.lock" }}
+          paths:
+            - vendor
+      - restore_cache:
+          key: npm-v1-{{ checksum "./src/package-lock.json" }}
+      - run:
+          name: npm ci
+          command: |
+            if [ ! -d node_modules ]; then
+              cd src/
+              npm ci
+            fi
+      - save_cache:
+          key: npm-v1-{{ checksum "./src/package-lock.json" }}
+          paths:
+            - node_modules
+      - run:
+          name: npm run dev
+          command: |
+            cd src/
+            npm run dev
+      - run:
+          name: get ready for postgres
+          command: |
+            sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4EB27DB2A3B88B8B
+            sudo apt-get update
+            sudo apt-get install libpq-dev
+            sudo docker-php-ext-install pdo_pgsql
+            dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: php test
+          command: |
+            cd src/
+            php artisan test
+
   aws-ecr/build_and_push_image:
     executor: docker_build
     name: "build-staging"
@@ -28,14 +92,14 @@ workflows:
   build_deploy:
     jobs:
       - test
-      - build_and_push_image:
+      - aws-ecr/build_and_push_image:
           requires:
             - test
           filters:
             branches:
               only:
                 - main
-      - deploy_service_update:
+      - aws-ecs/deploy_service-update:
           requires:
             - build-staging
           filters:

@@ -72,7 +72,7 @@ jobs:
             pwd
             php artisan test
 
-  ecs/build_and_push_image:
+  aws-ecr/build_and_push_image:
     name: 'build-staging'
     executor: docker_build
     account-url: ${AWS_ECR_ACCOUNT_URL}
@@ -82,7 +82,7 @@ jobs:
     path: ./
     dockerfile: ./docker/php/Dockerfile
 
-  ecs/deploy_service-update:
+  aws-ecr/deploy_service-update:
     family: 'distributed_learn_task_definition'
     service-name: 'distributed-learn-service'
     cluster-name: 'distributed-learn-cluster'

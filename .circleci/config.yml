@@ -74,7 +74,7 @@ jobs:
 
   aws-ecr/build-and-push-image:
     executor: docker_build
-    account-url: "${AWS_ECR_ACCOUNT_URL}"
+    registry_id: "${AWS_ECR_ACCOUNT_URL}"
     region: "${AWS_REGION}"
     repo: "php"
     tag: "${CIRCLE_SHA1}"

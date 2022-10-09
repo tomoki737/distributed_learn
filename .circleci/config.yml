@@ -73,15 +73,15 @@ jobs:
             php artisan test
 
   aws-ecr/build_and_push_image:
-    name: 'build-staging'
     executor: docker_build
+    name: 'build-staging'
     account-url: ${AWS_ECR_ACCOUNT_URL}
     region: ${AWS_REGION}
     repo: 'php'
-    tag: ${CIRCLE_SHA1}
+    tag: "${CIRCLE_SHA1}"
     path: ./
-    docker: ./docker/php/Dockerfile
-
+    dockerfile: ./docker/php/Dockerfile
+    
   aws-ecs/deploy_service-update:
     family: 'distributed_learn_task_definition'
     service-name: 'distributed-learn-service'

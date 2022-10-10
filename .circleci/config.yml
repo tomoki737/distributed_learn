@@ -70,6 +70,7 @@ jobs:
           name: php test
           command: |
             cd src/
+            pwd
             php artisan test
 workflows:
   build-and-deploy:
@@ -82,8 +83,8 @@ workflows:
           region: "ap-northeast-1"
           repo: "php"
           tag: "${CIRCLE_SHA1}"
-          path: ../docker/php/Dockerfile
-          dockerfile: prod
+          path: ./
+          dockerfile: ../docker/php/Dockerfile
           requires:
             - build
           filters:
@@ -98,8 +99,8 @@ workflows:
           region: "ap-northeast-1"
           repo: "nginx"
           tag: "${CIRCLE_SHA1}"
-          path: ../docker/nginx/Dockerfile
-          dockerfile: prod
+          path: ./
+          dockerfile: ../docker/nginx/Dockerfile
           requires:
             - build
           filters:

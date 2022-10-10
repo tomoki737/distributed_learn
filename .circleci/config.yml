@@ -84,7 +84,7 @@ workflows:
           repo: "php"
           tag: "${CIRCLE_SHA1}"
           path: ./
-          dockerfile: ../docker/php/Dockerfile
+          dockerfile: ./docker/php/Dockerfile
           requires:
             - build
           filters:
@@ -100,7 +100,7 @@ workflows:
           repo: "nginx"
           tag: "${CIRCLE_SHA1}"
           path: ./
-          dockerfile: ../docker/nginx/Dockerfile
+          dockerfile: ./docker/nginx/Dockerfile
           requires:
             - build
           filters:

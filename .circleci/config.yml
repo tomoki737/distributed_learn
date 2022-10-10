@@ -79,7 +79,7 @@ workflows:
       - build-and-push-image:
           working_directory: ./
           docker:
-            - image: ./docker/nginx/Dockerfile
+            - image: cimg/python:3.9
           steps:
             - checkout
             - setup_remote_docker

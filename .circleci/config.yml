@@ -83,12 +83,12 @@ workflows:
                   docker build -t nginx:prod -f  ./docker/nginx/Dockerfile  .
                   docker tag nginx:prod "${AWS_ECR_ACCOUNT_URL}"/nginx:"${CIRCLE_SHA1}"
                   docker push "${AWS_ECR_ACCOUNT_URL}"/nginx:${CIRCLE_SHA1}
-        requires:
-          - build
-        filters:
-          branches:
-            only:
-              - main
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - main
       - php-build-and-push-image:
           steps:
             - run:
@@ -96,12 +96,12 @@ workflows:
                   docker build -t php:prod -f  ./docker/php/Dockerfile  .
                   docker tag php:prod ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
                   docker push ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
-        requires:
-            - build
-        filters:
-          branches:
-            only:
-              - main
+            requires:
+                - build
+            filters:
+              branches:
+                only:
+                  - main
       - aws-ecs/deploy-service-update:
           family: "distributed_learn_task_definition"
           service-name: "distributed-learn-service"

@@ -72,48 +72,34 @@ jobs:
             cd src/
             pwd
             php artisan test
+
+  build-and-push-image:
+    working_directory: ./
+    docker:
+      - image: cimg/python:3.9
+    steps:
+      - checkout
+      - setup_remote_docker
+      - aws-cli/installe
+      - aws-cli/setup
+      - run:
+          name: docker build
+          command: |
+            docker build -t nginx:prod -f ./docker/nginx/Dockerfile
+            docker build -t php:prod -f ./docker/php/Dockerfile
+      - run:
+          name: push
+          command: |
+            aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_ACCOUNT_URL}
+            docker tag nginx:prod ${AWS_ECR_ACCOUNT_URL}/nginx:"${CIRCLE_SHA1}"
+            docker tag php:prod ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
+            docker push${AWS_ECR_ACCOUNT_URL}/nginx:"${CIRCLE_SHA1}"
+            docker push${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
 workflows:
   build-and-deploy:
     jobs:
       - build
       - build-and-push-image:
-          working_directory: ./
-          docker:
-            - image: cimg/python:3.9
-          steps:
-            - checkout
-            - setup_remote_docker
-            - aws-cli/installe
-            - aws-cli/setup
-            - run:
-                name: docker build
-                command: |
-                  docker build -t nginx:prod -f ./docker/nginx/Dockerfile
-                  docker build -t php:prod -f ./docker/php/Dockerfile
-            - run:
-                name: push
-                command: |
-                  aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_ACCOUNT_URL}
-                  docker tag nginx:prod ${AWS_ECR_ACCOUNT_URL}/nginx:"${CIRCLE_SHA1}"
-                  docker tag php:prod ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
-                  docker push${AWS_ECR_ACCOUNT_URL}/nginx:"${CIRCLE_SHA1}"
-                  docker push${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - main
-
-      - aws-ecr/build-and-push-image:
-          name: "nginx"
-          executor: docker_build
-          registry-id: AWS_ECR_REGISTRY_ID
-          region: "ap-northeast-1"
-          repo: "nginx"
-          tag: "${CIRCLE_SHA1}"
-          path: ./
-          dockerfile: ./docker/nginx/Dockerfile
           requires:
             - build
           filters:
@@ -127,8 +113,7 @@ workflows:
           cluster: "distributed-learn-cluster"
           container-image-name-updates: "container=php,image-and-tag=${AWS_ECR_ACCOUNT_URL}/php:${CIRCLE_SHA1},container=nginx,image-and-tag=${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}"
           requires:
-            - php
-            - nginx
+            - build-and-push-image
           filters:
             branches:
               only:

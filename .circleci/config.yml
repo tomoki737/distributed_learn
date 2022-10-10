@@ -69,7 +69,6 @@ jobs:
             php artisan test
 
   build-and-push-image:
-    working_directory: ./
     docker:
       - image: cimg/python:3.9
     steps:

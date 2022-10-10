@@ -92,20 +92,19 @@ workflows:
                 - main
 
       - aws-ecr/build-and-push-image:
-          steps:
-            executor: docker_build
-            registry-id: AWS_ECR_REGISTRY_ID
-            region: "ap-northeast-1"
-            repo: "nginx"
-            tag: "${CIRCLE_SHA1}"
-            path: ./
-            dockerfile: ./docker/nginx/Dockerfile
-            requires:
-              - build
-            filters:
-              branches:
-                only:
-                  - main
+          executor: docker_build
+          registry-id: AWS_ECR_REGISTRY_ID
+          region: "ap-northeast-1"
+          repo: "nginx"
+          tag: "${CIRCLE_SHA1}"
+          path: ./
+          dockerfile: ./docker/nginx/Dockerfile
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - main
       - aws-ecs/deploy-service-update:
           family: "distributed_learn_task_definition"
           service-name: "distributed-learn-service"

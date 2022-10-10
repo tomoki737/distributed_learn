@@ -113,7 +113,6 @@ workflows:
           container-image-name-updates: "container=php,image-and-tag=${AWS_ECR_ACCOUNT_URL}/php:${CIRCLE_SHA1},container=nginx,image-and-tag=${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}"
           requires:
             - aws-ecr/php-build-and-push-image
-            - aws-ecr/nginx-build-and-push-image
           filters:
             branches:
               only:

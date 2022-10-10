@@ -1,12 +1,7 @@
 version: 2.1
 orbs:
-  aws-ecr: circleci/aws-ecr@8.1
   aws-ecs: circleci/aws-ecs@3.2
 
-executors:
-  docker_build:
-    machine:
-      docker_layer_caching: true
 jobs:
   build:
     docker:
@@ -73,33 +68,33 @@ jobs:
             pwd
             php artisan test
 
-  nginx-build-and-push-image:
+  nginx-build:
     steps:
       - run:
           command: |
             docker build -t nginx:prod -f  ./docker/nginx/Dockerfile  .
             docker tag nginx:prod "${AWS_ECR_ACCOUNT_URL}"/nginx:"${CIRCLE_SHA1}"
             docker push "${AWS_ECR_ACCOUNT_URL}"/nginx:${CIRCLE_SHA1}
-  php-build-and-push-image:
+  php-build:
     steps:
       - run:
           command: |
             docker build -t php:prod -f  ./docker/php/Dockerfile  .
             docker tag php:prod ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
             docker push ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
-            
+
 workflows:
   build-and-deploy:
     jobs:
       - build
-      - nginx-build-and-push-image:
+      - nginx-build:
           requires:
             - build
           filters:
             branches:
               only:
                 - main
-      - php-build-and-push-image:
+      - php-build:
           requires:
             - build
           filters:
@@ -112,8 +107,8 @@ workflows:
           cluster: "distributed-learn-cluster"
           container-image-name-updates: "container=php,image-and-tag=${AWS_ECR_ACCOUNT_URL}/php:${CIRCLE_SHA1},container=nginx,image-and-tag=${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}"
           requires:
-            - nginx-build-and-push-image
-            - php-build-and-push-image
+            - nginx-build
+            - nginx-build
           filters:
             branches:
               only:

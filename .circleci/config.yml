@@ -72,17 +72,32 @@ jobs:
             cd src/
             pwd
             php artisan test
+
+  nginx-build-and-push-image:
+    steps:
+      - run:
+          command: |
+            docker build -t nginx:prod -f  ./docker/nginx/Dockerfile  .
+            docker tag nginx:prod "${AWS_ECR_ACCOUNT_URL}"/nginx:"${CIRCLE_SHA1}"
+            docker push "${AWS_ECR_ACCOUNT_URL}"/nginx:${CIRCLE_SHA1}
+  php-build-and-push-image:
+    steps:
+      - run:
+          command: |
+            docker build -t php:prod -f  ./docker/php/Dockerfile  .
+            docker tag php:prod ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
+            docker push ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
+    requires:
+        - build
+    filters:
+      branches:
+        only:
+          - main
 workflows:
   build-and-deploy:
     jobs:
       - build
       - nginx-build-and-push-image:
-          steps:
-            - run:
-                command: |
-                  docker build -t nginx:prod -f  ./docker/nginx/Dockerfile  .
-                  docker tag nginx:prod "${AWS_ECR_ACCOUNT_URL}"/nginx:"${CIRCLE_SHA1}"
-                  docker push "${AWS_ECR_ACCOUNT_URL}"/nginx:${CIRCLE_SHA1}
           requires:
             - build
           filters:
@@ -90,14 +105,8 @@ workflows:
               only:
                 - main
       - php-build-and-push-image:
-          steps:
-            - run:
-                command: |
-                  docker build -t php:prod -f  ./docker/php/Dockerfile  .
-                  docker tag php:prod ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
-                  docker push ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
           requires:
-              - build
+            - build
           filters:
             branches:
               only:

@@ -70,7 +70,6 @@ jobs:
           name: php test
           command: |
             cd src/
-            pwd
             php artisan test
 workflows:
   build-and-deploy:

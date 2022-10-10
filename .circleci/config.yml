@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
-  aws-ecr: circleci/aws-ecr@1.0.0
-  aws-ecs: circleci/aws-ecs@0.0.6
+  aws-ecr: circleci/aws-ecr@8.1
+  aws-ecs: circleci/aws-ecs@3.2
 
 executors:
   docker_build:
@@ -79,7 +79,7 @@ workflows:
       - aws-ecr/build-and-push-image:
           name: "php"
           executor: docker_build
-          account-url: AWS_ECR_ACCOUNT_URL
+          registry-id: AWS_ECR_REGISTRY_ID
           region: "ap-northeast-1"
           repo: "php"
           tag: "${CIRCLE_SHA1}"
@@ -95,7 +95,7 @@ workflows:
       - aws-ecr/build-and-push-image:
           name: "nginx"
           executor: docker_build
-          account-url: AWS_ECR_ACCOUNT_URL
+          registry-id: AWS_ECR_REGISTRY_ID
           region: "ap-northeast-1"
           repo: "nginx"
           tag: "${CIRCLE_SHA1}"

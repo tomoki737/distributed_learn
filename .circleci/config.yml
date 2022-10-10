@@ -100,7 +100,7 @@ workflows:
           repo: "nginx"
           tag: "${CIRCLE_SHA1}"
           path: ./
-          dockerfile: ./docker/nginx/Dockerfile
+          dockerfile: ./docker/nginx/Dockerfile:prod
           requires:
             - build
           filters:

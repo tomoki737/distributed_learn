@@ -79,8 +79,8 @@ jobs:
       - run:
           name: docker build
           command: |
-            docker build -t nginx:prod -f ./docker/nginx/Dockerfile
-            docker build -t php:prod -f ./docker/php/Dockerfile
+            docker build -t nginx:prod -f ./docker/nginx/Dockerfile .
+            docker build -t php:prod -f ./docker/php/Dockerfile .
       - run:
           name: push
           command: |

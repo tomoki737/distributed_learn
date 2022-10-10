@@ -82,8 +82,8 @@ workflows:
           region: "ap-northeast-1"
           repo: "php"
           tag: "${CIRCLE_SHA1}"
-          path: ./
-          dockerfile: ./docker/php/Dockerfile
+          path: ./docker/php/Dockerfile
+          dockerfile: prod
           requires:
             - build
           filters:
@@ -98,8 +98,8 @@ workflows:
           region: "ap-northeast-1"
           repo: "nginx"
           tag: "${CIRCLE_SHA1}"
-          path: ./
-          dockerfile: ./docker/nginx/Dockerfile:prod
+          path: ./docker/nginx/Dockerfile
+          dockerfile: prod
           requires:
             - build
           filters:

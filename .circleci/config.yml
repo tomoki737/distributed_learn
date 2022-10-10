@@ -76,37 +76,26 @@ workflows:
   build-and-deploy:
     jobs:
       - build
-      - aws-ecr/build-and-push-image:
-          name: "php"
-          executor: docker_build
-          registry-id: AWS_ECR_REGISTRY_ID
-          region: "ap-northeast-1"
-          repo: "php"
-          tag: "${CIRCLE_SHA1}"
-          path: ./
-          dockerfile: ./docker/php/Dockerfile
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - main
+      - nginx-build-and-push-image:
+          steps:
+           - run:
+            command: |
+              docker build -t nginx:${CIRCLE_SHA1} -f  ./docker/nginx/Dockerfile  .
+              docker tag nginx:prod ${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}
+              docker push ${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}
+      - php-build-and-push-image:
+          steps:
+           - run:
+            command: |
+              docker build -t nginx:${CIRCLE_SHA1} -f  ./docker/nginx/Dockerfile  .
+              docker tag nginx:prod ${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}
+              docker push ${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}
+           - run:
+            command: |
+              docker build -t php:prod -f  ./docker/php/Dockerfile  .
+              docker tag php:prod ${AWS_ECR_ACCOUNT_URL}/php:${CIRCLE_SHA1}
+              docker push ${AWS_ECR_ACCOUNT_URL}/php:${CIRCLE_SHA1}
 
-      - aws-ecr/build-and-push-image:
-          name: "nginx"
-          executor: docker_build
-          registry-id: AWS_ECR_REGISTRY_ID
-          region: "ap-northeast-1"
-          repo: "nginx"
-          tag: "${CIRCLE_SHA1}"
-          path: ./
-          dockerfile: ./docker/nginx/Dockerfile
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - main
       - aws-ecs/deploy-service-update:
           family: "distributed_learn_task_definition"
           service-name: "distributed-learn-service"

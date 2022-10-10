@@ -78,21 +78,22 @@ workflows:
       - build
       - aws-ecr/build-and-push-image:
           steps:
-            executor: docker_build
-            registry-id: AWS_ECR_REGISTRY_ID
-            region: "ap-northeast-1"
-            repo: "php"
-            tag: "${CIRCLE_SHA1}"
-            path: ./
-            dockerfile: ./docker/php/Dockerfile
-
-            executor: docker_build
-            registry-id: AWS_ECR_REGISTRY_ID
-            region: "ap-northeast-1"
-            repo: "nginx"
-            tag: "${CIRCLE_SHA1}"
-            path: ./
-            dockerfile: ./docker/nginx/Dockerfile
+            - run:
+                executor: docker_build
+                registry-id: AWS_ECR_REGISTRY_ID
+                region: "ap-northeast-1"
+                repo: "php"
+                tag: "${CIRCLE_SHA1}"
+                path: ./
+                dockerfile: ./docker/php/Dockerfile
+            - run:
+                executor: docker_build
+                registry-id: AWS_ECR_REGISTRY_ID
+                region: "ap-northeast-1"
+                repo: "nginx"
+                tag: "${CIRCLE_SHA1}"
+                path: ./
+                dockerfile: ./docker/nginx/Dockerfile
           requires:
             - build
           filters:

@@ -1,7 +1,12 @@
 version: 2.1
 orbs:
-  aws-ecs: circleci/aws-ecs@3.2
+  aws-ecr: circleci/aws-ecr@1.0.0
+  aws-ecs: circleci/aws-ecs@0.0.6
 
+executors:
+  docker_build:
+    machine:
+      docker_layer_caching: true
 jobs:
   build:
     docker:
@@ -67,34 +72,35 @@ jobs:
             cd src/
             pwd
             php artisan test
-
-  nginx-build:
-    steps:
-      - run:
-          command: |
-            docker build -t nginx:prod -f  ./docker/nginx/Dockerfile  .
-            docker tag nginx:prod "${AWS_ECR_ACCOUNT_URL}"/nginx:"${CIRCLE_SHA1}"
-            docker push "${AWS_ECR_ACCOUNT_URL}"/nginx:${CIRCLE_SHA1}
-  php-build:
-    steps:
-      - run:
-          command: |
-            docker build -t php:prod -f  ./docker/php/Dockerfile  .
-            docker tag php:prod ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
-            docker push ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
-
 workflows:
-  build:
+  build-and-deploy:
     jobs:
       - build
-      - nginx-build:
+      - aws-ecr/build-and-push-image:
+          name: "php"
+          executor: docker_build
+          region: "ap-northeast-1"
+          repo: "php"
+          tag: "${CIRCLE_SHA1}"
+          path: ./
+          dockerfile: ./docker/php/Dockerfile
+          account-url: AWS_ECR_ACCOUNT_URL
           requires:
             - build
           filters:
             branches:
               only:
                 - main
-      - php-build:
+
+      - aws-ecr/build-and-push-image:
+          name: "nginx"
+          executor: docker_build
+          account-url: AWS_ECR_ACCOUNT_URL
+          region: "ap-northeast-1"
+          repo: "nginx"
+          tag: "${CIRCLE_SHA1}"
+          path: ./
+          dockerfile: ./docker/nginx/Dockerfile
           requires:
             - build
           filters:
@@ -107,8 +113,8 @@ workflows:
           cluster: "distributed-learn-cluster"
           container-image-name-updates: "container=php,image-and-tag=${AWS_ECR_ACCOUNT_URL}/php:${CIRCLE_SHA1},container=nginx,image-and-tag=${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}"
           requires:
-            - nginx-build
-            - nginx-build
+            - php
+            - nginx
           filters:
             branches:
               only:

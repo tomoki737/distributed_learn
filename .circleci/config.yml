@@ -81,8 +81,8 @@ workflows:
             - run:
                 command: |
                   docker build -t nginx:prod -f  ./docker/nginx/Dockerfile  .
-                  docker tag nginx:prod ${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}
-                  docker push ${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}
+                  docker tag nginx:prod "${AWS_ECR_ACCOUNT_URL}"/nginx:"${CIRCLE_SHA1}"
+                  docker push "${AWS_ECR_ACCOUNT_URL}"/nginx:${CIRCLE_SHA1}
         requires:
           - build
         filters:
@@ -94,8 +94,8 @@ workflows:
             - run:
                 command: |
                   docker build -t php:prod -f  ./docker/php/Dockerfile  .
-                  docker tag php:prod ${AWS_ECR_ACCOUNT_URL}/php:${CIRCLE_SHA1}
-                  docker push ${AWS_ECR_ACCOUNT_URL}/php:${CIRCLE_SHA1}
+                  docker tag php:prod ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
+                  docker push ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
         requires:
             - build
         filters:

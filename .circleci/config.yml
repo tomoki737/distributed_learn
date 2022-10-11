@@ -85,10 +85,10 @@ jobs:
           name: push
           command: |
             aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_ACCOUNT_URL}
-            docker tag nginx:prod ${AWS_ECR_ACCOUNT_URL}/nginx:"${CIRCLE_SHA1}"
-            docker tag php:prod ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
-            docker push ${AWS_ECR_ACCOUNT_URL}/nginx:"${CIRCLE_SHA1}"
-            docker push ${AWS_ECR_ACCOUNT_URL}/php:"${CIRCLE_SHA1}"
+            docker tag nginx:prod ${AWS_ECR_ACCOUNT_URL}/nginx:prod
+            docker tag php:prod ${AWS_ECR_ACCOUNT_URL}/php:prod
+            docker push ${AWS_ECR_ACCOUNT_URL}/nginx:prod
+            docker push ${AWS_ECR_ACCOUNT_URL}/php:prod
 workflows:
   build-and-deploy:
     jobs:

@@ -85,10 +85,8 @@ jobs:
           name: push
           command: |
             aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ECR_ACCOUNT_URL}
-            docker tag nginx:prod ${AWS_ECR_ACCOUNT_URL}/nginx:prod
-            docker tag php:prod ${AWS_ECR_ACCOUNT_URL}/php:prod
-            docker push ${AWS_ECR_ACCOUNT_URL}/nginx:prod
-            docker push ${AWS_ECR_ACCOUNT_URL}/php:prod
+            docker tag nginx:prod ${AWS_ECR_ACCOUNT_URL}/nginx:"${CIRCLE_SHA1}"
+            docker push ${AWS_ECR_ACCOUNT_URL}/nginx:"${CIRCLE_SHA1}"
 workflows:
   build-and-deploy:
     jobs:
@@ -105,7 +103,7 @@ workflows:
           family: "distributed_learn_task_definition"
           service-name: "distributed-learn-service"
           cluster: "distributed-learn-cluster"
-          container-image-name-updates: "container=php,image-and-tag=${AWS_ECR_ACCOUNT_URL}/php:prod,container=nginx,image-and-tag=${AWS_ECR_ACCOUNT_URL}/nginx:prod"
+          container-image-name-updates: "container=php,image-and-tag=${AWS_ECR_ACCOUNT_URL}/php:${CIRCLE_SHA1},container=nginx,image-and-tag=${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}"
           requires:
             - build-and-push-image
           filters:

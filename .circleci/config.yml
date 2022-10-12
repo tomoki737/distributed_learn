@@ -95,16 +95,6 @@ workflows:
             branches:
               only:
                 - main
-version: 2.1
-orbs:
-  aws-ecr: circleci/aws-ecr@8.1
-  aws-ecs: circleci/aws-ecs@3.2
-
-executors:
-  docker_build:
-    machine:
-      docker_layer_caching: true
-
 workflows:
   build-and-deploy:
     jobs:

@@ -83,7 +83,6 @@ workflows:
           region: "ap-northeast-1"
           repo: "php"
           tag: "${CIRCLE_SHA1}"
-          path: ./
           dockerfile: ./docker/php/Dockerfile
           # requires:
           #   - build
@@ -99,7 +98,6 @@ workflows:
           region: "ap-northeast-1"
           repo: "nginx"
           tag: "${CIRCLE_SHA1}"
-          path: ./
           dockerfile: ./docker/nginx/Dockerfile
           # requires:
           #   - build

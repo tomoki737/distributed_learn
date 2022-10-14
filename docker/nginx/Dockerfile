@@ -8,4 +8,5 @@ COPY ./docker/nginx/development/default.conf /etc/nginx/conf.d/default.conf
 FROM base AS prod
 COPY ./docker/nginx/prod/default.conf /etc/nginx/conf.d/default.conf
 COPY ./src /var/www/html
+RUN npm install && npm run prod 
 EXPOSE 80

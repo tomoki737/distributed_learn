@@ -9,7 +9,7 @@ FROM base AS prod
 COPY ./docker/nginx/prod/default.conf /etc/nginx/conf.d/default.conf
 COPY ./src /var/www/html
 RUN apt update \
-    && apt install nodejs npm \
+    && apt install -y nodejs npm \
     && npm install \
     && npm prod
 

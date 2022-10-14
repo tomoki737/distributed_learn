@@ -1,4 +1,4 @@
-FROM nginx:1.20-alpine AS base
+FROM nginx:1.20 AS base
 ENV TZ=Asia/Tokyo
 COPY ./docker/nginx/nginx.conf /etc/nginx/nginx.conf
 

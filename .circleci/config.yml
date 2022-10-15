@@ -105,6 +105,7 @@ workflows:
           #   branches:
           #     only:
           #       - main
+          
       - aws-ecs/deploy-service-update:
           family: "distributed_learning_task_definition"
           service-name: "distributed_learning"

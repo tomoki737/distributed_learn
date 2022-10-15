@@ -10,12 +10,12 @@
     </title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-    <link rel="stylesheet" href="{{ mix('css/app.css', 'css') }}">
+    <link rel="stylesheet" href="{{ mix('css/app.css', 'app') }}">
 </head>
 
 <body>
     <div id="app"></div>
-    <script src="{{ mix('js/app.js', 'js') }}"></script>
+    <script src="{{ mix('js/app.js', 'app') }}"></script>
 </body>
 
 </html>

@@ -7,6 +7,7 @@ use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\AnswerController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/me', [MeController::class, 'me']);
@@ -15,6 +16,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::get('/guest',[LoginController::class, 'guestLogin']);
 
 Route::get('/home', [QuestionController::class, 'indexHome']);
+
 Route::resource('/question', QuestionController::class)->except(['show']);
 Route::post('/question/search', [QuestionController::class, 'search']);
 Route::get('/question/search', [QuestionController::class, 'indexSearch']);
@@ -26,3 +28,7 @@ Route::get('/answer', [AnswerController::class, 'indexAnswer']);
 Route::get('/answer/select', [AnswerController::class, 'indexSelectAnswer']);
 
 Route::get('/tags/{name}', [TagController::class, 'show']);
+
+Route::get('/user', [UserController::class, 'indexUser']);
+
+

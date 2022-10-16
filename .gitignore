@@ -1,4 +1,4 @@
 .idea
 .vscode
 .env
-./src/.env.production
+/src/.env.production

@@ -8,7 +8,7 @@
             <v-row>
               <v-col cols="6">
                 <div class="pink lighten-4 text-center">
-                  <p>新しく覚える</p>
+                  <p>新しく覚えない</p>
                   <h3>{{ new_questions }}</h3>
                 </div>
               </v-col>

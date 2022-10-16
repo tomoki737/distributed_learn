@@ -11,14 +11,14 @@
       </v-list-item>
       <div v-if="!isLogin">
         <v-list-item v-for="menu in guest_user_menus" :key="menu.title">
-          <v-btn block outlined router-link :to="menu.url">{{
+          <v-btn block outlined router-link :to="menu.url" @click="downDrawer">{{
             menu.title
           }}</v-btn>
         </v-list-item>
       </div>
       <div v-if="isLogin">
         <v-list-item v-for="menu in login_user_menus" :key="menu.title">
-          <v-btn block outlined router-link :to="menu.url">{{
+          <v-btn block outlined router-link :to="menu.url" @click="downDrawer">{{
             menu.title
           }}</v-btn>
         </v-list-item>
@@ -70,9 +70,11 @@ export default {
       });
     },
     changeDrawer() {
-      console.log(this.drawer);
       this.drawer = !this.drawer;
       console.log(this.drawer);
+    },
+    downDrawer() {
+      this.drawer = false;
     },
   },
 

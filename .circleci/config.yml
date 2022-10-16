@@ -11,7 +11,7 @@ jobs:
   build:
     docker:
       - image: circleci/php:8-node-browsers
-      - image: circleci/circleci:8-alpine
+      - image: circleci/mqsql:8-alpine
         environment:
           MYSQL_DATABASE: larasns
           MYSQL_USER: default

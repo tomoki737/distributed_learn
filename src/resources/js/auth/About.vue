@@ -1,11 +1,38 @@
 <template>
   <div>
-    <v-container class="mt-10 max-width: 1000px">
-        <p>ユーザー名: {{ get_user_name }}</p>
-        <p>メールアドレス: {{ get_user_email }}</p>
-        <v-btn outlined color="success" d-block @click="logout" class="mt-5">ログアウト</v-btn>
-      <bottom-navigation></bottom-navigation>
-    </v-container>
+    <loading :loading="loading"></loading>
+    <div v-show="!loading">
+      <v-container class="mt-10 max-width: 1000px">
+        <h2>プロフィール</h2>
+        <v-card class="mt-5 mx-auto" max-width="700">
+          <v-card-text>
+            <h2 class="mb-5">{{ get_user_name }}さん</h2>
+            <v-divider></v-divider>
+            <p class="body-1 mt-4">
+              ダウンロードした問題数: {{ download_questions_count }}
+            </p>
+            <p class="body-1 mt-4">
+              問題がダウンロードされた回数: {{ downloaded_questions_count }}
+            </p>
+              </v-card-text>
+          <v-card-actions class="ml-0">
+            <v-list-item>
+              <v-row align="center" justify="end">
+                <v-btn
+                  class="mr-1"
+                  outlined
+                  color="success"
+                  d-block
+                  @click="logout"
+                  >ログアウト</v-btn
+                >
+              </v-row>
+            </v-list-item>
+          </v-card-actions>
+        </v-card>
+        <bottom-navigation></bottom-navigation>
+      </v-container>
+    </div>
   </div>
 </template>
 
@@ -18,6 +45,8 @@ export default {
     return {
       user: [],
       loading: true,
+      download_questions_count: 0,
+      downloaded_questions_count: 0,
     };
   },
 
@@ -35,6 +64,12 @@ export default {
           });
       });
     },
+    async getUserProfile() {
+      const response = await axios.get("/api/user");
+      this.download_questions_count = response.data.download_questions_count;
+      this.downloaded_questions_count = response.data.downloaded_questions_count;
+      this.loading = false;
+    },
   },
   computed: {
     get_user_name() {
@@ -43,6 +78,9 @@ export default {
     get_user_email() {
       return this.$store.getters["auth/email"];
     },
+  },
+  mounted() {
+    this.getUserProfile();
   },
 };
 </script>

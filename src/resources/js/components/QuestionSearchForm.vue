@@ -1,6 +1,6 @@
 <template>
-  <v-row
-    ><v-col cols="9">
+  <v-row justify="space-between">
+    <v-col cols="9">
       <span
         >タグ: {{ searchForm.tag }} / キーワード: {{ searchForm.keyword }} /
         カテゴリー: {{ searchForm.category }}</span

@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -44,6 +45,10 @@ class User extends Authenticatable
     ];
 
     public function download_questions(): BelongsToMany {
-        return $this->BelongsToMany('App\Models\User', 'question_download')->withTimestamps();
+        return $this->BelongsToMany('App\Models\Question', 'question_download')->withTimestamps();
+    }
+
+    public function questions(): hasMany {
+        return $this->hasMany('App\Models\Question');
     }
 }

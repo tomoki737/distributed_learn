@@ -3,6 +3,7 @@
     <loading :loading="loading"></loading>
     <v-container style="max-width: 1000px" class="mt-2">
       <div v-show="!loading">
+        <h2>検索</h2>
         <question-search-form
           @questionChange="questionChange"
           :is_my_question_search="false"

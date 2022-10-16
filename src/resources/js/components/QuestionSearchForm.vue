@@ -1,12 +1,12 @@
 <template>
-  <v-row
-    ><v-col cols="9">
+  <v-row justify="space-between">
+    <v-col cols="10">
       <span
         >タグ: {{ searchForm.tag }} / キーワード: {{ searchForm.keyword }} /
         カテゴリー: {{ searchForm.category }}</span
       >
     </v-col>
-    <v-col cols="3">
+    <v-col cols="2">
       <v-dialog v-model="dialog" width="500">
         <template v-slot:activator="{ on, attrs }">
           <v-btn color="blue" dark v-bind="attrs" v-on="on" outlined>

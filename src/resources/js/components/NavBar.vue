@@ -70,7 +70,9 @@ export default {
       });
     },
     changeDrawer() {
+      console.log(this.drawer);
       this.drawer = !this.drawer;
+      console.log(this.drawer);
     },
   },
 

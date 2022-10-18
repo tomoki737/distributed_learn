@@ -7,8 +7,10 @@ use App\Models\Question;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Http\Requests\QuestionRequest;
 use App\Models\Category;
+use App\Models\QuestionImage;
 use Carbon\Carbon;
 use App\Models\Tag;
+use Illuminate\Support\Facades\Storage;
 
 class QuestionController extends Controller
 {
@@ -77,7 +79,13 @@ class QuestionController extends Controller
 
     public function store(QuestionRequest $request, Question $question)
     {
+        $question_image = new QuestionImage();
+        $image = $request->file('image');
+        $path = Storage::disk('s3')->putFIle('myprefix', $image, 'public');
+        $question_image->path = Storage::disk('s3')->url($path);
+        $question_image->save();
         $question->fill($request->all());
+        
         $this->createQuestion($request, $question);
 
         $this->createTags($request, $question);

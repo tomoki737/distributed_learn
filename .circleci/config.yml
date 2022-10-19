@@ -66,7 +66,7 @@ jobs:
 workflows:
   build-and-deploy:
     jobs:
-      - build
+      # - build
       - aws-ecr/build-and-push-image:
           name: "php"
           executor: docker_build
@@ -75,12 +75,12 @@ workflows:
           repo: "php"
           tag: "${CIRCLE_SHA1}"
           dockerfile: ./docker/php/Dockerfile
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - main
+          # requires:
+          #   - build
+          # filters:
+          #   branches:
+          #     only:
+          #       - main
 
       - aws-ecr/build-and-push-image:
           name: "nginx"
@@ -90,12 +90,12 @@ workflows:
           repo: "nginx"
           tag: "${CIRCLE_SHA1}"
           dockerfile: ./docker/nginx/Dockerfile
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - main
+          # requires:
+          #   - build
+          # filters:
+          #   branches:
+          #     only:
+          #       - main
 
       - aws-ecs/deploy-service-update:
           family: "distributed_learning_task_definition"
@@ -105,7 +105,7 @@ workflows:
           requires:
             - php
             - nginx
-          filters:
-            branches:
-              only:
-                - main
+          # filters:
+          #   branches:
+          #     only:
+          #       - main

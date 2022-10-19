@@ -41,7 +41,7 @@
             label="Share"
             class="d-flex justify-content-end"
           ></v-switch>
-          <uplad-file></uplad-file>
+          <uplad-file @parentMethod="addUploadFile"></uplad-file>
         </v-card-text>
       </v-card>
       <div class="mb-13">
@@ -76,6 +76,7 @@ export default {
         tags: "",
         share: true,
         category: "",
+        file: {},
       },
 
       items: [
@@ -110,6 +111,11 @@ export default {
 
     tagsChange(tags) {
       this.questionForm.tags = JSON.stringify(tags);
+    },
+
+    addUploadFile(file) {
+      this.questionForm.file = file;
+      console.log(this.questionForm.file);
     },
 
     async getQuestion() {

@@ -1,8 +1,8 @@
 <template>
   <div>
     <input type="file" ref="preview" @change="uploadFile" />
-    <div v-if="url" style="position: reactive">
-    <div style="position: absolute" @click="deletePreview">X</div>
+    <div v-if="url">
+      <div @click="deletePreview">X</div>
       <v-img contain :src="url" />
     </div>
   </div>
@@ -15,13 +15,16 @@ export default {
       url: "",
     };
   },
+
   methods: {
     uploadFile() {
       const file = this.$refs.preview.files[0];
       this.url = URL.createObjectURL(file);
+      this.$emit("parentMethod", file);
     },
+
     deletePreview() {
-      this.url = '';
+      this.url = "";
     },
   },
 };

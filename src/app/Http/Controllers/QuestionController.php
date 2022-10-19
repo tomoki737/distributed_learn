@@ -80,12 +80,12 @@ class QuestionController extends Controller
     public function store(QuestionRequest $request, Question $question)
     {
         $question_image = new QuestionImage();
-        $image = $request->file('image');
-        $path = Storage::disk('s3')->putFIle('myprefix', $image, 'public');
-        $question_image->path = Storage::disk('s3')->url($path);
+        $file = $request->file('file');
+        $path = Storage::disk('s3')->putFile('myprefix', $file, 'public');
+        $question_image->image_path = Storage::disk('s3')->url($path);
         $question_image->save();
         $question->fill($request->all());
-        
+
         $this->createQuestion($request, $question);
 
         $this->createTags($request, $question);

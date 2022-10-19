@@ -41,6 +41,7 @@
             label="Share"
             class="d-flex justify-content-end"
           ></v-switch>
+          <uplad-file></uplad-file>
         </v-card-text>
       </v-card>
       <div class="mb-13">
@@ -63,9 +64,10 @@
 
 <script>
 import QuesitonTagsInput from "../components/QuestionTagsInput.vue";
+import UpladFile from "../components/UploadFile.vue";
 import BottomNavigation from "../components/BottomNavigation.vue";
 export default {
-  components: { QuesitonTagsInput, BottomNavigation },
+  components: { QuesitonTagsInput, BottomNavigation, UpladFile },
   data() {
     return {
       questionForm: {

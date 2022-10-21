@@ -1,8 +1,9 @@
 <template>
   <div>
     <loading :loading="loading"></loading>
-    <v-container v-show="!loading">
-      <v-card elevation="2" class="mt-10 mx-auto" width="600px" height="500px">
+    <v-container>
+      <div v-show="!loading">
+      <v-card elevation="2" class="mt-10 mx-auto" width="600px" height="250px">
         <v-toolbar color="blue lighten-3" class="white--text" flat>
           <v-btn
             icon
@@ -25,72 +26,76 @@
         <v-btn @click="next(current_question, true)">わかった</v-btn>
         <v-btn @click="next(current_question, false)">わからない</v-btn>
       </div>
+      </div>
     </v-container>
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Loading from "../components/Loading.vue";
-export default {
+import axios from "axios";
+import { Component, Vue } from "vue-property-decorator";
+
+interface Question {
+  id: number;
+  question: String;
+  answer: String;
+  category: { name: String };
+  tags: { name: String }[];
+}
+
+@Component({
   components: { Loading },
-  data() {
-    return {
-      number: 0,
-      show_question: true,
-      show_answer: false,
-      questions: [],
-      current_question: {},
-      loading: true,
-    };
-  },
+})
+export default class AnswerUnderstand extends Vue {
+  number: number = 0;
+  show_question: Boolean = false;
+  show_answer: Boolean = false;
+  questions: Question[];
+  current_question: Question = {question:"", id:0, answer:"", category:{name:""}, tags:[{name:""}]};
+  loading: Boolean = true;
+  $router: any;
 
-  methods: {
-    getQuestions() {
-      axios.get("/api/answer").then((response) => {
-        this.questions = response.data.questions;
-        this.current_question = this.questions[this.number];
-        this.loading = false;
-      });
-    },
-
-    question_change(bool) {
-      console.log("question_changeが実行されました");
-      this.show_question = bool;
-    },
-
-    answer_change() {
-      this.show_answer = true;
-      this.question_change(false);
-    },
-
-    next(question, bool) {
-      console.log("nextが実行されました");
-      console.log(this.current_question)
-      this.answer(question, bool);
-      console.log(this.questions.length)
-      console.log(this.number + 1)
-      if (this.questions.length === this.number + 1) {
-        return this.$router.push("/");
-      }
-
-      this.number += 1;
+  getQuestions() {
+    axios.get("/api/answer").then((response) => {
+      this.questions = response.data.questions;
       this.current_question = this.questions[this.number];
-      this.show_answer = false;
-      this.show_question = true;
-    },
+      this.loading = false;
+    });
+  }
 
-    async answer(question, bool) {
-      const response = await axios.put(
-        "/api/question/" + question.id + "/answer",
-        {
-          correct_answer: bool,
-        }
-      );
-    },
-  },
+  question_change(bool: Boolean) {
+    this.show_question = bool;
+  }
+
+  answer_change() {
+    this.show_answer = true;
+    this.question_change(false);
+  }
+
+  next(question: Question, bool: Boolean) {
+    this.answer(question, bool);
+    if (this.questions.length === this.number + 1) {
+      return this.$router.push("/");
+    }
+    console.log(this.number)
+    this.number += 1;
+    this.current_question = this.questions[this.number];
+    this.show_answer = false;
+    this.show_question = true;
+  }
+
+  async answer(question: Question, bool: Boolean) {
+    const response = await axios.put(
+      "/api/question/" + question.id + "/answer",
+      {
+        correct_answer: bool,
+      }
+    );
+  }
 
   mounted() {
     this.getQuestions();
-  },
-};
+  }
+}
 </script>

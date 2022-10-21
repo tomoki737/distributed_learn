@@ -9,7 +9,7 @@ const state = {
 };
 
 const getters = {
-    create_input: (state) => {
+    create_input: (state:any) => {
         return {
             category: state.category,
             question: state.question,
@@ -21,8 +21,7 @@ const getters = {
 };
 
 const mutations = {
-    setInput(state, input) {
-        console.log(input)
+    setInput(state:any, input:any) {
         state.category = input.category;
         state.question = input.question;
         state.tags = input.tags;

@@ -20,8 +20,11 @@
         "laravel-mix": "^6.0.6",
         "lodash": "^4.17.19",
         "postcss": "^8.1.14",
+        "ts-loader": "^9.4.1",
+        "typescript": "^4.8.4",
         "vue-jest": "^3.0.7",
         "vue-loader": "^15.9.8",
+        "vue-property-decorator": "^9.1.2",
         "vue-template-compiler": "^2.6.14"
     },
     "dependencies": {

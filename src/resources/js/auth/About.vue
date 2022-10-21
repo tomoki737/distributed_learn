@@ -36,21 +36,23 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import BottomNavigation from "../components/BottomNavigation.vue";
+import axios from "axios";
 import Loading from "../components/Loading.vue";
-export default {
-  components: { BottomNavigation, Loading },
-  data() {
-    return {
-      user: [],
-      loading: true,
-      download_questions_count: 0,
-      downloaded_questions_count: 0,
-    };
-  },
+import { Component, Vue } from "vue-property-decorator";
 
-  methods: {
+@Component({
+  components: { BottomNavigation, Loading }
+})
+
+export default class About extends Vue {
+      user: Object;
+      loading: Boolean =true;
+      download_questions_count: number = 0;
+      downloaded_questions_count: number = 0;
+      $store: any;
+      $router: any;
     logout() {
       axios.get("/sanctum/csrf-cookie").then((res) => {
         axios
@@ -63,24 +65,19 @@ export default {
             console.error(error);
           });
       });
-    },
+      }
     async getUserProfile() {
       const response = await axios.get("/api/user");
       this.download_questions_count = response.data.download_questions_count;
       this.downloaded_questions_count = response.data.downloaded_questions_count;
       this.loading = false;
-    },
-  },
-  computed: {
-    get_user_name() {
+    }
+    get get_user_name():String {
       return this.$store.getters["auth/name"];
-    },
-    get_user_email() {
-      return this.$store.getters["auth/email"];
-    },
-  },
+    }
+
   mounted() {
     this.getUserProfile();
-  },
+  }
 };
 </script>

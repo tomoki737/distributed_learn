@@ -1,7 +1,7 @@
 <template>
   <div>
     <loading :loading="loading"></loading>
-    <v-container>
+    <v-container style="max-width: 1000px">
       <div v-show="!loading">
       <v-card elevation="2" class="mt-10 mx-auto" width="600px" height="250px">
         <v-toolbar color="blue lighten-3" class="white--text" flat>

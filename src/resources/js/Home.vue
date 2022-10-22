@@ -43,8 +43,7 @@
           </div>
         </v-card>
         <div class="text-center mt-4">
-          <v-btn @click="getQuestions" text
-        icon class="ma-2">
+          <v-btn @click="getQuestions" text icon class="ma-2">
             <v-icon x-large>mdi-restore</v-icon>
           </v-btn>
         </div>
@@ -53,32 +52,34 @@
     </v-container>
   </div>
 </template>
-<script>
+<script lang="ts">
 import Loading from "./components/Loading.vue";
 import BottomNavigation from "./components/BottomNavigation.vue";
-export default {
-  components: { Loading, BottomNavigation, BottomNavigation },
-  data() {
-    return {
-      review_questions: "0",
-      loading: true,
-      new_questions: "0",
-      imgPath: "",
-      next_study_date: "",
-    };
+import axios from "axios";
+import { Component, Vue } from "vue-property-decorator";
+@Component({
+  components: {
+    Loading,
+    BottomNavigation,
   },
-  methods: {
-    getQuestions() {
-      axios.get("/api/home").then((response) => {
-        this.review_questions = response.data.review_questions.length;
-        this.new_questions = response.data.new_questions.length;
-        this.next_study_date = response.data.next_study_date;
-        this.loading = false;
-      });
-    },
-  },
+})
+export default class QuestionCreate extends Vue {
+  review_questions: String = "0";
+  loading: Boolean = true;
+  new_questions: String = "0";
+  imgPath: String = "";
+  next_study_date: String = "";
+
+  getQuestions() {
+    axios.get("/api/home").then((response) => {
+      this.review_questions = response.data.review_questions.length;
+      this.new_questions = response.data.new_questions.length;
+      this.next_study_date = response.data.next_study_date;
+      this.loading = false;
+    });
+  }
   mounted() {
     this.getQuestions();
-  },
-};
+  }
+}
 </script>

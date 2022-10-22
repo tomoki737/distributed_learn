@@ -52,7 +52,13 @@ export default class AnswerSelect extends Vue {
   select_answers: String[] = [];
   is_correct_answer: Boolean = false;
   your_select_answer: String = "";
-  current_question: Question = {question:"", id:0, answer:"", category:{name:""}, tags:[{name:""}]};
+  current_question: Question = {
+    question: "",
+    id: 0,
+    answer: "",
+    category: { name: "" },
+    tags: [{ name: "" }],
+  };
   tags: Object[] = [];
   loading: Boolean = true;
   $router: any;
@@ -67,7 +73,7 @@ export default class AnswerSelect extends Vue {
       this.all_questions = response.data.all_questions;
       this.createSelectAnswers(this.questions[0]);
       this.loading = false;
-      console.log(this.current_question.question)
+      console.log(this.current_question.question);
     });
   }
 

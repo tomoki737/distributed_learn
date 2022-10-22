@@ -4,9 +4,13 @@
     <RouterView />
   </v-app>
 </template>
-<script>
+<script lang="ts">
 import NavBar from "./components/NavBar.vue";
-export default {
-  components: { NavBar},
-};
+import { Component, Vue } from "vue-property-decorator";
+@Component({
+  components: {
+    NavBar,
+  },
+})
+export default class QuestionCreate extends Vue {}
 </script>

@@ -65,8 +65,9 @@ interface LoginForm {
 @Component
 export default class Login extends Vue {
   LoginForm: LoginForm = {
-    email:"", password:""
-  }
+    email: "",
+    password: "",
+  };
   errors: String[] = [];
   showPassword: Boolean = false;
   getUserMessage: String = "";
@@ -80,7 +81,6 @@ export default class Login extends Vue {
           .post("login", this.LoginForm)
           .then((res) => {
             if (res.status == 200) {
-              console.log(res.data.user);
               this.$store.commit("auth/setUser", res.data.user);
               this.$router.push("/about");
             }
@@ -98,7 +98,6 @@ export default class Login extends Vue {
     axios
       .get("/api/guest")
       .then((res) => {
-        console.log(res.data.user);
         this.$store.commit("auth/setUser", res.data.user);
         this.$router.push("/about");
       })

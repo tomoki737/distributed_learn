@@ -98,105 +98,113 @@
   </v-card>
 </template>
 
-<script>
+<script lang="ts">
+import { Component, Vue, Prop } from "vue-property-decorator";
+import axios from "axios";
 import moment from "moment";
-export default {
-  props: {
-    question: {},
-    my_question_search: "",
-  },
+interface Question {
+  id: number;
+  question: String;
+  answer: String;
+  user:{name:String}
+  category: { name: String };
+  tags: { name: String }[];
+  download_users: { id: number }[];
+  created_at: Date;
+  correct_answer: String;
+}
 
-  data() {
-    return {
-      isSelect: 1,
-      correct_answer: "",
-      correct_answer_icon: "",
-      created_at: "",
-      dialog: false,
-      is_downloaded: false,
-    };
-  },
+@Component
+export default class QuestionIndexCard extends Vue {
+  @Prop({ default: "" })
+  question!: Question;
+  @Prop({ default: "" })
+  my_question_search!: String;
+  $store: any;
+  isSelect: number = 1;
+  correct_answer: String = "";
+  correct_answer_icon: String = "";
+  created_at: String = "";
+  dialog: Boolean = false;
+  is_downloaded: Boolean = false;
 
-  methods: {
-    async questionDelete(question_id) {
-      const response = await axios
-        .delete("/api/question/" + question_id)
-        .catch((error) => {
-          return console.error(error);
-        });
-      this.$emit("get");
-    },
+  async questionDelete(question_id: number) {
+    const response = await axios
+      .delete("/api/question/" + question_id)
+      .catch((error) => {
+        return console.error(error);
+      });
+    this.$emit("get");
+  }
 
-    correctAnswer() {
-      const correct_answer = this.question.correct_answer;
-      if (correct_answer === null) {
-        return (this.correct_answer = "未解答");
+  correctAnswer() {
+    const correct_answer = this.question.correct_answer;
+    if (correct_answer === null) {
+      return (this.correct_answer = "未解答");
+    }
+    this.correct_answer = correct_answer ? "正解" : "不正解";
+  }
+
+  correctAnswerIcon() {
+    const correct_answer = this.question.correct_answer;
+    if (this.question.correct_answer === null) {
+      return;
+    }
+    this.correct_answer_icon = correct_answer
+      ? "mdi-checkbox-blank-circle-outline"
+      : "mdi-window-close";
+  }
+
+  formatCreatedAt() {
+    this.created_at = moment(this.question.created_at).format("YYYY/MM/DD");
+  }
+
+  async questionExcept(question_id: number) {
+    const response = await axios
+      .put("/api/question/" + question_id + "/except")
+      .catch((error) => {
+        return console.error(error);
+      });
+  }
+
+  clickDownload() {
+    if (this.is_downloaded === false) {
+      this.downloadQuestion();
+    } else {
+      alert("すでにダウンロードされています");
+    }
+  }
+
+  async downloadQuestion() {
+    const response = await axios
+      .post("/api/question/download", { question_id: this.question.id })
+      .catch((error) => {
+        return console.error(error);
+      });
+    this.is_downloaded = true;
+  }
+
+  select(val: number) {
+    this.isSelect = val;
+  }
+
+  is_user_downloaded() {
+    this.question.download_users.map((obj) => {
+      if (obj.id === this.get_user_id) {
+        this.is_downloaded = true;
       }
-      this.correct_answer = correct_answer ? "正解" : "不正解";
-    },
+    });
+  }
 
-    correctAnswerIcon() {
-      const correct_answer = this.question.correct_answer;
-      if (this.question.correct_answer === null) {
-        return;
-      }
-      this.correct_answer_icon = correct_answer
-        ? "mdi-checkbox-blank-circle-outline"
-        : "mdi-window-close";
-    },
-
-    formatCreatedAt() {
-      this.created_at = moment(this.question.created_at).format("YYYY/MM/DD");
-    },
-
-    async questionExcept(question_id) {
-      const response = await axios
-        .put("/api/question/" + question_id + "/except")
-        .catch((error) => {
-          return console.error(error);
-        });
-    },
-
-    clickDownload() {
-      if (this.is_downloaded === false) {
-        this.downloadQuestion();
-      } else {
-        alert("すでにダウンロードされています");
-      }
-    },
-
-    async downloadQuestion() {
-      const response = await axios
-        .post("/api/question/download", { question_id: this.question.id })
-        .catch((error) => {
-          return console.error(error);
-        });
-      this.is_downloaded = true;
-    },
-
-    select(val) {
-      this.isSelect = val;
-    },
-    is_user_is_downloaded() {
-        this.question.download_users.map((obj) => {
-            if(obj.id === this.get_user_id) {
-                this.is_downloaded = true
-            }
-        })
-    },
-  },
-
-  computed: {
-    get_user_id() {
-      return this.$store.getters["auth/id"];
-    },
-  },
+  get get_user_id() {
+    return this.$store.getters["auth/id"];
+  }
 
   mounted() {
     this.correctAnswer();
     this.correctAnswerIcon();
     this.formatCreatedAt();
-    this.is_user_is_downloaded();
-  },
-};
+    this.is_user_downloaded();
+  }
+}
 </script>

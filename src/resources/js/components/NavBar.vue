@@ -11,16 +11,26 @@
       </v-list-item>
       <div v-if="!isLogin">
         <v-list-item v-for="menu in guest_user_menus" :key="menu.title">
-          <v-btn block outlined router-link :to="menu.url" @click="downDrawer">{{
-            menu.title
-          }}</v-btn>
+          <v-btn
+            block
+            outlined
+            router-link
+            :to="menu.url"
+            @click="downDrawer"
+            >{{ menu.title }}</v-btn
+          >
         </v-list-item>
       </div>
       <div v-if="isLogin">
         <v-list-item v-for="menu in login_user_menus" :key="menu.title">
-          <v-btn block outlined router-link :to="menu.url" @click="downDrawer">{{
-            menu.title
-          }}</v-btn>
+          <v-btn
+            block
+            outlined
+            router-link
+            :to="menu.url"
+            @click="downDrawer"
+            >{{ menu.title }}</v-btn
+          >
         </v-list-item>
       </div>
     </v-navigation-drawer>
@@ -36,52 +46,54 @@
   </div>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      drawer: false,
-      login_user_menus: [
-        { title: "一覧", url: "/question/index" },
-        { title: "検索", url: "/question/search" },
-        { title: "ホーム", url: "/" },
-        { title: "作成", url: "/question/create" },
-        { title: "ユーザー情報", url: "/about" },
-      ],
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import axios from "axios";
+interface Menu {
+  title: String;
+  url: String;
+}
+@Component
+export default class NavBar extends Vue {
+  drawer: Boolean = false;
+  $store: any;
+  $router: any;
 
-      guest_user_menus: [
-        { title: "ログイン", url: "/login" },
-        { title: "新規登録", url: "/register" },
-      ],
-    };
-  },
-  methods: {
-    logout() {
-      axios.get("/sanctum/csrf-cookie").then((res) => {
-        axios
-          .post("/logout")
-          .then((res) => {
-            this.$store.commit("auth/setUser", null);
-            this.$router.push("/");
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      });
-    },
-    changeDrawer() {
-      this.drawer = !this.drawer;
-      console.log(this.drawer);
-    },
-    downDrawer() {
-      this.drawer = false;
-    },
-  },
+  login_user_menus: Menu[] = [
+    { title: "一覧", url: "/question/index" },
+    { title: "検索", url: "/question/search" },
+    { title: "ホーム", url: "/" },
+    { title: "作成", url: "/question/create" },
+    { title: "ユーザー情報", url: "/about" },
+  ];
 
-  computed: {
-    isLogin() {
-      return this.$store.getters["auth/check"];
-    },
-  },
-};
+  guest_user_menus: Menu[] = [
+    { title: "ログイン", url: "/login" },
+    { title: "新規登録", url: "/register" },
+  ];
+
+  logout() {
+    axios.get("/sanctum/csrf-cookie").then((res) => {
+      axios
+        .post("/logout")
+        .then((res) => {
+          this.$store.commit("auth/setUser", null);
+          this.$router.push("/");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
+  }
+  changeDrawer() {
+    this.drawer = !this.drawer;
+  }
+  downDrawer() {
+    this.drawer = false;
+  }
+
+  get isLogin(): Boolean {
+    return this.$store.getters["auth/check"];
+  }
+}
 </script>

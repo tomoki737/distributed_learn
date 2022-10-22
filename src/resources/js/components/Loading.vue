@@ -8,14 +8,12 @@
     ></vue-loading>
   </v-row>
 </template>
-<script>
+<script lang="ts">
 import { VueLoading } from "vue-loading-template";
-export default {
-  components: {
-    VueLoading,
-  },
-  props: {
-    loading: true,
-  },
-};
+import { Component, Prop, Vue } from "vue-property-decorator";
+@Component({ components: { VueLoading } })
+export default class Loading extends Vue {
+  @Prop({ default: true })
+  loading!: Boolean;
+}
 </script>

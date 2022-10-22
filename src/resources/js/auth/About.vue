@@ -14,7 +14,7 @@
             <p class="body-1 mt-4">
               問題がダウンロードされた回数: {{ downloaded_questions_count }}
             </p>
-              </v-card-text>
+          </v-card-text>
           <v-card-actions class="ml-0">
             <v-list-item>
               <v-row align="center" justify="end">
@@ -43,41 +43,40 @@ import Loading from "../components/Loading.vue";
 import { Component, Vue } from "vue-property-decorator";
 
 @Component({
-  components: { BottomNavigation, Loading }
+  components: { BottomNavigation, Loading },
 })
-
 export default class About extends Vue {
-      user: Object;
-      loading: Boolean =true;
-      download_questions_count: number = 0;
-      downloaded_questions_count: number = 0;
-      $store: any;
-      $router: any;
-    logout() {
-      axios.get("/sanctum/csrf-cookie").then((res) => {
-        axios
-          .post("logout")
-          .then((res) => {
-            this.$store.commit("auth/setUser", null);
-            this.$router.push("/login");
-          })
-          .catch((error) => {
-            console.error(error);
-          });
-      });
-      }
-    async getUserProfile() {
-      const response = await axios.get("/api/user");
-      this.download_questions_count = response.data.download_questions_count;
-      this.downloaded_questions_count = response.data.downloaded_questions_count;
-      this.loading = false;
-    }
-    get get_user_name():String {
-      return this.$store.getters["auth/name"];
-    }
+  user: Object;
+  loading: Boolean = true;
+  download_questions_count: number = 0;
+  downloaded_questions_count: number = 0;
+  $store: any;
+  $router: any;
+  logout() {
+    axios.get("/sanctum/csrf-cookie").then((res) => {
+      axios
+        .post("logout")
+        .then((res) => {
+          this.$store.commit("auth/setUser", null);
+          this.$router.push("/login");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    });
+  }
+  async getUserProfile() {
+    const response = await axios.get("/api/user");
+    this.download_questions_count = response.data.download_questions_count;
+    this.downloaded_questions_count = response.data.downloaded_questions_count;
+    this.loading = false;
+  }
+  get get_user_name(): String {
+    return this.$store.getters["auth/name"];
+  }
 
   mounted() {
     this.getUserProfile();
   }
-};
+}
 </script>

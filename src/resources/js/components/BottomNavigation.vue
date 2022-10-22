@@ -15,7 +15,6 @@ interface Menu {
 
 import { Component, Vue } from "vue-property-decorator";
 @Component
-
 export default class BottomNavigation extends Vue {
   drawer: boolean = false;
   menus: Menu[] = [

@@ -38,7 +38,7 @@
               v-model="searchForm.keyword"
             ></v-text-field>
             <v-checkbox
-              v-if="is_my_question_search"
+              v-if="is_my_question_search_prop"
               v-model="searchForm.learning"
               label="学習中"
               hide-details
@@ -67,47 +67,50 @@
     </v-col>
   </v-row>
 </template>
-<script>
-export default {
-  props: {
-    is_my_question_search: Boolean,
-  },
+<script lang="ts">
+import { Component, Vue, Prop, Watch } from "vue-property-decorator";
+import axios from "axios";
+interface SearchForm {
+  tag: String;
+  keyword: String;
+  category: String;
+  learning: Boolean;
+  is_my_question_search: Boolean;
+}
+@Component
+export default class QuestionSearchForm extends Vue {
+  @Prop({ default: false })
+  is_my_question_search_prop !: Boolean;
 
-  data() {
-    return {
-      dialog: false,
+  dialog: Boolean = false;
+  items: String[] = [
+    "学問",
+    "ビジネス",
+    "IT",
+    "生活",
+    "ヘルスケア",
+    "スポーツ",
+    "ゲーム",
+    "音楽",
+    "その他",
+  ];
+  searchForm: SearchForm = {
+    tag: "",
+    keyword: "",
+    category: "",
+    learning: true,
+    is_my_question_search: this.is_my_question_search_prop,
+  };
 
-      items: [
-        "学問",
-        "ビジネス",
-        "IT",
-        "生活",
-        "ヘルスケア",
-        "スポーツ",
-        "ゲーム",
-        "音楽",
-        "その他",
-      ],
-      searchForm: {
-        tag: "",
-        keyword: "",
-        category: "",
-        learning: true,
-        is_my_question_search: this.is_my_question_search,
-      },
-    };
-  },
-
-  methods: {
-    async search() {
-      const response = await axios.post(
-        "/api/question/search",
-        this.searchForm
-      );
-      this.questions = response.data.questions;
-      this.$emit("questionChange", this.questions);
-    },
-  },
-};
+  async search() {
+    const response = await axios.post("/api/question/search", this.searchForm);
+    const questions = response.data.questions;
+    this.$emit("questionChange", questions);
+  }
+  get get_is_my_question_search(): Boolean {
+    console.log(this.is_my_question_search_prop);
+    return this.is_my_question_search_prop;
+  }
+}
 </script>
 

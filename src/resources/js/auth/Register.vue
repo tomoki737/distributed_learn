@@ -75,7 +75,7 @@ export default class Register extends Vue {
     password: "",
   };
   errors: String[] = [];
-  showPassword: Boolean =false;
+  showPassword: Boolean = false;
   $store: any;
   $router: any;
 

@@ -61,62 +61,66 @@
   </div>
 </template>
 
-<script>
+
+<script lang="ts">
 import QuesitonTagsInput from "../components/QuestionTagsInput.vue";
 import BottomNavigation from "../components/BottomNavigation.vue";
-export default {
-  components: { QuesitonTagsInput, BottomNavigation },
-  data() {
-    return {
-      questionForm: {
-        question: "",
-        answer: "",
-        tags: "",
-        share: true,
-        category: "",
-      },
+import axios from "axios";
+import { Component, Vue } from "vue-property-decorator";
+interface QuestionForm {
+  question: String;
+  answer: String;
+  tags: String;
+  share: Boolean;
+  category: String;
+}
+@Component({ components: { QuesitonTagsInput, BottomNavigation } })
+export default class QuestionCreate extends Vue {
+  questionForm: QuestionForm = {
+    question: "",
+    answer: "",
+    tags: "",
+    share: true,
+    category: "",
+  };
 
-      items: [
-        "学問",
-        "ビジネス",
-        "IT",
-        "生活",
-        "ヘルスケア",
-        "スポーツ",
-        "ゲーム",
-        "音楽",
-        "その他",
-      ],
+  items: String[] = [
+    "学問",
+    "ビジネス",
+    "IT",
+    "生活",
+    "ヘルスケア",
+    "スポーツ",
+    "ゲーム",
+    "音楽",
+    "その他",
+  ];
 
-      tagNames: [],
-      errors: {},
-      allTagNames: [],
-    };
-  },
-  methods: {
-    store() {
-      axios
-        .post("/api/question", this.questionForm)
-        .then((response) => {
-          this.questionForm.question = "";
-          this.questionForm.answer = "";
-        })
-        .catch((error) => {
-          this.errors = error.response.data.errors;
-        });
-    },
+  tagNames: String[] = [];
+  errors: Object = {};
+  allTagNames: String[] = [];
+  store() {
+    axios
+      .post("/api/question", this.questionForm)
+      .then((response) => {
+        this.questionForm.question = "";
+        this.questionForm.answer = "";
+      })
+      .catch((error) => {
+        this.errors = error.response.data.errors;
+      });
+  }
 
-    tagsChange(tags) {
-      this.questionForm.tags = JSON.stringify(tags);
-    },
+  tagsChange(tags: Object[]) {
+    this.questionForm.tags = JSON.stringify(tags);
+  }
 
-    async getQuestion() {
-      const response = await axios.get("/api/question/create");
-      this.allTagNames = response.data.allTagNames;
-    },
-  },
+  async getQuestion() {
+    const response = await axios.get("/api/question/create");
+    this.allTagNames = response.data.allTagNames;
+  }
   mounted() {
     this.getQuestion();
-  },
-};
+  }
+}
 </script>

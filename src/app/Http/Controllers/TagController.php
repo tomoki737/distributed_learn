@@ -9,7 +9,7 @@ class TagController extends Controller
 {
     public function show(String $name)
     {
-        $tag = Tag::where('name', $name)->with(['questions', 'questions.category'])->first();
+        $tag = Tag::where('name', $name)->with(['questions.user','questions.download_users', 'questions.category'])->first();
         return ['tag' => $tag];
     }
 }

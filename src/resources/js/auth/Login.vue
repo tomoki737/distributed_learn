@@ -55,55 +55,56 @@
     </v-card>
   </v-container>
 </template>
-<script>
-export default {
-  data() {
-    return {
-      LoginForm: {
-        email: "",
-        password: "",
-      },
-      errors: [],
-      showPassword: false,
-      getUserMessage: "",
-    };
-  },
-  methods: {
-    login() {
-      axios
-        .get("/sanctum/csrf-cookie")
-        .then((res) => {
-          axios
-            .post("login", this.LoginForm)
-            .then((res) => {
-              if (res.status == 200) {
-                console.log(res.data.user);
-                this.$store.commit("auth/setUser", res.data.user);
-                this.$router.push("/about");
-              }
-            })
-            .catch((error) => {
-              this.getUserMessage = "ログインに失敗しました。";
-              this.errors = error.response.data.errors || [];
-            });
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    },
-    loginGuest() {
-      axios
-        .get("/api/guest")
-        .then((res) => {
-            console.log(res.data.user);
-            this.$store.commit("auth/setUser", res.data.user);
-            this.$router.push("/about");
-        })
-        .catch((error) => {
-          this.getUserMessage = "ログインに失敗しました。";
-          this.errors = error.response.data.errors || [];
-        });
-    },
-  },
-};
+<script lang="ts">
+import axios from "axios";
+import { Component, Vue } from "vue-property-decorator";
+interface LoginForm {
+  email: String;
+  password: String;
+}
+@Component
+export default class Login extends Vue {
+  LoginForm: LoginForm = {
+    email: "",
+    password: "",
+  };
+  errors: String[] = [];
+  showPassword: Boolean = false;
+  getUserMessage: String = "";
+  $store: any;
+  $router: any;
+  login() {
+    axios
+      .get("/sanctum/csrf-cookie")
+      .then((res) => {
+        axios
+          .post("login", this.LoginForm)
+          .then((res) => {
+            if (res.status == 200) {
+              this.$store.commit("auth/setUser", res.data.user);
+              this.$router.push("/about");
+            }
+          })
+          .catch((error) => {
+            this.getUserMessage = "ログインに失敗しました。";
+            this.errors = error.response.data.errors || [];
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }
+  loginGuest() {
+    axios
+      .get("/api/guest")
+      .then((res) => {
+        this.$store.commit("auth/setUser", res.data.user);
+        this.$router.push("/about");
+      })
+      .catch((error) => {
+        this.getUserMessage = "ログインに失敗しました。";
+        this.errors = error.response.data.errors || [];
+      });
+  }
+}
 </script>

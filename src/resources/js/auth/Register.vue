@@ -57,34 +57,41 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  data() {
-    return {
-      registerForm: {
-        name: "",
-        email: "",
-        password: "",
-      },
-      errors: [],
-      showPassword: false,
-    };
-  },
-  methods: {
-    async register() {
-      axios.get("/sanctum/csrf-cookie").then((res) => {
-        axios
-          .post("/register", this.registerForm)
-          .then((res) => {
-            this.$store.commit("auth/setUser", res.data.user);
-            this.$router.push("/about");
-          })
-          .catch((error) => {
-            this.errors = error.response.data.errors;
-          });
-      });
-    },
-  },
-};
+<script lang="ts">
+import axios from "axios";
+import { Component, Vue } from "vue-property-decorator";
+
+interface RegisterForm {
+  name: String;
+  email: String;
+  password: String;
+}
+
+@Component
+export default class Register extends Vue {
+  registerForm: RegisterForm = {
+    name: "",
+    email: "",
+    password: "",
+  };
+  errors: String[] = [];
+  showPassword: Boolean = false;
+  $store: any;
+  $router: any;
+
+  async register() {
+    axios.get("/sanctum/csrf-cookie").then((res) => {
+      axios
+        .post("/register", this.registerForm)
+        .then((res) => {
+          this.$store.commit("auth/setUser", res.data.user);
+          this.$router.push("/about");
+        })
+        .catch((error) => {
+          this.errors = error.response.data.errors;
+        });
+    });
+  }
+}
 </script>
 

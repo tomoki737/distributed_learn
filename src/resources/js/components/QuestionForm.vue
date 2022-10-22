@@ -27,20 +27,17 @@
   </v-container>
 </template>
 
-<script>
-export default {
-  props: {
-    question: {
-      type: String,
-    },
-    answer: {
-      type: String,
-    },
-    errors: {
-      type: Array,
-    },
-  },
+<script lang="ts">
+import { Component, Vue, Prop } from "vue-property-decorator";
+@Component
+export default class QuestionForm extends Vue {
+  @Prop({ default: "" })
+  question!: String;
 
+  @Prop({ default: "" })
+  answer!: String;
 
-};
+  @Prop({ default: [] })
+  errors!: String[];
+}
 </script>

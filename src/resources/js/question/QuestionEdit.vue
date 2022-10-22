@@ -69,71 +69,73 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import QuesitonTagsInput from "../components/QuestionTagsInput.vue";
 import BottomNavigation from "../components/BottomNavigation.vue";
-export default {
-  components: { QuesitonTagsInput, BottomNavigation },
-  data() {
-    return {
-      question: {
-        question: "",
-        answer: "",
-        tags: "",
-        share: true,
-        category: "",
-      },
+import axios from "axios";
+import { Component, Prop, Vue } from "vue-property-decorator";
+interface Question {
+  question: String;
+  answer: String;
+  tags: String;
+  share: Boolean;
+  category: String;
+}
+@Component({ components: { QuesitonTagsInput, BottomNavigation } })
+export default class QuestionCreate extends Vue {
+  @Prop({ default: "" })
+  question_id: String;
+  $router: any;
+  question: Question = {
+    question: "",
+    answer: "",
+    tags: "",
+    share: true,
+    category: "",
+  };
 
-      errors: {},
-      tagNames: [],
-      allTagNames: [],
-      items: [
-        "学問",
-        "ビジネス",
-        "IT",
-        "生活",
-        "ヘルスケア",
-        "スポーツ",
-        "ゲーム",
-        "音楽",
-        "その他",
-      ],
-    };
-  },
+  errors: Object = {};
+  tagNames: String[] = [];
+  allTagNames: String[] = [];
+  items: String[] = [
+    "学問",
+    "ビジネス",
+    "IT",
+    "生活",
+    "ヘルスケア",
+    "スポーツ",
+    "ゲーム",
+    "音楽",
+    "その他",
+  ];
 
-  props: {
-    question_id: {},
-  },
+  edit() {
+    axios
+      .put("/api/question/" + this.question_id, this.question)
+      .then((response) => {
+        this.$router.push("/question/index");
+      })
+      .catch((error) => {
+        this.errors = error.response.data.errors;
+      });
+  }
 
-  methods: {
-    edit() {
-      axios
-        .put("/api/question/" + this.question_id, this.question)
-        .then((response) => {
-          this.$router.push("/question/index");
-        })
-        .catch((error) => {
-          this.errors = error.response.data.errors;
-        });
-    },
+  async getQuestion() {
+    const response = await axios.get(
+      "/api/question/" + this.question_id + "/edit"
+    );
 
-    async getQuestion() {
-      const response = await axios.get(
-        "/api/question/" + this.question_id + "/edit"
-      );
+    this.question = response.data.question;
+    this.tagNames = response.data.tagNames;
+    this.question.category = response.data.question.category.name;
+    this.allTagNames = response.data.allTagNames;
+  }
 
-      this.question = response.data.question;
-      this.tagNames = response.data.tagNames;
-      this.question.category = response.data.question.category.name;
-      this.allTagNames = response.data.allTagNames;
-    },
-
-    tagsChange(tags) {
-      this.question.tags = JSON.stringify(tags);
-    },
-  },
+  tagsChange(tags: Object[]) {
+    this.question.tags = JSON.stringify(tags);
+  }
   mounted() {
     this.getQuestion();
-  },
-};
+  }
+}
 </script>

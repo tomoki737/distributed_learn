@@ -6,7 +6,7 @@
         <h2>一覧</h2>
         <question-search-form
           @questionChange="questionChange"
-          :is_my_question_search="true"
+          :is_my_question_search_prop="true"
         ></question-search-form>
         <div v-for="question in displayQuestions" :key="question.id">
           <question-index-card
@@ -30,68 +30,66 @@
 </template>
 
 
-<script>
+
+<script lang="ts">
 import Loading from "../components/Loading.vue";
 import QuestionIndexCard from "../components/QuestionIndexCard.vue";
 import BottomNavigation from "../components/BottomNavigation.vue";
 import QuestionSearchForm from "../components/QuestionSearchForm.vue";
-export default {
+import axios from "axios";
+import { Component, Vue } from "vue-property-decorator";
+@Component({
   components: {
     Loading,
     QuestionIndexCard,
     BottomNavigation,
     QuestionSearchForm,
   },
+})
+export default class QuestionCreate extends Vue {
+  questions: Object[] = [];
+  loading: Boolean = true;
+  allTagNames: String[] = [];
+  page: number = 1;
+  length: number = 0;
+  displayQuestions: Object[] = [];
+  pageSize: number = 10;
 
-  data() {
-    return {
-      questions: [],
-      loading: true,
-      allTagNames: [],
-      page: 1,
-      length: 0,
-      displayQuestions: [],
-      pageSize: 10,
-    };
-  },
+  async getQuestions() {
+    const response = await axios.get("/api/question");
+    this.questions = response.data.questions;
+    this.allTagNames = response.data.allTagNames;
+    this.loading = false;
+    this.createPageNation();
+  }
 
-  methods: {
-    async getQuestions() {
-      const response = await axios.get("/api/question");
-      this.questions = response.data.questions;
-      this.allTagNames = response.data.allTagNames;
-      this.loading = false;
-      this.createPageNation();
-    },
+  createPageNation() {
+    this.length = Math.ceil(this.questions.length / this.pageSize);
+    this.displayQuestions = this.questions.slice(
+      this.pageSize * (this.page - 1),
+      this.pageSize * this.page
+    );
+  }
 
-    createPageNation() {
-      this.length = Math.ceil(this.questions.length / this.pageSize);
-      this.displayQuestions = this.questions.slice(
-        this.pageSize * (this.page - 1),
-        this.pageSize * this.page
-      );
-    },
+  pageChange(pageNumber: number) {
+    this.displayQuestions = this.questions.slice(
+      this.pageSize * (pageNumber - 1),
+      this.pageSize * pageNumber
+    );
+    window.scrollTo({
+      top: 0,
+      behavior: "auto",
+    });
+  }
 
-    pageChange(pageNumber) {
-      this.displayQuestions = this.questions.slice(
-        this.pageSize * (pageNumber - 1),
-        this.pageSize * pageNumber
-      );
-      window.scrollTo({
-        top: 0,
-        behavior: "auto",
-      });
-    },
-
-    questionChange(questions) {
-      this.questions = questions;
-      this.createPageNation();
-      this.pageChange(1);
-    },
-  },
+  questionChange(questions: Object[]) {
+    this.questions = questions;
+    this.createPageNation();
+    this.pageChange(1);
+  }
 
   mounted() {
     this.getQuestions();
-  },
-};
+  }
+}
 </script>

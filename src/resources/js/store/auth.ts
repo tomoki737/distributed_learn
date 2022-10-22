@@ -1,24 +1,23 @@
 import axios from "axios";
-
 const state = {
     user: null,
 };
 
 const getters = {
-    check: (state) => (state.user ? true : false),
-    user: (state) => (state.user ? state.user : ""),
-    id: (state) => (state.user ? state.user.id : ""),
-    name: (state) => (state.user ? state.user.name : ""),
-    email: (state) => (state.user ? state.user.email : ""),
+    check: (state: any) => (state.user ? true : false),
+    user: (state: any) => (state.user ? state.user : ""),
+    id: (state: any) => (state.user ? state.user.id : ""),
+    name: (state: any) => (state.user ? state.user.name : ""),
+    email: (state: any) => (state.user ? state.user.email : ""),
 };
 const mutations = {
-    setUser(state, user) {
+    setUser(state: any, user: object) {
         state.user = user;
     },
 };
 
 const actions = {
-    async currentUser(context) {
+    async currentUser(context: any) {
         const response = await axios.get("/api/me");
         const user = response.data;
         context.commit("setUser", user);

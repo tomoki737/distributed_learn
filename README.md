@@ -1,56 +1,78 @@
-# docker-laravel 🐳
 
-<p align="center">
-    <img src="https://user-images.githubusercontent.com/35098175/145682384-0f531ede-96e0-44c3-a35e-32494bd9af42.png" alt="docker-laravel">
-</p>
-<p align="center">
-    <img src="https://github.com/ucan-lab/docker-laravel/actions/workflows/laravel-create-project.yml/badge.svg" alt="Test laravel-create-project.yml">
-    <img src="https://github.com/ucan-lab/docker-laravel/actions/workflows/laravel-git-clone.yml/badge.svg" alt="Test laravel-git-clone.yml">
-    <img src="https://img.shields.io/github/license/ucan-lab/docker-laravel" alt="License">
-</p>
 
-## Introduction
+# 分散学習アプリ
+分散学習アプリではいったん記憶したことを、忘れかけてきたタイミングで反復して学ぶためのアプリです。既存のアプリでも分散学習できるアプリはありますが、筆記や選択肢で学習できるアプリがあまりなかったため、作成しました。<br>
+こちらがポートフォリオサイトです。<br>
+<br>  
 
-Build a simple laravel development environment with docker-compose. Compatible with Windows(WSL2), macOS(M1) and Linux.
+#### トップページ
+<img width="580" alt="スクリーンショット 2022-10-23 17 52 32" src="https://user-images.githubusercontent.com/88951052/197383220-cee91c37-1bc3-41cc-adcf-5201d772b3d7.png">
+<br>
+## 特に見ていただきたい点
 
-## Usage
+- インフラ
+  - Dockerを使用し、ECS Fargateで本番環境をサーバーレスで運用している点。
+  - Terraformを使用し、インフラをコード化している点
+  - CircleCIを使い、CICDパイプラインを構築している点
+- バックエンド
+  - LaravelでAPIを作成し、フロントエンドに JSONデータをリスポンスしている点
+- フロントエンド
+  - フロントエンドではVueを使用し、完全SPAで構成している点
+  - TypeScriptを使用している点
+- その他
+  - 特に工夫した点は選択肢での回答機能です。回答する際に表示される選択肢は問題の関連度が近いものが表示されるように工夫しました。
+<br>
 
-1. Click [Use this template](https://github.com/ucan-lab/docker-laravel/generate)
-2. Git clone & change directory
-3. Execute the following command
+## 使用した技術
+* フロントエンド  
+  * HTML/CSS
+  * Javascript
+  * Vue (完全SPA、TypeScript)
+  * Vuetify（UIフレームワーク）
+* バックエンド  
+  * PHP 8.1.1
+  * Laravel 8.83.5 (API)
+  * PHPUnit（テスト）
+* インフラ・開発環境  
+  * Docker/Docker-compose
+  * AWS（ECR,ECS,VPC,Route53,ALB,RDS）
+  * Terraform（インフラのコード管理）
+  * CircleCI（CI/CD）
 
-```bash
-$ make create-project # Install the latest Laravel project
-$ make install-recommend-packages # Optional
-```
+<br>
 
-http://localhost
+## ER図
 
-## Tips
+<br>
 
-- Read this [Makefile](https://github.com/ucan-lab/docker-laravel/blob/main/Makefile).
-- Read this [Wiki](https://github.com/ucan-lab/docker-laravel/wiki).
+<img width="643" alt="スクリーンショット 2022-10-23 21 16 33" src="https://user-images.githubusercontent.com/88951052/197391569-c9a86917-4fbf-4e8f-bd69-1ac0253bade3.png">
+<br>
 
-## Container structures
+## AWS構成図
 
-```bash
-├── app
-├── web
-└── db
-```
+<br>
 
-### app container
+<img width="664" alt="スクリーンショット 2022-10-23 18 09 48" src="https://user-images.githubusercontent.com/88951052/197384015-06621b0f-87f7-44b5-afbb-46e3b240cda1.png">
+<br>
 
-- Base image
-  - [php](https://hub.docker.com/_/php):8.1-fpm-bullseye
-  - [composer](https://hub.docker.com/_/composer):2.2
+<br>
 
-### web container
-
-- Base image
-  - [nginx](https://hub.docker.com/_/nginx):1.20
-
-### db container
-
-- Base image
-  - [mysql/mysql-server](https://hub.docker.com/r/mysql/mysql-server):8.0
+## 機能一覧
+* 基本機能
+  * 新規会員登録・ログイン機能・ゲストログイン機能
+  * 検索機能 (カテゴリ、タグ、学習中の問題による絞り込み機能)
+  * ユーザーマイページ表示（作成した問題のダウンロード数、ダウンロードした問題数の表示）
+  * 検索機能
+* ログイン後機能
+  * ログアウト機能
+  * 問題のダウンロード機能
+  * 問題一覧
+  * 問題作成、編集、削除機能(Share機能)
+  * タグの作成機能
+  * タグ別の一覧機能
+  * 問題を対象外にする機能
+  * 問題の回答機能
+     * わかる、わからないによる回答
+     * 選択肢による回答
+     * 筆記による回答
+     * 回答日からの適切なに表示

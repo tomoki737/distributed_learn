@@ -168,10 +168,12 @@ export default class QuestionIndexCard extends Vue {
   }
 
   clickDownload() {
-    if (this.is_downloaded === false) {
+    if (this.is_downloaded === false && this.isLogin === true) {
       this.downloadQuestion();
-    } else {
+    } else if(this.is_downloaded === true) {
       alert("すでにダウンロードされています");
+    } else {
+      alert("ログインユーザーのみ使用可能です");
     }
   }
 
@@ -196,8 +198,12 @@ export default class QuestionIndexCard extends Vue {
     });
   }
 
-  get get_user_id() {
+  get get_user_id():number {
     return this.$store.getters["auth/id"];
+  }
+
+  get isLogin(): Boolean {
+    return this.$store.getters["auth/check"];
   }
 
   mounted() {

@@ -34,12 +34,10 @@ class QuestionController extends Controller
     }
     public function indexSearch(Request $request)
     {
-        $user_id = $request->user()->id;
-        $questions = Question::where('user_id', '!=', $user_id)->where("share", true)->with(["tags", 'category', 'user', "download_users"])->get();
-
+        $user_id = $request->user() ?   $request->user()->id : 0;
+        $questions = Question::where([["share", true],['user_id', '!=', $user_id]])->with(["tags", 'category', 'user', "download_users"])->get();
 
         $allTagNames =  $this->getAllTagNames();
-
         return ['questions' => $questions, 'allTagNames' => $allTagNames];
     }
 
@@ -127,7 +125,7 @@ class QuestionController extends Controller
 
     public function search(Request $request)
     {
-        $user_id = $request->user()->id;
+        $user_id = $request->user() ? $request->user()->id : 0;
         $tag = $request->tag;
         $category = $request->category;
         $keyword = $request->keyword;

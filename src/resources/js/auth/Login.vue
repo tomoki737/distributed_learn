@@ -41,6 +41,17 @@
           </v-card-actions>
           <v-card-actions>
             <v-btn
+              block
+              class="light-green"
+              dark
+              @click="loginGuest"
+              router-link
+              :to="{ name: 'question.search' }"
+              >まずは使ってみる</v-btn
+            >
+          </v-card-actions>
+          <v-card-actions>
+            <v-btn
               class="mx-auto"
               @click="drawerClose()"
               router-link

@@ -34,13 +34,8 @@ class QuestionController extends Controller
     }
     public function indexSearch(Request $request)
     {
-        $request->user() ?  $user_id = $request->user()->id : 0;
-        $questions = Question::where("share", true)->with(["tags", 'category', 'user', "download_users"])->get();
-
-        if ($request->user()) {
-            $questions->where('user_id', '!=', $user_id)->get();
-        }
-
+        $user_id = $request->user() ?   $request->user()->id : 0;
+        $questions = Question::where([["share", true],['user_id', '!=', $user_id]])->with(["tags", 'category', 'user', "download_users"])->get();
 
         $allTagNames =  $this->getAllTagNames();
         return ['questions' => $questions, 'allTagNames' => $allTagNames];

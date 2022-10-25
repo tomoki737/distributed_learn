@@ -11,7 +11,7 @@
         <div v-for="question in displayQuestions" :key="question.id">
           <question-index-card
             :my_question_search="true"
-            :question="question"
+            :prop_question="question"
             @get="getQuestions"
           ></question-index-card>
         </div>

@@ -35,9 +35,12 @@ class QuestionController extends Controller
     public function indexSearch(Request $request)
     {
         $user_id = $request->user() ?   $request->user()->id : 0;
-        $questions = Question::where([["share", true],['user_id', '!=', $user_id]])->with(["tags", 'category', 'user', "download_users"])->get();
+
+        $questions = Question::where([["share", true], ['user_id', '!=', $user_id]])
+            ->with(["tags", 'category', 'user', "download_users", "likes"])->withCount('likes')->get();
 
         $allTagNames =  $this->getAllTagNames();
+
         return ['questions' => $questions, 'allTagNames' => $allTagNames];
     }
 
@@ -92,6 +95,19 @@ class QuestionController extends Controller
         $this->createTags($request, $question);
 
         Category::where('question_id', $question->id)->update(['name' => $request->category]);
+    }
+
+    public function like(Request $request, Question $question)
+    {
+        $question->likes()->detach($request->user()->id);
+        $question->likes()->attach($request->user()->id);
+        return ['id' => $question->id, 'coutLikes' => $question->count_likes];
+    }
+
+    public function unlike(Request $request, Question $question)
+    {
+        $question->likes()->detach($request->user()->id);
+        return ['id' => $question->id, 'coutLikes' => $question->count_likes];
     }
 
     public function destroy(Question $question)

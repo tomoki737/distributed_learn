@@ -84,6 +84,11 @@
       <span v-if="question" class="ml-2">{{ question.user.name }}</span>
       <span class="ml-4">{{ created_at }}</span>
       <v-spacer></v-spacer>
+      <question-like
+        :question="question"
+        :user_id="get_user_id"
+        :isLogin="isLogin"
+      ></question-like>
       <v-btn
         v-show="get_user_id !== question.user_id"
         class="mx-2"
@@ -101,12 +106,14 @@
 <script lang="ts">
 import { Component, Vue, Prop } from "vue-property-decorator";
 import axios from "axios";
+import QuestionLike from "../components/QuestionLike.vue";
 import moment from "moment";
 interface Question {
   id: number;
   question: String;
   answer: String;
-  user:{name:String}
+  likes: Object;
+  user: { name: String };
   category: { name: String };
   tags: { name: String }[];
   download_users: { id: number }[];
@@ -114,13 +121,14 @@ interface Question {
   correct_answer: String;
 }
 
-@Component
+@Component({ components: { QuestionLike } })
 export default class QuestionIndexCard extends Vue {
-  @Prop({ default: "" })
-  question!: Question;
+  @Prop({ default: {} })
+  prop_question!: Question;
   @Prop({ default: "" })
   my_question_search!: String;
   $store: any;
+  question: Question = this.prop_question;
   isSelect: number = 1;
   correct_answer: String = "";
   correct_answer_icon: String = "";
@@ -170,7 +178,7 @@ export default class QuestionIndexCard extends Vue {
   clickDownload() {
     if (this.is_downloaded === false && this.isLogin === true) {
       this.downloadQuestion();
-    } else if(this.is_downloaded === true) {
+    } else if (this.is_downloaded === true) {
       alert("すでにダウンロードされています");
     } else {
       alert("ログインユーザーのみ使用可能です");
@@ -198,7 +206,7 @@ export default class QuestionIndexCard extends Vue {
     });
   }
 
-  get get_user_id():number {
+  get get_user_id(): number {
     return this.$store.getters["auth/id"];
   }
 

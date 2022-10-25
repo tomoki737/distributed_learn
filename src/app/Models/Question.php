@@ -56,4 +56,12 @@ class Question extends Model
     {
         return $this->likes->count();
     }
+
+    public function isLikedBy(?User $user): bool
+    {
+        return $user
+            ? (bool)$this->likes->where('id', $user->id)->count()
+            : false;
+    }
+
 }

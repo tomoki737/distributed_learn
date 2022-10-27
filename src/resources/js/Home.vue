@@ -7,35 +7,33 @@
           <v-card-text>
             <v-row>
               <v-col cols="6">
-                <div class="pink lighten-4 text-center">
-                  <p>新しく覚える</p>
+                <div class="light-blue lighten-3 text-center pa-5">
+                  <p>未回答</p>
                   <h3>{{ new_questions }}</h3>
                 </div>
               </v-col>
               <v-col cols="6">
-                <div class="light-blue lighten-4 text-center">
-                  <p>復習</p>
+                <div class="green lighten-3 text-center pa-5">
+                  <p>復習する問題</p>
                   <h3>{{ review_questions }}</h3>
                 </div>
               </v-col>
             </v-row>
           </v-card-text>
-          <v-card-actions
-            v-if="new_questions != '0' || review_questions != '0'"
-            class="mt-5"
-          >
-            <div class="mx-auto">
-              <v-btn router-link outlined :to="{ name: 'answer.understand' }">
-                学習
-              </v-btn>
-              <v-btn router-link outlined :to="{ name: 'answer.select' }">
-                選択肢
-              </v-btn>
-              <v-btn router-link outlined :to="{ name: 'answer.writing' }">
-                筆記
-              </v-btn>
-            </div>
-          </v-card-actions>
+          <div v-if="new_questions != '0' || review_questions != '0'">
+            <v-card-actions class="d-flex justify-center">
+              <div v-for="menu in menus" :key="menu.name">
+                <v-btn
+                  class="px-md-15 px-sm-15 my-4 mx-2"
+                  router-link
+                  outlined
+                  :to="{ name: menu.url }"
+                >
+                  <v-icon>{{menu.icon}}</v-icon> {{menu.name}}
+                </v-btn>
+              </div>
+            </v-card-actions>
+          </div>
           <div v-else class="text-end">
             <v-card-text v-if="next_study_date">
               <p>次回: {{ next_study_date }}</p>
@@ -57,6 +55,11 @@ import Loading from "./components/Loading.vue";
 import BottomNavigation from "./components/BottomNavigation.vue";
 import axios from "axios";
 import { Component, Vue } from "vue-property-decorator";
+interface Menu {
+  name: String;
+  icon: String;
+  url: String;
+}
 @Component({
   components: {
     Loading,
@@ -69,6 +72,12 @@ export default class QuestionCreate extends Vue {
   new_questions: String = "0";
   imgPath: String = "";
   next_study_date: String = "";
+
+  menus: Menu[] = [
+    { name: "学習", icon: "mdi-book-open", url: "answer.understand" },
+    { name: "選択肢", icon: "mdi-lead-pencil", url: "answer.select" },
+    { name: "筆記", icon: "mdi-lead-pencil", url: "answer.writing" },
+  ];
 
   getQuestions() {
     axios.get("/api/home").then((response) => {

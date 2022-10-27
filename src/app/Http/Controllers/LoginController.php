@@ -20,7 +20,8 @@ final class LoginController extends Controller
      */
     public function __construct(
         private FactoryAuth $auth,
-    ){}
+    ) {
+    }
     /**
      * @param Request $request
      * @return JsonResponse
@@ -33,10 +34,10 @@ final class LoginController extends Controller
             'password' =>  ['required', 'min:8', 'string'],
         ]);
 
-        if ($this->getGuard()->attempt($credentials,$remember =true)) {
+        if ($this->getGuard()->attempt($credentials, $remember = true)) {
             $request->session()->regenerate();
 
-            return['user' => $request->user()];
+            return ['user' => $request->user()];
         }
 
         throw new Exception('ログインに失敗しました。再度お試しください');
@@ -59,9 +60,9 @@ final class LoginController extends Controller
 
     public function guestLogin()
     {
-       $guest_user = User::where('id', self::GUEST_USER_ID)->first();
+        $guest_user = User::where('id', self::GUEST_USER_ID)->first();
 
-        if(FacadesAuth::loginUsingId(self::GUEST_USER_ID)){
+        if (FacadesAuth::loginUsingId(self::GUEST_USER_ID)) {
             return ['user' => $guest_user];
         }
 

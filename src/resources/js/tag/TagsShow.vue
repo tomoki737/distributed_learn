@@ -35,7 +35,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 })
 export default class QuestionCreate extends Vue {
   @Prop({ default: "" })
-  name !: String;
+  name!: String;
 
   questions: Object[] = [];
   questions_length: number = 0;

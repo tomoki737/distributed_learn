@@ -16,12 +16,11 @@ class AnswerControllerTest extends TestCase
         parent::setUp();
         $this->user = User::factory()->create();
         $this->question = Question::factory()->create(["answer_times" => 4]);
-
     }
 
     public function test_5_times_next_learning_false()
     {
-        $response = $this->actingAs($this->user)->putJson("/api/question/" . $this->question->id . "/answer",[
+        $response = $this->actingAs($this->user)->putJson("/api/question/" . $this->question->id . "/answer", [
             "correct_answer" => true,
         ]);
         $response->assertStatus(200);

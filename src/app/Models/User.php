@@ -44,11 +44,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function download_questions(): BelongsToMany {
+    public function download_questions(): BelongsToMany
+    {
         return $this->BelongsToMany('App\Models\Question', 'question_download')->withTimestamps();
     }
 
-    public function questions(): hasMany {
+    public function questions(): hasMany
+    {
         return $this->hasMany('App\Models\Question');
     }
 }

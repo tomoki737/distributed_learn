@@ -14,6 +14,6 @@ class MeController extends Controller
     {
         $user = $request->user();
 
-            return ["user" => $user];
+        return ["user" => $user];
     }
 }

@@ -14,7 +14,8 @@ class Category extends Model
         'name', 'question_id'
     ];
 
-    public function questions(): BelongsToMany {
+    public function questions(): BelongsToMany
+    {
         return $this->belongsToMany('App\Models\Question')->withTimestamps();
     }
 }

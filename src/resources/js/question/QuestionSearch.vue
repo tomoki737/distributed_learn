@@ -29,9 +29,6 @@
   </div>
 </template>
 
-
-
-
 <script lang="ts">
 import Loading from "../components/Loading.vue";
 import QuestionIndexCard from "../components/QuestionIndexCard.vue";

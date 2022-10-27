@@ -11,7 +11,7 @@
         </v-card>
         <div v-for="question in questions" :key="question.id">
           <question-index-card
-            :question="question"
+            :prop_question="question"
             @get="getQuestions"
           ></question-index-card>
         </div>
@@ -44,7 +44,7 @@ export default class QuestionCreate extends Vue {
   getQuestions() {
     axios.get("/api/tags/" + this.name).then((response) => {
       this.questions = response.data.tag.questions;
-      console.log(this.questions);
+      console.log(this.questions)
       this.questions_length = response.data.tag.questions.length;
       this.loading = false;
     });

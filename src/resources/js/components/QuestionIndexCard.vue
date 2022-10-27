@@ -18,9 +18,7 @@
       >
       <div v-for="(tag, index) in question.tags" :key="index">
         <v-chip
-          router-link
           label
-          :to="{ name: 'tags.show', params: { name: tag.name } }"
           class="mr-1"
           v-if="tag.name"
           >{{ tag.name }}</v-chip

@@ -80,7 +80,7 @@ interface SearchForm {
 @Component
 export default class QuestionSearchForm extends Vue {
   @Prop({ default: false })
-  is_my_question_search_prop !: Boolean;
+  is_my_question_search_prop!: Boolean;
 
   dialog: Boolean = false;
   items: String[] = [

@@ -31,7 +31,7 @@ class RegisterController extends Controller
             'password' => Hash::make($credentials['password'])
         ]);
 
-        if ($this->getGuard()->attempt($credentials,$remember =true)) {
+        if ($this->getGuard()->attempt($credentials, $remember = true)) {
             $request->session()->regenerate();
         }
 

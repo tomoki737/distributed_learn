@@ -63,7 +63,7 @@ class AnswerController extends Controller
         ];
 
         $date = $to_date[$answer_times];
-        
+
         if ($date === null) {
             return;
         }

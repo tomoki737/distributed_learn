@@ -29,7 +29,7 @@
                   outlined
                   :to="{ name: menu.url }"
                 >
-                  <v-icon>{{menu.icon}}</v-icon> {{menu.name}}
+                  <v-icon>{{ menu.icon }}</v-icon> {{ menu.name }}
                 </v-btn>
               </div>
             </v-card-actions>

@@ -51,7 +51,7 @@ class Question extends Model
     {
         return $this->BelongsToMany('App\Models\User', 'likes')->withTimestamps();
     }
-    
+
     public function getCountLikesAttribute(): int
     {
         return $this->likes->count();
@@ -63,5 +63,4 @@ class Question extends Model
             ? (bool)$this->likes->where('id', $user->id)->count()
             : false;
     }
-
 }

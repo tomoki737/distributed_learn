@@ -20,11 +20,11 @@
           </v-card-text>
         </v-card>
         <div class="text-center mt-7" v-if="!show_answer">
-          <v-btn color="primary" @click="answer_change"> 答えを見る </v-btn>
+          <v-btn color="primary" class="px-15" @click="answer_change"> 答えを見る </v-btn>
         </div>
         <div class="text-center mt-7" v-else>
-          <v-btn class="px-10 mr-4" @click="next(current_question, true)">わかった</v-btn>
-          <v-btn class="px-10" @click="next(current_question, false)">わからない</v-btn>
+          <v-btn class="px-15 mr-4 white--text" color="red" @click="next(current_question, true)"> わかった </v-btn>
+          <v-btn class="px-15" color="primary" @click="next(current_question, false)"> わからない </v-btn>
         </div>
       </div>
     </v-container>

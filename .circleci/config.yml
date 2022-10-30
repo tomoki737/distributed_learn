@@ -98,8 +98,8 @@ workflows:
                 - main
 
       - aws-ecs/deploy-service-update:
-          family: "distributed_learning_task_definition"
-          service-name: "distributed_learning"
+          family: "distributed_learn_task_definition"
+          service-name: "distributed_learn"
           cluster: "distributed_learn_cluster"
           container-image-name-updates: "container=php,image-and-tag=${AWS_ECR_ACCOUNT_URL}/php:${CIRCLE_SHA1},container=nginx,image-and-tag=${AWS_ECR_ACCOUNT_URL}/nginx:${CIRCLE_SHA1}"
           requires:

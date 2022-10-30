@@ -4,7 +4,7 @@
     <div v-show="!loading">
       <v-container class="mt-10 max-width: 1000px">
         <h2>プロフィール</h2>
-        <v-card class="mt-5 mx-auto" max-width="700">
+        <v-card class="mt-5 mx-auto" max-width="1000">
           <v-card-text>
             <h2 class="mb-5">{{ get_user_name }}さん</h2>
             <v-divider></v-divider>

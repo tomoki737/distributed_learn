@@ -1,6 +1,7 @@
 <template>
   <div>
     <v-container style="max-width: 1000px">
+      <h2 class="mt-5">問題作成</h2>
       <v-card class="mt-3">
         <v-card-text>
           <quesiton-tags-input

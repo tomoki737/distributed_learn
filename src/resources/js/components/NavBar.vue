@@ -40,7 +40,7 @@
         class="hidden-sm-and-down"
       ></v-app-bar-nav-icon>
       <v-toolbar-title @click="$router.push('/')" style="cursor: pointer"
-        >分散学習帳</v-toolbar-title
+        >分散学習アプリ</v-toolbar-title
       >
     </v-app-bar>
   </div>

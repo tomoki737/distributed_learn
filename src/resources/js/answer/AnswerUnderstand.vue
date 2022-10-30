@@ -3,12 +3,7 @@
     <loading :loading="loading"></loading>
     <v-container style="max-width: 1000px">
       <div v-show="!loading">
-        <v-card
-          elevation="2"
-          class="mt-10 mx-auto"
-          width="600px"
-          height="250px"
-        >
+        <v-card elevation="2" class="mt-3 mb-7" min-height="250px">
           <v-toolbar color="blue lighten-3" class="white--text" flat>
             <v-btn
               icon
@@ -25,11 +20,11 @@
           </v-card-text>
         </v-card>
         <div class="text-center mt-7" v-if="!show_answer">
-          <v-btn color="primary" @click="answer_change"> 答えを見る </v-btn>
+          <v-btn color="primary" class="px-15" @click="answer_change"> 答えを見る </v-btn>
         </div>
         <div class="text-center mt-7" v-else>
-          <v-btn @click="next(current_question, true)">わかった</v-btn>
-          <v-btn @click="next(current_question, false)">わからない</v-btn>
+          <v-btn class="px-15 mr-4 white--text" color="red" @click="next(current_question, true)"> わかった </v-btn>
+          <v-btn class="px-15" color="primary" @click="next(current_question, false)"> わからない </v-btn>
         </div>
       </div>
     </v-container>
@@ -84,8 +79,8 @@ export default class AnswerUnderstand extends Vue {
     this.question_change(false);
   }
 
-  next(question: Question, bool: Boolean) {
-    this.answer(question, bool);
+  async next(question: Question, bool: Boolean) {
+    await this.answer(question, bool);
     if (this.questions.length === this.number + 1) {
       return this.$router.push("/");
     }

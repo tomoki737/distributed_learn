@@ -75,7 +75,7 @@ export default class QuestionCreate extends Vue {
 
   menus: Menu[] = [
     { name: "学習", icon: "mdi-book-open", url: "answer.understand" },
-    { name: "選択肢", icon: "mdi-lead-pencil", url: "answer.select" },
+    { name: "選択肢", icon: "mdi-form-select", url: "answer.select" },
     { name: "筆記", icon: "mdi-lead-pencil", url: "answer.writing" },
   ];
 

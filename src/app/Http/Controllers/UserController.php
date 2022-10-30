@@ -19,6 +19,11 @@ class UserController extends Controller
         });
         $downloaded_questions_count = $downloaded_questions_count_collection->sum();
 
-        return ['download_questions_count' => $download_questions_count, 'downloaded_questions_count' => $downloaded_questions_count];
+        $likes_questions_count_collection = $user->questions->map(function ($question) {
+            return $question->likes->count();
+        });
+        $likes_questions_count = $likes_questions_count_collection->sum();
+
+        return ['download_questions_count' => $download_questions_count, 'downloaded_questions_count' => $downloaded_questions_count, 'likes_questions_count' => $likes_questions_count];
     }
 }

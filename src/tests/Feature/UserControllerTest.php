@@ -25,10 +25,13 @@ class UserControllerTest extends TestCase
     {
         $this->question->download_users()->attach($this->another_user);
         $this->another_question->download_users()->attach($this->user);
+        $this->another_question->likes()->attach($this->user);
+        $this->question->likes()->attach($this->user);
         $response = $this->actingAs($this->user)->getJson('/api/user');
         $response->assertJson([
             'download_questions_count' => 1,
-            'downloaded_questions_count' => 1
+            'downloaded_questions_count' => 1,
+            'likes_questions_count' => 1
         ]);
     }
 }

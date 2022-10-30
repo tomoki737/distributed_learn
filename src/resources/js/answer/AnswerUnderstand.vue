@@ -9,17 +9,17 @@
               icon
               color="white"
               @click="question_change(show_question ? false : true)"
-              v-show="show_answer"
+              v-show="show_answer_button"
               ><v-icon>mdi-sync</v-icon></v-btn
             >
-            <h3 class="mx-auto">{{ show_question ? "問題" : "解答" }}</h3>
+            <h3 class="mx-auto">{{ show_question ? "解答" : "問題" }}</h3>
           </v-toolbar>
           <v-card-text class="text-center mt-3">
-            <h3 v-show="show_question">{{ current_question.question }}</h3>
-            <h3 v-show="!show_question">{{ current_question.answer }}</h3>
+            <h3 v-show="!show_question">{{ current_question.question }}</h3>
+            <h3 v-show="show_question">{{ current_question.answer }}</h3>
           </v-card-text>
         </v-card>
-        <div class="text-center mt-7" v-if="!show_answer">
+        <div class="text-center mt-7" v-if="!show_answer_button">
           <v-btn color="primary" class="px-15" @click="answer_change"> 答えを見る </v-btn>
         </div>
         <div class="text-center mt-7" v-else>
@@ -50,7 +50,7 @@ interface Question {
 export default class AnswerUnderstand extends Vue {
   number: number = 0;
   show_question: Boolean = false;
-  show_answer: Boolean = false;
+  show_answer_button: Boolean = false;
   questions: Question[];
   current_question: Question = {
     question: "",
@@ -75,8 +75,8 @@ export default class AnswerUnderstand extends Vue {
   }
 
   answer_change() {
-    this.show_answer = true;
-    this.question_change(false);
+    this.show_answer_button = true;
+    this.question_change(true);
   }
 
   async next(question: Question, bool: Boolean) {
@@ -87,7 +87,7 @@ export default class AnswerUnderstand extends Vue {
     console.log(this.number);
     this.number += 1;
     this.current_question = this.questions[this.number];
-    this.show_answer = false;
+    this.show_answer_button = false;
     this.show_question = true;
   }
 

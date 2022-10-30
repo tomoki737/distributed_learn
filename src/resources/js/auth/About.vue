@@ -14,6 +14,9 @@
             <p class="body-1 mt-4">
               問題がダウンロードされた回数: {{ downloaded_questions_count }}
             </p>
+            <p class="body-1 mt-4">
+              問題がいいねされた回数: {{ downloaded_questions_count }}
+            </p>
           </v-card-text>
           <v-card-actions class="ml-0">
             <v-list-item>
@@ -50,6 +53,7 @@ export default class About extends Vue {
   loading: Boolean = true;
   download_questions_count: number = 0;
   downloaded_questions_count: number = 0;
+  likes_questions_count: number = 0;
   $store: any;
   $router: any;
   logout() {
@@ -69,6 +73,7 @@ export default class About extends Vue {
     const response = await axios.get("/api/user");
     this.download_questions_count = response.data.download_questions_count;
     this.downloaded_questions_count = response.data.downloaded_questions_count;
+    this.likes_questions_count = response.data.likes_questions_count;
     this.loading = false;
   }
   get get_user_name(): String {

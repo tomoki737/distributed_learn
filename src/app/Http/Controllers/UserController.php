@@ -14,16 +14,17 @@ class UserController extends Controller
         $user = User::with(['questions.download_users'])->where('id', $user_id)->first();
         $download_questions_count = $user->download_questions->count();
 
-        $downloaded_questions_count_collection = $user->questions->map(function ($question) {
-            return $question->download_users->count();
-        });
-        $downloaded_questions_count = $downloaded_questions_count_collection->sum();
-
-        $likes_questions_count_collection = $user->questions->map(function ($question) {
-            return $question->likes->count();
-        });
-        $likes_questions_count = $likes_questions_count_collection->sum();
+        $downloaded_questions_count = $this->getCount($user, "download_users");
+        
+        $likes_questions_count = $this->getCount($user, "likes");
 
         return ['download_questions_count' => $download_questions_count, 'downloaded_questions_count' => $downloaded_questions_count, 'likes_questions_count' => $likes_questions_count];
+    }
+    private function getCount($user, $method)
+    {
+        $collection = $user->questions->map(function ($question) use($method) {
+            return $question->$method->count();
+        });
+        return $collection->sum();
     }
 }

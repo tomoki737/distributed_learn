@@ -6,7 +6,10 @@
         <h2>プロフィール</h2>
         <v-card class="mt-5 mx-auto" max-width="1000">
           <v-card-text>
-            <h2 class="mb-5">{{ get_user_name }}さん</h2>
+            <v-row align="center" justify="space-between" class="pa-3">
+              <span class="mb-5 text-h4">{{ user.name }}さん</span>
+              <v-btn outlined color="indigo">フォロー</v-btn>
+            </v-row>
             <v-divider></v-divider>
             <p class="body-1 mt-4">
               ダウンロードした問題数: {{ download_questions_count }}
@@ -17,11 +20,13 @@
             <p class="body-1 mt-4">
               問題がいいねされた回数: {{ downloaded_questions_count }}
             </p>
+            <span class="body-1 mt-4"> フォロー: 0 フォロワー: 0 </span>
           </v-card-text>
           <v-card-actions class="ml-0">
             <v-list-item>
               <v-row align="center" justify="end">
                 <v-btn
+                  v-if="this.get_user_id === this.user.id"
                   class="mr-1"
                   outlined
                   color="success"
@@ -43,23 +48,26 @@
 import BottomNavigation from "../components/BottomNavigation.vue";
 import axios from "axios";
 import Loading from "../components/Loading.vue";
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({
   components: { BottomNavigation, Loading },
 })
 export default class About extends Vue {
-  user: Object;
+  @Prop({ default: "" })
+  id: String;
+  user: Object = {};
   loading: Boolean = true;
   download_questions_count: number = 0;
   downloaded_questions_count: number = 0;
   likes_questions_count: number = 0;
   $store: any;
   $router: any;
+
   logout() {
     axios.get("/sanctum/csrf-cookie").then((res) => {
       axios
-        .post("logout")
+        .post("/logout")
         .then((res) => {
           this.$store.commit("auth/setUser", null);
           this.$router.push("/login");
@@ -69,19 +77,22 @@ export default class About extends Vue {
         });
     });
   }
+
   async getUserProfile() {
-    const response = await axios.get("/api/user");
+    const response = await axios.get("/api/user/" + this.id);
+    this.user = response.data.user;
     this.download_questions_count = response.data.download_questions_count;
     this.downloaded_questions_count = response.data.downloaded_questions_count;
     this.likes_questions_count = response.data.likes_questions_count;
     this.loading = false;
   }
-  get get_user_name(): String {
-    return this.$store.getters["auth/name"];
-  }
 
   mounted() {
     this.getUserProfile();
+  }
+
+  get get_user_id(): String {
+    return this.$store.getters["auth/id"];
   }
 }
 </script>

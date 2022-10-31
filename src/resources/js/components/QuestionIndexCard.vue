@@ -17,12 +17,7 @@
         >{{ question.category.name }}</v-chip
       >
       <div v-for="(tag, index) in question.tags" :key="index">
-        <v-chip
-          label
-          class="mr-1"
-          v-if="tag.name"
-          >{{ tag.name }}</v-chip
-        >
+        <v-chip label class="mr-1" v-if="tag.name">{{ tag.name }}</v-chip>
       </div>
     </v-card-actions>
     <v-divider></v-divider>
@@ -78,8 +73,18 @@
       </v-menu>
     </v-card-actions>
     <v-card-actions v-else>
-      <v-icon>mdi-account</v-icon>
-      <span v-if="question" class="ml-2">{{ question.user.name }}</span>
+      <v-icon
+        @click="$router.push('/about/' + question.user.id)"
+        style="cursor: pointer"
+        >mdi-account</v-icon
+      >
+      <span
+        v-if="question"
+        class="ml-2"
+        @click="$router.push('/about/' + question.user.id)"
+        style="cursor: pointer"
+        >{{ question.user.name }}</span
+      >
       <span class="ml-4">{{ created_at }}</span>
       <v-spacer></v-spacer>
       <question-like

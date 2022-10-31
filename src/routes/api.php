@@ -32,5 +32,6 @@ Route::put('/question/{question}/answer', [AnswerController::class, 'answer']);
 Route::get('/answer', [AnswerController::class, 'indexAnswer']);
 Route::get('/answer/select', [AnswerController::class, 'indexSelectAnswer']);
 
-
-Route::get('/user', [UserController::class, 'indexUser']);
+Route::prefix('user')->group(function () {
+    Route::get('/{id}', [UserController::class, 'show']);
+});

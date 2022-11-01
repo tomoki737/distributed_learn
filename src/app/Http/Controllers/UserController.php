@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function show(string $id)
     {
-        $user = User::where('id', $id)->first();
+        $user = User::where('id', $id)->with('followers')->first();
         $download_questions_count = $user->download_questions->count();
 
         $downloaded_questions_count = $this->getCount($user, "download_users");

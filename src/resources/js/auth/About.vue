@@ -8,7 +8,10 @@
           <v-card-text>
             <v-row align="center" justify="space-between" class="pa-3">
               <span class="mb-5 text-h4">{{ user.name }}さん</span>
-              <v-btn outlined color="indigo">フォロー</v-btn>
+              <follow-button
+                :prop_user="user"
+                ></follow-button
+              >
             </v-row>
             <v-divider></v-divider>
             <p class="body-1 mt-4">
@@ -46,17 +49,22 @@
 
 <script lang="ts">
 import BottomNavigation from "../components/BottomNavigation.vue";
+import FollowButton from "../components/FollowButton.vue";
 import axios from "axios";
 import Loading from "../components/Loading.vue";
 import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({
-  components: { BottomNavigation, Loading },
+  components: {
+    BottomNavigation,
+    Loading,
+    FollowButton,
+  },
 })
 export default class About extends Vue {
   @Prop({ default: "" })
   id: String;
-  user: Object = {};
+  user: { followers: { id: number }[] } = { followers: [{ id: 0 }] };
   loading: Boolean = true;
   download_questions_count: number = 0;
   downloaded_questions_count: number = 0;
@@ -91,7 +99,7 @@ export default class About extends Vue {
     this.getUserProfile();
   }
 
-  get get_user_id(): String {
+  get get_user_id(): number {
     return this.$store.getters["auth/id"];
   }
 }

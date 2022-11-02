@@ -34,4 +34,6 @@ Route::get('/answer/select', [AnswerController::class, 'indexSelectAnswer']);
 
 Route::prefix('user')->group(function () {
     Route::get('/{id}', [UserController::class, 'show']);
+    Route::put('/{id}/follow', [UserController::class, 'follow']);
+    Route::delete('/{id}/unfollow', [UserController::class, 'unfollow']);
 });

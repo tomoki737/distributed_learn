@@ -10,7 +10,7 @@ class UserController extends Controller
 {
     public function show(string $id)
     {
-        $user = User::where('id', $id)->with('followers')->first();
+        $user = User::where('id', $id)->with('followers')->withCount(['followers', 'followings'])->first();
         $download_questions_count = $user->download_questions->count();
 
         $downloaded_questions_count = $this->getCount($user, "download_users");
@@ -18,6 +18,32 @@ class UserController extends Controller
         $likes_questions_count = $this->getCount($user, "likes");
 
         return ['user' => $user, 'download_questions_count' => $download_questions_count, 'downloaded_questions_count' => $downloaded_questions_count, 'likes_questions_count' => $likes_questions_count];
+    }
+
+    public function follow(Request $request, string $id)
+    {
+        $user = User::where('id', $id)->first();
+
+        if ($user->id === $request->user()->id) {
+            return abort('404', 'Cannot follow yourself');
+        }
+        $request->user()->followings()->detach($user);
+        $request->user()->followings()->attach($user);
+
+        return ['name' => $user->name];
+    }
+
+    public function unfollow(Request $request, string $id)
+    {
+        $user = User::where('id', $id)->first();
+
+        if ($user->id === $request->user()->id) {
+            return abort('404', 'Cannot follow yourself');
+        }
+
+        $request->user()->followings()->detach($user);
+
+        return ['name' => $user->name];
     }
 
     private function getCount($user, $method)

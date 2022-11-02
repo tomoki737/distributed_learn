@@ -9,9 +9,11 @@
             <v-row align="center" justify="space-between" class="pa-3">
               <span class="mb-5 text-h4">{{ user.name }}さん</span>
               <follow-button
+                v-if="user.id !== get_user_id"
                 :prop_user="user"
-                ></follow-button
-              >
+                @parentUnFollowMethod="unfollow"
+                @parentFollowMethod="follow"
+              ></follow-button>
             </v-row>
             <v-divider></v-divider>
             <p class="body-1 mt-4">
@@ -23,18 +25,22 @@
             <p class="body-1 mt-4">
               問題がいいねされた回数: {{ downloaded_questions_count }}
             </p>
-            <span class="body-1 mt-4"> フォロー: 0 フォロワー: 0 </span>
+            <span class="body-1 mt-4">
+              フォロー: {{ followings_count }} フォロワー:
+              {{ followers_count }}
+            </span>
           </v-card-text>
-          <v-card-actions class="ml-0">
+          <v-card-actions class="ml-0" v-if="this.get_user_id === this.user.id">
             <v-list-item>
               <v-row align="center" justify="end">
                 <v-btn
-                  v-if="this.get_user_id === this.user.id"
                   class="mr-1"
                   outlined
                   color="success"
                   d-block
                   @click="logout"
+                  @parentUnFollowMethod="unfollow"
+                  @parentFollowMethod="follow"
                   >ログアウト</v-btn
                 >
               </v-row>
@@ -69,9 +75,18 @@ export default class About extends Vue {
   download_questions_count: number = 0;
   downloaded_questions_count: number = 0;
   likes_questions_count: number = 0;
+  followings_count: number = 0;
+  followers_count: number = 0;
   $store: any;
   $router: any;
 
+  follow() {
+    this.followers_count += 1;
+  }
+
+  unfollow() {
+    this.followers_count -= 1;
+  }
   logout() {
     axios.get("/sanctum/csrf-cookie").then((res) => {
       axios
@@ -92,6 +107,8 @@ export default class About extends Vue {
     this.download_questions_count = response.data.download_questions_count;
     this.downloaded_questions_count = response.data.downloaded_questions_count;
     this.likes_questions_count = response.data.likes_questions_count;
+    this.followings_count = response.data.user.followings_count;
+    this.followers_count = response.data.user.followers_count;
     this.loading = false;
   }
 

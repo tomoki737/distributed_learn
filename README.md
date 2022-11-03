@@ -47,6 +47,7 @@
 
 <img width="664" alt="スクリーンショット 2022-10-23 18 09 48" src="https://user-images.githubusercontent.com/88951052/197384015-06621b0f-87f7-44b5-afbb-46e3b240cda1.png">
 <br>
+terraform GitHub URL https://github.com/tomoki737/distributed_learn_terraform
 
 ## AWS構成図
 

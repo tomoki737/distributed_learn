@@ -26,8 +26,14 @@
               問題がいいねされた回数: {{ downloaded_questions_count }}
             </p>
             <span class="body-1 mt-4">
-              フォロー: {{ followings_count }} フォロワー:
-              {{ followers_count }}
+              <div style="cursor: pointer">
+                <span @click="$router.push('/user/' + user.id + '/followers')"
+                  >フォロワー: {{ followings_count }}</span
+                >
+                <span @click="$router.push('/user/' + user.id + '/followings')"
+                  >フォロー: {{ followers_count }}</span
+                >
+              </div>
             </span>
           </v-card-text>
           <v-card-actions class="ml-0" v-if="this.get_user_id === this.user.id">

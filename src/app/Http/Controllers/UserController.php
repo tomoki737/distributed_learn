@@ -46,6 +46,23 @@ class UserController extends Controller
         return ['name' => $user->name];
     }
 
+    public function followers(string $id)
+    {
+        $user = User::where('id', $id)->with(['followers'])->first();
+        $followers = $user->followers;
+
+        return ['followers' => $followers];
+    }
+
+    public function followings(String $id)
+    {
+        $user = User::where('id', $id)->first();
+
+        $followings = $user->followings->sortByDesc('created_at');
+
+        return ['followings' => $followings];
+    }
+
     private function getCount($user, $method)
     {
         $collection = $user->questions->map(function ($question) use ($method) {

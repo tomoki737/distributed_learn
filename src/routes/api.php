@@ -36,4 +36,6 @@ Route::prefix('user')->group(function () {
     Route::get('/{id}', [UserController::class, 'show']);
     Route::put('/{id}/follow', [UserController::class, 'follow']);
     Route::delete('/{id}/unfollow', [UserController::class, 'unfollow']);
+    Route::get('/{id}/followings', [UserController::class, 'followings']);
+    Route::get('/{id}/followers', [UserController::class, 'followers']);
 });

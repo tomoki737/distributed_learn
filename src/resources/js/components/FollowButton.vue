@@ -32,7 +32,7 @@ export default class FollowButton extends Vue {
   async follow() {
     const response = await axios.put("/api/user/" + this.user.id + "/follow");
     this.IsFollowedBy = true;
-    this.$emit('parentFollowMethod')
+    this.$emit("parentFollowMethod");
   }
 
   async unfollow() {
@@ -40,7 +40,7 @@ export default class FollowButton extends Vue {
       "/api/user/" + this.user.id + "/unfollow"
     );
     this.IsFollowedBy = false;
-    this.$emit('parentUnFollowMethod')
+    this.$emit("parentUnFollowMethod");
   }
 
   get buttonColor(): String {

@@ -6,7 +6,7 @@
 <br>  
 
 #### トップページ
-<img width="580" alt="スクリーンショット 2022-10-23 17 52 32" src="https://user-images.githubusercontent.com/88951052/197383220-cee91c37-1bc3-41cc-adcf-5201d772b3d7.png">
+<img width="368" alt="スクリーンショット 2022-11-03 13 19 22" src="https://user-images.githubusercontent.com/88951052/199647021-6ce36d84-99ef-4015-b9b4-da9274b26c42.png">
 <br>
 
 ## 特に見ていただきたい点
@@ -45,14 +45,14 @@
 
 <br>
 
-<img width="643" alt="スクリーンショット 2022-10-23 21 16 33" src="https://user-images.githubusercontent.com/88951052/197391569-c9a86917-4fbf-4e8f-bd69-1ac0253bade3.png">
+<img width="664" alt="スクリーンショット 2022-10-23 18 09 48" src="https://user-images.githubusercontent.com/88951052/197384015-06621b0f-87f7-44b5-afbb-46e3b240cda1.png">
 <br>
 
 ## AWS構成図
 
 <br>
 
-<img width="664" alt="スクリーンショット 2022-10-23 18 09 48" src="https://user-images.githubusercontent.com/88951052/197384015-06621b0f-87f7-44b5-afbb-46e3b240cda1.png">
+<img width="811" alt="スクリーンショット 2022-11-03 13 30 16" src="https://user-images.githubusercontent.com/88951052/199647963-7ca55d6b-1d87-4c11-89a3-6d08e9c93b54.png">
 <br>
 
 <br>

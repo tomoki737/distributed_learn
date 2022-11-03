@@ -28,10 +28,10 @@
             <span class="body-1 mt-4">
               <div style="cursor: pointer">
                 <span @click="$router.push('/user/' + user.id + '/followers')"
-                  >フォロワー: {{ followings_count }}</span
+                  >フォロワー: {{ followers_count  }}</span
                 >
                 <span @click="$router.push('/user/' + user.id + '/followings')"
-                  >フォロー: {{ followers_count }}</span
+                  >フォロー: {{ followings_count }}</span
                 >
               </div>
             </span>

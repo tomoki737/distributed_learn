@@ -139,7 +139,7 @@ export default class AnswerWriting extends Vue {
   }
 
   isCorrectAnswer(): Boolean {
-    return this.current_question.answer === this.your_writing_answer
+    return this.current_question.answer.toLowerCase() === this.your_writing_answer.toLowerCase()
       ? true
       : false;
   }

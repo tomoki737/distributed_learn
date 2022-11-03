@@ -144,6 +144,7 @@ class QuestionController extends Controller
         $user_id = $request->user() ? $request->user()->id : 0;
         $tag = $request->tag;
         $category = $request->category;
+        $user_name = $request->user_name;
         $keyword = $request->keyword;
         $query = Question::query();
         $learning = $request->learning;
@@ -166,6 +167,13 @@ class QuestionController extends Controller
             $query
                 ->whereHas('category', function ($query) use ($category) {
                     $query->where('name', $category);
+                });
+        }
+
+        if ($user_name !== null) {
+            $query
+                ->whereHas('user', function ($query) use ($user_name) {
+                    $query->where('name', 'like' , "%${user_name}%");
                 });
         }
 

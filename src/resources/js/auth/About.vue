@@ -6,7 +6,15 @@
         <h2>プロフィール</h2>
         <v-card class="mt-5 mx-auto" max-width="1000">
           <v-card-text>
-            <h2 class="mb-5">{{ get_user_name }}さん</h2>
+            <v-row align="center" justify="space-between" class="pa-3">
+              <span class="mb-5 text-h4">{{ user.name }}さん</span>
+              <follow-button
+                v-if="user.id !== get_user_id"
+                :prop_user="user"
+                @parentUnFollowMethod="unfollow"
+                @parentFollowMethod="follow"
+              ></follow-button>
+            </v-row>
             <v-divider></v-divider>
             <p class="body-1 mt-4">
               ダウンロードした問題数: {{ download_questions_count }}
@@ -17,8 +25,18 @@
             <p class="body-1 mt-4">
               問題がいいねされた回数: {{ downloaded_questions_count }}
             </p>
+            <span class="body-1 mt-4">
+              <div style="cursor: pointer">
+                <span @click="$router.push('/user/' + user.id + '/followers')"
+                  >フォロワー: {{ followings_count }}</span
+                >
+                <span @click="$router.push('/user/' + user.id + '/followings')"
+                  >フォロー: {{ followers_count }}</span
+                >
+              </div>
+            </span>
           </v-card-text>
-          <v-card-actions class="ml-0">
+          <v-card-actions class="ml-0" v-if="this.get_user_id === this.user.id">
             <v-list-item>
               <v-row align="center" justify="end">
                 <v-btn
@@ -27,6 +45,8 @@
                   color="success"
                   d-block
                   @click="logout"
+                  @parentUnFollowMethod="unfollow"
+                  @parentFollowMethod="follow"
                   >ログアウト</v-btn
                 >
               </v-row>
@@ -41,25 +61,42 @@
 
 <script lang="ts">
 import BottomNavigation from "../components/BottomNavigation.vue";
+import FollowButton from "../components/FollowButton.vue";
 import axios from "axios";
 import Loading from "../components/Loading.vue";
-import { Component, Vue } from "vue-property-decorator";
+import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component({
-  components: { BottomNavigation, Loading },
+  components: {
+    BottomNavigation,
+    Loading,
+    FollowButton,
+  },
 })
 export default class About extends Vue {
-  user: Object;
+  @Prop({ default: "" })
+  id: String;
+  user: { followers: { id: number }[] } = { followers: [{ id: 0 }] };
   loading: Boolean = true;
   download_questions_count: number = 0;
   downloaded_questions_count: number = 0;
   likes_questions_count: number = 0;
+  followings_count: number = 0;
+  followers_count: number = 0;
   $store: any;
   $router: any;
+
+  follow() {
+    this.followers_count += 1;
+  }
+
+  unfollow() {
+    this.followers_count -= 1;
+  }
   logout() {
     axios.get("/sanctum/csrf-cookie").then((res) => {
       axios
-        .post("logout")
+        .post("/logout")
         .then((res) => {
           this.$store.commit("auth/setUser", null);
           this.$router.push("/login");
@@ -69,19 +106,24 @@ export default class About extends Vue {
         });
     });
   }
+
   async getUserProfile() {
-    const response = await axios.get("/api/user");
+    const response = await axios.get("/api/user/" + this.id);
+    this.user = response.data.user;
     this.download_questions_count = response.data.download_questions_count;
     this.downloaded_questions_count = response.data.downloaded_questions_count;
     this.likes_questions_count = response.data.likes_questions_count;
+    this.followings_count = response.data.user.followings_count;
+    this.followers_count = response.data.user.followers_count;
     this.loading = false;
-  }
-  get get_user_name(): String {
-    return this.$store.getters["auth/name"];
   }
 
   mounted() {
     this.getUserProfile();
+  }
+
+  get get_user_id(): number {
+    return this.$store.getters["auth/id"];
   }
 }
 </script>

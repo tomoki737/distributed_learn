@@ -85,7 +85,7 @@ export default class Register extends Vue {
         .post("/register", this.registerForm)
         .then((res) => {
           this.$store.commit("auth/setUser", res.data.user);
-          this.$router.push("/about");
+          this.$router.push("/");
         })
         .catch((error) => {
           this.errors = error.response.data.errors;

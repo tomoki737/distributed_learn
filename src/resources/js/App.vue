@@ -12,5 +12,5 @@ import { Component, Vue } from "vue-property-decorator";
     NavBar,
   },
 })
-export default class QuestionCreate extends Vue {}
+export default class App extends Vue {}
 </script>

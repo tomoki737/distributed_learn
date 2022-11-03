@@ -10,8 +10,10 @@
         <v-btn block outlined @click="changeDrawer">閉じる</v-btn>
       </v-list-item>
       <div v-if="!isLogin">
-        <v-list-item v-for="menu in guest_user_menus" :key="menu.title">
+        <v-list-item>
           <v-btn
+            v-for="menu in guest_user_menus"
+            :key="menu.title"
             block
             outlined
             router-link
@@ -32,6 +34,16 @@
             >{{ menu.title }}</v-btn
           >
         </v-list-item>
+        <v-list-item>
+                  <v-btn
+            block
+            outlined
+            router-link
+            :to="{ name: about_menu.url, params: { id: get_user_id } }"
+            @click="downDrawer"
+            >{{ about_menu.title }}</v-btn
+          >
+          </v-list-item>
       </div>
     </v-navigation-drawer>
     <v-app-bar color="primary" dark app clipped-left>
@@ -64,9 +76,9 @@ export default class NavBar extends Vue {
     { title: "検索", url: "/question/search" },
     { title: "ホーム", url: "/" },
     { title: "作成", url: "/question/create" },
-    { title: "ユーザー情報", url: "/about" },
   ];
 
+  about_menu: Menu = { title: "ユーザー情報", url: "about" };
   guest_user_menus: Menu[] = [
     { title: "ログイン", url: "/login" },
     { title: "新規登録", url: "/register" },
@@ -94,6 +106,9 @@ export default class NavBar extends Vue {
 
   get isLogin(): Boolean {
     return this.$store.getters["auth/check"];
+  }
+  get get_user_id(): String {
+    return this.$store.getters["auth/id"];
   }
 }
 </script>

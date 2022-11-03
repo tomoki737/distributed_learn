@@ -93,7 +93,7 @@ export default class Login extends Vue {
           .then((res) => {
             if (res.status == 200) {
               this.$store.commit("auth/setUser", res.data.user);
-              this.$router.push("/about");
+              this.$router.push("/");
             }
           })
           .catch((error) => {
@@ -110,7 +110,7 @@ export default class Login extends Vue {
       .get("/api/guest")
       .then((res) => {
         this.$store.commit("auth/setUser", res.data.user);
-        this.$router.push("/about");
+        this.$router.push("/");
       })
       .catch((error) => {
         this.getUserMessage = "ログインに失敗しました。";

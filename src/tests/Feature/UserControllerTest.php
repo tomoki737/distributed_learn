@@ -27,7 +27,7 @@ class UserControllerTest extends TestCase
         $this->another_question->download_users()->attach($this->user);
         $this->another_question->likes()->attach($this->user);
         $this->question->likes()->attach($this->user);
-        $response = $this->actingAs($this->user)->getJson('/api/user');
+        $response = $this->actingAs($this->user)->getJson('/api/user/' . $this->user->id);
         $response->assertJson([
             'download_questions_count' => 1,
             'downloaded_questions_count' => 1,

@@ -2,9 +2,9 @@
   <div>
     <loading :loading="loading"></loading>
     <div v-show="!loading">
-      <v-container class="mt-10 max-width: 1000px">
+      <v-container class="mt-10" style="max-width: 850px">
         <h2>プロフィール</h2>
-        <v-card class="mt-5 mx-auto" max-width="1000">
+        <v-card class="mt-5 mx-auto">
           <v-card-text>
             <v-row align="center" justify="space-between" class="pa-3">
               <span class="mb-5 text-h4">{{ user.name }}さん</span>
@@ -28,10 +28,10 @@
             <span class="body-1 mt-4">
               <div style="cursor: pointer">
                 <span @click="$router.push('/user/' + user.id + '/followers')"
-                  >フォロワー: {{ followers_count }}</span
+                  >フォロワー: {{ followings_count }}</span
                 >
                 <span @click="$router.push('/user/' + user.id + '/followings')"
-                  >フォロー: {{ followings_count }}</span
+                  >フォロー: {{ followers_count }}</span
                 >
               </div>
             </span>

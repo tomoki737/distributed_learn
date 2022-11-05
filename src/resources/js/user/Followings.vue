@@ -2,10 +2,10 @@
   <div>
     <loading :loading="loading"></loading>
     <div v-show="!loading">
-      <v-container class="mt-10 max-width: 800px">
+      <v-container class="mt-10" style="max-width: 800px">
         <h1>フォロー</h1>
         <div v-for="follower in followings" :key="follower.id">
-          <v-card class="mt-5 mx-auto" max-width="1000">
+          <v-card class="mt-5 mx-auto">
             <v-card-text>
               <v-row align="center" justify="space-between" class="pa-3">
                 <div>

@@ -2,7 +2,7 @@
   <div>
     <loading :loading="loading"></loading>
     <div v-show="!loading">
-      <v-container class="mt-10 max-width: 800px">
+      <v-container class="mt-10" style="max-width: 800px">
         <h1>フォロワー</h1>
         <div v-for="follower in followers" :key="follower.id">
           <v-card class="mt-5 mx-auto">

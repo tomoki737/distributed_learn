@@ -46,13 +46,6 @@ export default class NavBar extends Vue {
   $store: any;
   $router: any;
 
-  login_user_menus: Menu[] = [
-    { title: "一覧", url: "/question/index" },
-    { title: "検索", url: "/question/search" },
-    { title: "ホーム", url: "/" },
-    { title: "作成", url: "/question/create" },
-  ];
-
   about_menu: Menu = { title: "ユーザー情報", url: "about" };
   user_menu: Menu = { title: "ユーザー", icon: "mdi-account", url: "about" };
   nav_menus: Menu[] = [
@@ -62,8 +55,8 @@ export default class NavBar extends Vue {
   ];
 
   guest_user_menus: Menu[] = [
-    { title: "ログイン", url: "/login" },
-    { title: "新規登録", url: "/register" },
+    { title: "ログイン", url: "login" },
+    { title: "新規登録", url: "register" },
   ];
 
   logout() {

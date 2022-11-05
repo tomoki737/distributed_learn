@@ -1,10 +1,8 @@
 <template>
-  <v-container style="max-width: 1000px">
+  <v-container style="max-width: 800px" class="mt-10">
+    <h1>登録</h1>
     <v-card elevation="2" class="mt-10 mx-auto">
       <v-form>
-        <v-card-title>
-          <h2>登録</h2>
-        </v-card-title>
         <v-card-text>
           <v-text-field
             v-model="registerForm.name"
@@ -40,6 +38,7 @@
           <v-card-actions>
             <v-btn class="info" block dark @click="register">登録</v-btn>
           </v-card-actions>
+          <v-divider class="mt-5"></v-divider>
           <v-card-actions>
             <v-btn
               class="mx-auto"

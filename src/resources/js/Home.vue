@@ -1,9 +1,9 @@
 <template>
   <div>
     <loading :loading="loading" />
-    <v-container style="max-width: 1000px">
+    <v-container style="max-width: 800px">
       <div v-show="!loading">
-        <v-card elevation="2" class="mt-10 mx-auto">
+        <v-card elevation="2" class="mt-10 mx-auto" min-height="250px">
           <v-card-text>
             <v-row>
               <v-col cols="6">
@@ -21,7 +21,7 @@
             </v-row>
           </v-card-text>
           <div v-if="new_questions != '0' || review_questions != '0'">
-            <v-card-actions class="d-flex justify-center">
+            <v-card-actions class="d-flex justify-center mt-10">
               <div v-for="menu in menus" :key="menu.name">
                 <v-btn
                   class="px-md-15 px-sm-15 my-4 mx-2"
@@ -34,7 +34,7 @@
               </div>
             </v-card-actions>
           </div>
-          <div v-else class="text-end">
+          <div v-else class="text-end mt-10">
             <v-card-text v-if="next_study_date">
               <p>次回: {{ next_study_date }}</p>
             </v-card-text>

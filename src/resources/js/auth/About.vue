@@ -3,11 +3,14 @@
     <loading :loading="loading"></loading>
     <div v-show="!loading">
       <v-container class="mt-10" style="max-width: 850px">
-        <h2>プロフィール</h2>
+        <h1>プロフィール</h1>
         <v-card class="mt-5 mx-auto">
           <v-card-text>
             <v-row align="center" justify="space-between" class="pa-3">
-              <span class="mb-5 text-h4">{{ user.name }}さん</span>
+              <div>
+                <v-icon size="50">mdi-account-circle</v-icon>
+                <span class="mb-5 text-body-1">{{ user.name }}さん</span>
+              </div>
               <follow-button
                 v-if="user.id !== get_user_id"
                 :prop_user="user"
@@ -28,7 +31,7 @@
             <span class="body-1 mt-4">
               <div style="cursor: pointer">
                 <span @click="$router.push('/user/' + user.id + '/followers')"
-                  >フォロワー: {{ followers_count  }}</span
+                  >フォロワー: {{ followers_count }}</span
                 >
                 <span @click="$router.push('/user/' + user.id + '/followings')"
                   >フォロー: {{ followings_count }}</span

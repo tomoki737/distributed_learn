@@ -1,59 +1,33 @@
 <template>
   <div class="mb-12">
-    <v-navigation-drawer
-      app
-      clipped
-      v-model="drawer"
-      class="hidden-sm-and-down"
-    >
-      <v-list-item>
-        <v-btn block outlined @click="changeDrawer">閉じる</v-btn>
-      </v-list-item>
-      <div v-if="!isLogin">
-        <v-list-item>
-          <v-btn
-            v-for="menu in guest_user_menus"
-            :key="menu.title"
-            block
-            outlined
-            router-link
-            :to="menu.url"
-            @click="downDrawer"
-            >{{ menu.title }}</v-btn
-          >
-        </v-list-item>
-      </div>
-      <div v-if="isLogin">
-        <v-list-item v-for="menu in login_user_menus" :key="menu.title">
-          <v-btn
-            block
-            outlined
-            router-link
-            :to="menu.url"
-            @click="downDrawer"
-            >{{ menu.title }}</v-btn
-          >
-        </v-list-item>
-        <v-list-item>
-                  <v-btn
-            block
-            outlined
-            router-link
-            :to="{ name: about_menu.url, params: { id: get_user_id } }"
-            @click="downDrawer"
-            >{{ about_menu.title }}</v-btn
-          >
-          </v-list-item>
-      </div>
-    </v-navigation-drawer>
     <v-app-bar color="primary" dark app clipped-left>
-      <v-app-bar-nav-icon
-        @click="changeDrawer"
-        class="hidden-sm-and-down"
-      ></v-app-bar-nav-icon>
-      <v-toolbar-title @click="$router.push('/')" style="cursor: pointer"
+      <v-toolbar-title
+        class="ml-xs-5 ml-sm-10 ml-md-15 ml-lg-15 ml-xl-15"
+        @click="$router.push('/')"
+        style="cursor: pointer"
         >分散学習アプリ</v-toolbar-title
       >
+      <v-spacer></v-spacer>
+      <div class="mr-15 hidden-sm-and-down">
+        <v-btn
+          icon
+          :to="{ name: menu.url }"
+          v-for="(menu, index) in isLogin ? nav_menus : guest_user_menus"
+          :key="index"
+          class="mr-10"
+        >
+          <v-icon class="mr-2">{{ menu.icon }}</v-icon>
+          <span>{{ menu.title }}</span>
+        </v-btn>
+        <v-btn
+          v-if="isLogin"
+          icon
+          :to="{ name: user_menu.url, params: { id: get_user_id } }"
+        >
+          <span>{{ user_menu.title }}</span>
+          <v-icon>{{ user_menu.icon }}</v-icon>
+        </v-btn>
+      </div>
     </v-app-bar>
   </div>
 </template>
@@ -62,7 +36,8 @@
 import { Component, Vue } from "vue-property-decorator";
 import axios from "axios";
 interface Menu {
-  title: String;
+  title?: String;
+  icon?: String;
   url: String;
 }
 @Component
@@ -79,6 +54,13 @@ export default class NavBar extends Vue {
   ];
 
   about_menu: Menu = { title: "ユーザー情報", url: "about" };
+  user_menu: Menu = { title: "ユーザー", icon: "mdi-account", url: "about" };
+  nav_menus: Menu[] = [
+    { title: "一覧", icon: "mdi-book-open", url: "question.index" },
+    { title: "検索", icon: "mdi-magnify", url: "question.search" },
+    { title: "作成", icon: "mdi-pencil", url: "question.create" },
+  ];
+
   guest_user_menus: Menu[] = [
     { title: "ログイン", url: "/login" },
     { title: "新規登録", url: "/register" },

@@ -2,10 +2,10 @@
   <div>
     <loading :loading="loading"></loading>
     <div v-show="!loading">
-      <v-container class="mt-10 max-width: 1000px">
-        <h2>フォロワー一覧</h2>
+      <v-container class="mt-10 max-width: 800px">
+        <h1>フォロワー</h1>
         <div v-for="follower in followers" :key="follower.id">
-          <v-card class="mt-5 mx-auto" max-width="1000">
+          <v-card class="mt-5 mx-auto">
             <v-card-text>
               <v-row align="center" justify="space-between" class="pa-3">
                 <div>
@@ -14,7 +14,7 @@
                     style="cursor: pointer"
                   >
                     <v-icon size="50">mdi-account-circle</v-icon>
-                    <span class="mb-5">{{ follower.name }}さん</span>
+                    <span class="mb-5 ml-2">{{ follower.name }}さん</span>
                   </div>
                 </div>
               </v-row>

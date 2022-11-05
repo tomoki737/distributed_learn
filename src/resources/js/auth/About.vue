@@ -3,7 +3,7 @@
     <loading :loading="loading"></loading>
     <div v-show="!loading">
       <v-container class="mt-10" style="max-width: 850px">
-        <h2>プロフィール</h2>
+        <h1>プロフィール</h1>
         <v-card class="mt-5 mx-auto">
           <v-card-text>
             <v-row align="center" justify="space-between" class="pa-3">

@@ -32,6 +32,7 @@ class QuestionController extends Controller
 
         return ['allTagNames' => $allTagNames];
     }
+
     public function indexSearch(Request $request)
     {
         $user_id = $request->user() ?   $request->user()->id : 0;
@@ -148,36 +149,39 @@ class QuestionController extends Controller
         $keyword = $request->keyword;
         $query = Question::query();
         $learning = $request->learning;
+        $like = $request->like;
+        $is_my_question_search = $request->is_my_question_search;
 
-        if ($keyword !== null) {
-            $query->where(function ($query) use ($keyword) {
-                $query->where('question', 'like', "%" . $keyword . "%")
-                    ->orWhere('answer', 'like', "%" . $keyword . "%");
+        if ($keyword) {
+            $query->where('question', 'like', "%" . $keyword . "%")
+                ->orWhere('answer', 'like', "%" . $keyword . "%");
+        }
+
+        if ($tag) {
+            $query->whereHas('tags', function ($query) use ($tag) {
+                $query->where('name', 'like', "%{$tag}%");
             });
         }
 
-        if ($tag !== null) {
-            $query
-                ->whereHas('tags', function ($query) use ($tag) {
-                    $query->where('name', 'like', "%{$tag}%");
-                });
+        if ($category) {
+            $query->whereHas('category', function ($query) use ($category) {
+                $query->where('name', $category);
+            });
         }
 
-        if ($category !== null) {
-            $query
-                ->whereHas('category', function ($query) use ($category) {
-                    $query->where('name', $category);
-                });
+        if ($user_name) {
+            $query->whereHas('user', function ($query) use ($user_name) {
+                $query->where('name', 'like', "%${user_name}%");
+            });
         }
 
-        if ($user_name !== null) {
-            $query
-                ->whereHas('user', function ($query) use ($user_name) {
-                    $query->where('name', 'like' , "%${user_name}%");
-                });
+        if ($like) {
+            $query->whereHas('likes', function ($query) use ($user_id) {
+                $query->where('user_id', $user_id);
+            });
         }
 
-        if ($request->is_my_question_search) {
+        if ($is_my_question_search) {
             $query->where([
                 ['learning', $learning],
                 ['user_id', $user_id]
@@ -186,9 +190,7 @@ class QuestionController extends Controller
             $query->where('user_id', '!=', $user_id);
         }
 
-        $query->where("share", true);
-
-        $questions = $query->with(["tags", "category", "user", "download_users"])->get();
+        $questions = $query->where("share", true)->with(["tags", "category", "user", "download_users"])->get();
 
         return ['questions' => $questions, 'keyword' => $keyword, 'tag' => $tag, 'category' => $category];
     }

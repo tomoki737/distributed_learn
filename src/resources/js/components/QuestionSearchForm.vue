@@ -45,6 +45,12 @@
               v-if="!is_my_question_search_prop"
             ></v-text-field>
             <v-checkbox
+              v-if="!is_my_question_search_prop"
+              v-model="searchForm.like"
+              label="いいね"
+              hide-details
+            ></v-checkbox>
+            <v-checkbox
               v-if="is_my_question_search_prop"
               v-model="searchForm.learning"
               label="学習中"
@@ -82,6 +88,7 @@ interface SearchForm {
   keyword: String;
   category: String;
   learning: Boolean;
+  like: Boolean;
   user_name: String;
   is_my_question_search: Boolean;
 }
@@ -108,6 +115,7 @@ export default class QuestionSearchForm extends Vue {
     category: "",
     user_name: "",
     learning: true,
+    like: false,
     is_my_question_search: this.is_my_question_search_prop,
   };
 

@@ -1,7 +1,7 @@
 <template>
   <v-container style="max-width: 800px" class="mt-10">
     <h1 class="text-center mb-3">ログイン</h1>
-          <v-divider></v-divider>
+    <v-divider></v-divider>
     <v-card elevation="2" class="mt-8 mx-auto">
       <v-form>
         <v-card-text>

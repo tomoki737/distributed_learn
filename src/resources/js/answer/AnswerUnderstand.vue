@@ -84,11 +84,10 @@ export default class AnswerUnderstand extends Vue {
     if (this.questions.length === this.number + 1) {
       return this.$router.push("/");
     }
-    console.log(this.number);
     this.number += 1;
     this.current_question = this.questions[this.number];
     this.show_answer_button = false;
-    this.show_question = true;
+    this.show_question = false;
   }
 
   async answer(question: Question, bool: Boolean) {

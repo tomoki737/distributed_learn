@@ -76,7 +76,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
     FollowButton,
   },
 })
-export default class About extends Vue {
+export default class User extends Vue {
   @Prop({ default: "" })
   id: String;
   user: { followers: { id: number }[] } = { followers: [{ id: 0 }] };

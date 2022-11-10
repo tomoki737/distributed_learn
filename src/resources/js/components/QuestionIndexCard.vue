@@ -74,14 +74,14 @@
     </v-card-actions>
     <v-card-actions v-else>
       <v-icon
-        @click="$router.push('/about/' + question.user.id)"
+        @click="$router.push('/user/' + question.user.id)"
         style="cursor: pointer"
         >mdi-account</v-icon
       >
       <span
         v-if="question"
         class="ml-2"
-        @click="$router.push('/about/' + question.user.id)"
+        @click="$router.push('/user/' + question.user.id)"
         style="cursor: pointer"
         >{{ question.user.name }}</span
       >

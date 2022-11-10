@@ -46,8 +46,7 @@ export default class NavBar extends Vue {
   $store: any;
   $router: any;
 
-  about_menu: Menu = { title: "ユーザー情報", url: "about" };
-  user_menu: Menu = { title: "ユーザー", icon: "mdi-account", url: "about" };
+  user_menu: Menu = { title: "ユーザー", icon: "mdi-account", url: "user" };
   nav_menus: Menu[] = [
     { title: "一覧", icon: "mdi-book-open", url: "question.index" },
     { title: "検索", icon: "mdi-magnify", url: "question.search" },

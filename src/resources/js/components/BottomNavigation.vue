@@ -29,7 +29,7 @@ export default class BottomNavigation extends Vue {
     { title: "作成", icon: "mdi-pencil", url: "question.create" },
   ];
 
-  user_menu: Menu = { title: "ユーザー", icon: "mdi-account", url: "about" };
+  user_menu: Menu = { title: "ユーザー", icon: "mdi-account", url: "user" };
 
   get get_user_id(): number {
     return this.$store.getters["auth/id"];

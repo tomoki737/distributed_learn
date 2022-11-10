@@ -3,7 +3,8 @@ import VueRouter from "vue-router";
 import Home from "./Home.vue";
 import Login from "./auth/Login.vue";
 import Register from "./auth/Register.vue";
-import About from "./auth/About.vue";
+import User from "./user/User.vue";
+import UserEdit from "./user/UserEdit.vue";
 import Followers from "./user/Followers.vue";
 import Followings from "./user/Followings.vue";
 import QuestionCreate from "./question/QuestionCreate.vue";
@@ -38,9 +39,16 @@ const routes = [
     },
 
     {
-        path: "/about/:id",
-        name: "about",
-        component: About,
+        path: "/user/:id",
+        name: "user",
+        component: User,
+        props: true,
+    },
+
+    {
+        path: "/user/:id/edit",
+        name: "user.edit",
+        component: UserEdit,
         props: true,
     },
 
@@ -88,6 +96,7 @@ const routes = [
         name: "answer.understand",
         component: AnswerUnderstand,
     },
+
     {
         path: "/answer/select",
         name: "answer.select",

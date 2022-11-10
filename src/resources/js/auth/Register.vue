@@ -1,9 +1,13 @@
 <template>
   <v-container style="max-width: 800px" class="mt-10">
-    <h1>登録</h1>
-    <v-card elevation="2" class="mt-10 mx-auto">
+    <h1 class="text-center mb-3">新規登録</h1>
+          <v-divider></v-divider>
+    <v-card elevation="2" class="mt-8 mx-auto">
       <v-form>
         <v-card-text>
+          <span>
+            {{ getUserMessage }}
+          </span>
           <v-text-field
             v-model="registerForm.name"
             label="名前"
@@ -37,6 +41,17 @@
           </span>
           <v-card-actions>
             <v-btn class="info" block dark @click="register">登録</v-btn>
+          </v-card-actions>
+          <v-divider class="mt-5"></v-divider>
+          <v-card-title>
+            <div class="mx-auto text-body-1">
+              ユーザー登録せずに機能を試したい方はこちら
+            </div>
+          </v-card-title>
+          <v-card-actions>
+            <v-btn block class="error" dark @click="loginGuest"
+              >ゲストユーザーログイン</v-btn
+            >
           </v-card-actions>
           <v-divider class="mt-5"></v-divider>
           <v-card-actions>
@@ -77,6 +92,7 @@ export default class Register extends Vue {
   showPassword: Boolean = false;
   $store: any;
   $router: any;
+  getUserMessage: String = "";
 
   async register() {
     axios.get("/sanctum/csrf-cookie").then((res) => {
@@ -90,6 +106,19 @@ export default class Register extends Vue {
           this.errors = error.response.data.errors;
         });
     });
+  }
+
+  loginGuest() {
+    axios
+      .get("/api/guest")
+      .then((res) => {
+        this.$store.commit("auth/setUser", res.data.user);
+        this.$router.push("/");
+      })
+      .catch((error) => {
+        this.getUserMessage = "ログインに失敗しました。";
+        this.errors = error.response.data.errors || [];
+      });
   }
 }
 </script>

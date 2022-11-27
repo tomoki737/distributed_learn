@@ -63,6 +63,11 @@ jobs:
           command: |
             cd src/
             php artisan test
+      - run:
+          name: vue test
+          command: |
+            cd src/
+            npm test
 workflows:
   build-and-deploy:
     jobs:
